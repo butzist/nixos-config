@@ -7,39 +7,39 @@
       # LazyVim
       lua-language-server
       stylua
+      
       # Telescope
       ripgrep
+      fzf
+      lazygit
+      
       # LSP/ Formatter / Linter
       black
-      codelldb
       docker-compose-language-service
-      dockerfile-language-server
-      eslint-lsp
+      dockerfile-language-server-nodejs
       gofumpt
-      goimports
+      gotools
       gopls
       hadolint
       helm-ls
-      json-lsp
-      markdown-toc
-      markdownlint
       marksman
       pyright
+      rslint
       ruff
       ruff-lsp
       rust-analyzer
       shfmt
-      taplo
-      terraform-ls
+      taplo-lsp
+      terraform-lsp
       tflint
-      typescript-language-server
-      vtsls
-      vue-language-server
+      nodePackages.typescript-language-server
+      nodePackages.vue-language-server
       yaml-language-server
     ];
 
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
+      #nvim-treesitter.withAllGrammars
     ];
 
     extraLuaConfig =
@@ -136,10 +136,7 @@
     let
       parsers = pkgs.symlinkJoin {
         name = "treesitter-parsers";
-        paths = (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with plugins; [
-          c
-          lua
-        ])).dependencies;
+        paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
       };
     in
     "${parsers}/parser";

@@ -17,7 +17,7 @@
       nixos = lib.nixosSystem {
         inherit system;
         modules = [
-          ./configuration.nix
+          ./machines/nixos/configuration.nix
         ];
       };
     };
@@ -25,7 +25,7 @@
       adam = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./home.nix
+          ./users/adam.nix
         ];
       };
     };
