@@ -16,6 +16,9 @@
 
     jq
     yq-go
+
+    ripgrep
+    fd
   ];
 
   # basic configuration of git, please change to your own

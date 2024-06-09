@@ -9,7 +9,6 @@
       stylua
       
       # Telescope
-      ripgrep
       fzf
       lazygit
       
@@ -33,13 +32,12 @@
       terraform-lsp
       tflint
       nodePackages.typescript-language-server
-      nodePackages.vue-language-server
+      nodePackages.volar
       yaml-language-server
     ];
 
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
-      #nvim-treesitter.withAllGrammars
     ];
 
     extraLuaConfig =
