@@ -7,23 +7,23 @@
 
   home.packages = with pkgs; [
     nodejs_20
-    go
+    unstable.go
 
     python312
     poetry
     python312Packages.pip
     python312Packages.virtualenv
 
-    rustc
-    rustc-wasm32
-    wasm-pack
-    wasm-bindgen-cli
-    cargo
-    rust-analyzer
-    clippy
-    rustfmt
-    clang
-    mold
+    unstable.rustc
+    unstable.rustc-wasm32
+    unstable.wasm-pack
+    unstable.wasm-bindgen-cli
+    unstable.cargo
+    unstable.rust-analyzer
+    unstable.clippy
+    unstable.rustfmt
+    unstable.clang
+    unstable.mold
   ];
 
 

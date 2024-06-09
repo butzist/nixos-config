@@ -3,7 +3,8 @@
 {
   programs.neovim = {
     enable = true;
-    extraPackages = with pkgs; [
+    package = pkgs.unstable.neovim-unwrapped;
+    extraPackages = with pkgs.unstable; [
       # LazyVim
       lua-language-server
       stylua
@@ -36,13 +37,13 @@
       yaml-language-server
     ];
 
-    plugins = with pkgs.vimPlugins; [
+    plugins = with pkgs.unstable.vimPlugins; [
       lazy-nvim
     ];
 
     extraLuaConfig =
       let
-        plugins = with pkgs.vimPlugins; [
+        plugins = with pkgs.unstable.vimPlugins; [
           # LazyVim
           LazyVim
           bufferline-nvim
@@ -134,7 +135,7 @@
     let
       parsers = pkgs.symlinkJoin {
         name = "treesitter-parsers";
-        paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+        paths = pkgs.unstable.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
       };
     in
     "${parsers}/parser";

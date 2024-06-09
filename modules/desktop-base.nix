@@ -5,13 +5,10 @@
     ./fonts.nix
   ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     alacritty
-    firefox
+    unstable.firefox
     arandr
 
     jq

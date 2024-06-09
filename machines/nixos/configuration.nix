@@ -20,6 +20,18 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.desktopManager.gnome.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
