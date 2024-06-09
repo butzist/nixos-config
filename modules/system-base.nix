@@ -1,10 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot.kernelModules = [ "ecryptfs" ];
-
   # Login
-  security.pam.enableEcryptfs = true;
   services.xserver.displayManager.gdm.enable = true;
 
   # Enable networking
@@ -54,13 +51,14 @@
 
     neovim = { enable = true;
       defaultEditor = true;
+      viAlias = true;
     };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    ecryptfs
+    git
 
     # archives
     zip
@@ -95,7 +93,7 @@
 
     # system tools
     sysstat
-    lm_sensors # for `sensors` command
+    lm_sensors
     ethtool
     pciutils
     usbutils
