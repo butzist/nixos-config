@@ -14,6 +14,7 @@
       lazygit
       
       # LSP/ Formatter / Linter
+      alejandra
       black
       docker-compose-language-service
       dockerfile-language-server-nodejs
@@ -23,6 +24,7 @@
       hadolint
       helm-ls
       marksman
+      nil
       pyright
       rslint
       ruff

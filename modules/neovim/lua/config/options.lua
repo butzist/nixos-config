@@ -5,4 +5,4 @@
 local opt = vim.opt
 
 opt.relativenumber = false
-opt.shell = "/bin/bash"
+opt.shell = "bash"
