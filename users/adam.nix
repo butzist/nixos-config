@@ -6,8 +6,8 @@
 
   imports = [
     ../modules/desktop-base.nix
-    ../modules/hyprland.nix
     ../modules/nushell.nix
+    ../modules/sway.nix
     ../modules/development.nix
     ../modules/work.nix
   ];

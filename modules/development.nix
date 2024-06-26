@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./neovim/neovim.nix
   ];
 
   home.packages = with pkgs; [
@@ -14,15 +13,9 @@
     python312Packages.pip
     python312Packages.virtualenv
 
-    unstable.rustc
-    unstable.rustc-wasm32
+    unstable.rustup
     unstable.wasm-pack
     unstable.wasm-bindgen-cli
-    unstable.cargo
-    unstable.rust-analyzer
-    unstable.clippy
-    unstable.rustfmt
-    unstable.clang
     unstable.mold
   ];
 

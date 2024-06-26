@@ -7,12 +7,11 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    alacritty
-    unstable.firefox
-    arandr
-
     jq
     yq-go
+
+    lazygit
+    btop
 
     ripgrep
     fd
@@ -30,6 +29,7 @@
         };
         scrolling.multiplier = 5;
         selection.save_to_clipboard = true;
+	window.opacity = 0.5;
       };
     };
   };
