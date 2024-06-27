@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./fonts.nix
   ];
 
   # Packages that should be installed to the user profile.
@@ -21,7 +20,8 @@
   programs = {
     bash.enable = true;
 
-    alacritty = { enable = true;
+    alacritty = {
+      enable = true;
       settings = {
         env.TERM = "xterm-256color";
         font = {
@@ -29,10 +29,14 @@
         };
         scrolling.multiplier = 5;
         selection.save_to_clipboard = true;
-	window.opacity = 0.5;
       };
     };
+
+    lazygit.enable = true;
+    btop.enable = true;
   };
+
+  fonts.fontconfig.enable = true;
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;

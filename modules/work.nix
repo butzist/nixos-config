@@ -5,6 +5,7 @@
     vscode
 
     kubectl
+    k9s
     terraform
     terragrunt
     helm
@@ -15,9 +16,12 @@
   ];
 
   programs = {
-    go = { enable = true;
+    go = {
+      enable = true;
       goPath = "go";
       goPrivate = [ "gitlab.com/datahow" ];
     };
+
+    k9s.enable = true;
   };
 }

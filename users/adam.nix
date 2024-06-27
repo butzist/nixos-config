@@ -10,6 +10,7 @@
     ../modules/sway.nix
     ../modules/development.nix
     ../modules/work.nix
+    ../themes/ubuntu-dark.nix
   ];
 
   # Packages that should be installed to the user profile.

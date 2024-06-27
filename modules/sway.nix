@@ -13,13 +13,9 @@
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
     terminal = "/usr/bin/alacritty";
-    menu = "wofi -I --show drun | xargs swaymsg exec --";
+    menu = "rofi -show drun -show-icons | xargs swaymsg exec --";
 
     output = {
-      "*" = {
-        bg = "/usr/share/backgrounds/ubuntu-wallpaper-d.png fill";
-      };
-
       "Samsung Electric Company S27F350 H4ZMA14287" =  {
         pos = "0 720";
         res = "1920x1080";
@@ -71,6 +67,9 @@
     timeout 5 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep "$lock_command"
+
+  # Apply GTK theme
+  exec_always ~/bin/import-gsettings
     
   include /etc/sway/config.d/*
   '';
@@ -92,29 +91,16 @@
     XF86MonBrightnessUp = "exec brightnessctl set 5%+";
   };
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 16;
-  };
-
   gtk = {
     enable = true;
-    theme = {
-      package = pkgs.flat-remix-gtk;
-      name = "Flat-Remix-GTK-Grey-Darkest";
-    };
-
     iconTheme = {
       package = pkgs.gnome.adwaita-icon-theme;
       name = "Adwaita";
     };
-
-    font = {
-      name = "Sans";
-      size = 11;
-    };
   };
+
+  programs.wlogout.enable = true;
+  programs.rofi.enable = true;
+  programs.swaylock.enable = true;
 }
 

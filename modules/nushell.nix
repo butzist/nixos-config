@@ -8,7 +8,8 @@
 
   # basic configuration of git, please change to your own
   programs = {
-    nushell = { enable = true;
+    nushell = {
+      enable = true;
       package = pkgs.unstable.nushell;
       extraConfig = ''
         let carapace_completer = {|spans|
@@ -42,12 +43,14 @@
       };
     };  
 
-    carapace = { enable = true;
+    carapace = {
+      enable = true;
       package = pkgs.unstable.carapace;
       enableNushellIntegration = true;
     };
 
-    starship = { enable = true;
+    starship = {
+      enable = true;
       package = pkgs.unstable.starship;
       settings = {
         add_newline = true;
@@ -58,9 +61,14 @@
       };
     };
 
-    zoxide = { enable = true;
+    zoxide = {
+      enable = true;
       package = pkgs.unstable.zoxide;
       enableNushellIntegration = true;
+    };
+
+    zellij = {
+      enable = true;
     };
   };
 }
