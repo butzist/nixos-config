@@ -7,9 +7,10 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     stylix.url = "github:danth/stylix";
+    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, stylix, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, stylix, nixvim, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -40,6 +41,7 @@
             nixpkgs.config.allowUnfree = true;
           })
           stylix.homeManagerModules.stylix
+          nixvim.homeManagerModules.nixvim
           ./users/adam.nix
         ];
       };

@@ -7,6 +7,7 @@
   imports = [
     ../modules/desktop-base.nix
     ../modules/nushell.nix
+    ../modules/nixvim/nixvim.nix
     ../modules/sway.nix
     ../modules/development.nix
     ../modules/work.nix
