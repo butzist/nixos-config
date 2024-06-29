@@ -9,6 +9,7 @@
     ../modules/nushell.nix
     ../modules/nixvim/nixvim.nix
     ../modules/sway.nix
+    ../modules/waybar.nix
     ../modules/development.nix
     ../modules/work.nix
     ../themes/ubuntu-dark.nix
