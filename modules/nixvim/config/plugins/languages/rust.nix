@@ -5,5 +5,13 @@
       installCargo = false;
       installRustc = false;
     };
+
+    rustaceanvim = {
+      enable = true;
+    };
+
+    crates-nvim = {
+      enable = true;
+    };
   };
 }

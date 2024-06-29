@@ -32,6 +32,10 @@
             action = "hover";
             desc = "Hover";
           };
+          "<c-k>" = {
+            action = "signature_help";
+            desc = "Signature Help";
+          };
           "<leader>cw" = {
             action = "workspace_symbol";
             desc = "Workspace Symbol";
@@ -39,6 +43,10 @@
           "<leader>cr" = {
             action = "rename";
             desc = "Rename";
+          };
+          "<leader>ca" = {
+            action = "code_action";
+            desc = "Code Action";
           };
         };
         diagnostic = {

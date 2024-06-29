@@ -27,9 +27,6 @@
     };
 
     formatters = {
-      isort = {
-        command = "${lib.getExe pkgs.isort}";
-      };
       alejandra = {
         command = "${lib.getExe pkgs.alejandra}";
       };
@@ -67,4 +64,10 @@
       };
     };
   };
-}
+
+  plugins.schemastore = {
+    enable = true;
+    yaml.enable = true;
+    json.enable = false;
+  };
+                    }
