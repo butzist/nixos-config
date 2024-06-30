@@ -1,15 +1,17 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.username = "adam";
   home.homeDirectory = "/home/adam";
 
   imports = [
     ../modules/desktop-base.nix
     ../modules/nushell.nix
-    ../modules/nixvim/nixvim.nix
+    ../modules/nixvim/default.nix
     ../modules/sway.nix
-    ../modules/waybar.nix
+    ../modules/waybar/default.nix
     ../modules/development.nix
     ../modules/work.nix
     ../themes/ubuntu-dark.nix
@@ -28,7 +30,6 @@
     };
   };
 
-
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new home Manager release introduces backwards
@@ -39,4 +40,3 @@
   # changes in each release.
   home.stateVersion = "24.05";
 }
-

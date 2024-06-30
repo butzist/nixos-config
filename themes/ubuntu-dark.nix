@@ -1,14 +1,16 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.username = "adam";
   home.homeDirectory = "/home/adam";
 
   stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
   stylix.image = ../wallpapers/ubuntu.png;
   stylix.polarity = "dark";
-  
+
   stylix.cursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
@@ -36,4 +38,3 @@
     terminal = 0.5;
   };
 }
-

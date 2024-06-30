@@ -1,0 +1,225 @@
+/* -----------------------------------------------------
+* Colors
+* ----------------------------------------------------- */
+
+@import "colors.css";
+
+@define-color workspacesbackground2 @base01;
+@define-color backgroundlight @base04;
+@define-color backgrounddark @base01;
+@define-color textcolor1 @base04;
+@define-color textcolor2 @base00;
+@define-color error #550000;
+@define-color bordercolor @base03;
+@define-color shadowcolor @base03;
+
+/* -----------------------------------------------------
+* General 
+* ----------------------------------------------------- */
+
+* {
+  font-family: "FiraCode Nerd Font";
+  font-weight: bold;
+  font-size: 12px;
+  border: solid;
+  border-radius: 0px;
+}
+
+window#waybar {
+  background-color: transparent;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#window,
+#hardware,
+#workspaces,
+.modules-right > widget > label {
+  background-color: @backgroundlight;
+  color: @textcolor2;
+  border-radius: 15px;
+  border-style: none;
+  border-width: 0px;
+  border-color: @bordercolor;
+  padding: 2px 10px 0px 10px;
+  margin: 8px 10px 8px 0px;
+  opacity: 0.4;
+  box-shadow: 2px 2px 4px @shadowcolor;
+}
+
+/* -----------------------------------------------------
+* Tooltips
+* ----------------------------------------------------- */
+
+tooltip {
+  border-radius: 10px;
+  background-color: @backgroundlight;
+  opacity: 0.8;
+  padding: 20px;
+  margin: 0px;
+}
+
+tooltip label {
+  color: @textcolor2;
+}
+
+/* -----------------------------------------------------
+* Workspaces 
+* ----------------------------------------------------- */
+
+#workspaces {
+  margin: 5px 1px 6px 1px;
+  padding: 0px 1px;
+}
+
+#workspaces button {
+  padding: 0px 5px;
+  margin: 4px 3px;
+  font-size: 16px;
+  border-radius: 15px;
+  border: 0px;
+  color: @textcolor1;
+  background-color: @workspacesbackground2;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.4;
+}
+
+#workspaces button.focused {
+  color: @textcolor1;
+  background: @workspacesbackground2;
+  border-radius: 15px;
+  min-width: 40px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+}
+
+#workspaces button.urgent {
+  color: @textcolor1;
+  background: @error;
+  border-radius: 15px;
+  min-width: 40px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+}
+
+#workspaces button:hover {
+  color: @textcolor1;
+  background: @workspacesbackground2;
+  border-radius: 15px;
+  opacity: 0.7;
+}
+
+/* -----------------------------------------------------
+* Window
+* ----------------------------------------------------- */
+
+window#waybar.empty #window {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* -----------------------------------------------------
+* Modules
+* ----------------------------------------------------- */
+
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
+}
+
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
+}
+
+/* -----------------------------------------------------
+* Custom Power
+* ----------------------------------------------------- */
+
+#custom-power {
+  background-color: transparent;
+  box-shadow: none;
+  color: @textcolor1;
+  margin: 0px;
+  padding: 0px;
+  font-size: 30px;
+}
+
+/* -----------------------------------------------------
+* Hardware Group
+* ----------------------------------------------------- */
+
+#disk,
+#memory,
+#cpu {
+  background-color: transparent;
+  box-shadow: none;
+  margin: 8px 4px 8px 4px;
+  padding: 0px;
+  border-style: none;
+}
+
+/* -----------------------------------------------------
+* Pulseaudio
+* ----------------------------------------------------- */
+
+#pulseaudio.muted {
+  background-color: @backgrounddark;
+  color: @textcolor1;
+}
+
+/* -----------------------------------------------------
+* Bluetooth
+* ----------------------------------------------------- */
+
+#bluetooth {
+  font-size: 14px;
+}
+
+#bluetooth.connected {
+  color: #0000bb;
+}
+
+#bluetooth.off {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* -----------------------------------------------------
+* Battery
+* ----------------------------------------------------- */
+
+#battery.charging,
+#battery.plugged {
+  color: @textcolor2;
+  background-color: @backgroundlight;
+}
+
+@keyframes blink {
+  to {
+    background-color: @backgroundlight;
+    color: @textcolor2;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: #f53c3c;
+  color: @error;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* -----------------------------------------------------
+* Tray
+* ----------------------------------------------------- */
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
