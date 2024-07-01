@@ -14,7 +14,7 @@
     ../modules/waybar/default.nix
     ../modules/development.nix
     ../modules/work.nix
-    ../themes/ubuntu-dark.nix
+    ../themes/ubuntu-catppuccin.nix
   ];
 
   # Packages that should be installed to the user profile.
