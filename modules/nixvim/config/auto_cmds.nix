@@ -1,10 +1,23 @@
 {
   autoGroups = {
+    startup = {};
     highlight_yank = {};
     indentscope = {};
   };
 
   autoCmd = [
+    {
+      group = "startup";
+      event = ["VimEnter"];
+      pattern = "*";
+      callback = {
+        __raw = ''
+          function()
+            vim.cmd[[highlight Normal guibg=NONE ctermbg=NONE]]
+          end
+        '';
+      };
+    }
     {
       group = "highlight_yank";
       event = ["TextYankPost"];
