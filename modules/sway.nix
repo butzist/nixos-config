@@ -78,7 +78,7 @@
 
     # Screen lock
       set $lock_command /usr/bin/swaylock --daemonize --ignore-empty-password --show-failed-attempts -c000000
-      exec swayidle -w \
+      exec ${pkgs.swayidle}/bin/swayidle -w \
       timeout 5 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
       resume 'swaymsg "output * dpms on"' \
       before-sleep "$lock_command"
@@ -95,7 +95,8 @@
   in
     lib.mkOptionDefault {
       "${modifier}+l" = "exec $lock_command";
-      "${modifier}+Shift+e" = "exec wlogout";
+      "${modifier}+Shift+e" = "exec ${pkgs.wlogout}/bin/wlogout";
+      "${modifier}+Shift+d" = "exec /usr/bin/wdisplays";
       Print = "exec grimshot copy anything";
       XF86AudioRaiseVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
