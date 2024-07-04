@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     unstable.zellij
@@ -24,14 +26,14 @@
          algorithm: "fuzzy"    # prefix or fuzzy
          external: {
          # set to false to prevent nushell looking into $env.PATH to find more suggestions
-             enable: true 
+             enable: true
          # set to lower can improve completion performance at the cost of omitting some options
-             max_results: 100 
-             completer: $carapace_completer # check 'carapace_completer' 
+             max_results: 100
+             completer: $carapace_completer # check 'carapace_completer'
            }
          }
-        } 
-        $env.PATH = ($env.PATH | 
+        }
+        $env.PATH = ($env.PATH |
         split row (char esep) |
         prepend /home/adam/.apps |
         append /usr/bin/env
@@ -41,7 +43,7 @@
         vi = "nvim";
         vim = "nvim";
       };
-    };  
+    };
 
     carapace = {
       enable = true;
@@ -54,7 +56,7 @@
       package = pkgs.unstable.starship;
       settings = {
         add_newline = true;
-        character = { 
+        character = {
           success_symbol = "[➜](bold green)";
           error_symbol = "[➜](bold red)";
         };
@@ -70,6 +72,7 @@
     zellij = {
       enable = true;
     };
+
+    alacritty.settings.shell.program = "${pkgs.nushell}/bin/nu";
   };
 }
-
