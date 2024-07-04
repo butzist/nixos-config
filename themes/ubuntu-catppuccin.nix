@@ -35,7 +35,7 @@
   };
 
   stylix.opacity = {
-    terminal = 0.75;
-    applications = 0.75;
+    terminal = 0.9;
+    applications = 0.9;
   };
 }
