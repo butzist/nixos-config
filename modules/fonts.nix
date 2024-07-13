@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     fira-code-nerdfont
     ubuntu_font_family
@@ -11,9 +9,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Liberation Serif" ];
-        sansSerif = [ "Ubuntu" ];
-        monospace = [ "FiraCode Nerd Font" ];
+        serif = ["Liberation Serif"];
+        sansSerif = ["Ubuntu"];
+        monospace = ["FiraCode Nerd Font"];
       };
     };
   };

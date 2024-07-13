@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # Login
   services.xserver.displayManager.gdm.enable = true;
 
@@ -17,10 +15,21 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_CH.UTF-8";
+    LC_IDENTIFICATION = "de_CH.UTF-8";
+    LC_MEASUREMENT = "de_CH.UTF-8";
+    LC_MONETARY = "de_CH.UTF-8";
+    LC_NAME = "de_CH.UTF-8";
+    LC_NUMERIC = "de_CH.UTF-8";
+    LC_PAPER = "de_CH.UTF-8";
+    LC_TELEPHONE = "de_CH.UTF-8";
+    LC_TIME = "de_CH.UTF-8";
+  };
+
   # Enable Docker
   virtualisation.docker = {
     enable = true;
-    storageDriver = "btrfs";
     rootless = {
       enable = true;
       setSocketVariable = true;
@@ -35,6 +44,7 @@
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
+  security.polkit.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -49,10 +59,14 @@
   programs = {
     firefox.enable = true;
 
-    neovim = { enable = true;
+    neovim = {
+      enable = true;
       defaultEditor = true;
       viAlias = true;
     };
+
+    light.enable = true;
+    dconf.enable = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -101,7 +115,7 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
     };
     gc = {
@@ -111,15 +125,15 @@
     };
   };
 
-#  system.autoUpgrade = {
-#    enable = true;
-#    flake = inputs.self.ourPath;
-#    flags = [
-#      "--update-input"
-#      "nixpkgs"
-#      "-L"
-#    ];
-#    dates = "09:00";
-#    randomizedDelaySec = "45min";
-#  };
+  #  system.autoUpgrade = {
+  #    enable = true;
+  #    flake = inputs.self.ourPath;
+  #    flags = [
+  #      "--update-input"
+  #      "nixpkgs"
+  #      "-L"
+  #    ];
+  #    dates = "09:00";
+  #    randomizedDelaySec = "45min";
+  #  };
 }

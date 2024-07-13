@@ -10,25 +10,31 @@
     nixvim.url = "github:nix-community/nixvim/nixos-24.05";
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, stylix, nixvim, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      overlay-unstable = final: _last: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-        };
+  outputs = {
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    stylix,
+    nixvim,
+    ...
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    overlay-unstable = final: _last: {
+      unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
       };
+    };
   in {
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      nuc = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ ... }: {
+          ({...}: {
             nixpkgs.config.allowUnfree = true;
           })
-          ./machines/nixos/configuration.nix
+          ./machines/nuc/configuration.nix
         ];
       };
     };
@@ -36,8 +42,8 @@
       adam = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ({ ... }: {
-            nixpkgs.overlays = [ overlay-unstable ];
+          ({...}: {
+            nixpkgs.overlays = [overlay-unstable];
             nixpkgs.config.allowUnfree = true;
           })
           stylix.homeManagerModules.stylix

@@ -16,13 +16,17 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "ecryptfs" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nuc"; # Define your hostname.
 
   # Enable the GNOME Desktop Environment.
   services.xserver.desktopManager.gnome.enable = true;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+  };
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
   };
 
   hardware = {
@@ -43,8 +47,8 @@
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    shell = pkgs.nushell;
+    extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
+    shell = pkgs.bash;
   };
 
   # List packages installed in system profile. To search, run:

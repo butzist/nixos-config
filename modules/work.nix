@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     vscode
 
@@ -19,7 +17,7 @@
     go = {
       enable = true;
       goPath = "go";
-      goPrivate = [ "gitlab.com/datahow" ];
+      goPrivate = ["gitlab.com/datahow"];
     };
 
     k9s.enable = true;

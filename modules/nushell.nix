@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     unstable.zellij
@@ -35,7 +31,6 @@
         }
         $env.PATH = ($env.PATH |
         split row (char esep) |
-        prepend /home/adam/.apps |
         append /usr/bin/env
         )
       '';

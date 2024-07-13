@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
   ];
 
@@ -18,7 +16,6 @@
     unstable.wasm-bindgen-cli
     unstable.mold
   ];
-
 
   home.file = {
     ".cargo/config.toml".text = ''

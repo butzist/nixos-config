@@ -5,6 +5,8 @@
   ...
 }: {
   home.packages = with pkgs; [
+    sway-contrib.grimshot
+    swayidle
   ];
 
   wayland.windowManager.sway.enable = true;
@@ -12,7 +14,7 @@
   wayland.windowManager.sway.checkConfig = true;
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
-    terminal = "/usr/bin/alacritty";
+    terminal = "${pkgs.alacritty}/bin/alacritty";
     menu = "${pkgs.wofi}/bin/wofi -I --show drun | xargs swaymsg exec --";
 
     output = {
@@ -26,12 +28,6 @@
         pos = "1920 360";
         res = "2560x1440";
         scale = "1";
-      };
-
-      eDP-1 = {
-        pos = "4480 0";
-        res = "2880x1800";
-        scale = "1.5";
       };
     };
 
@@ -77,8 +73,8 @@
     for_window [title="^.*"] border pixel 2, title_format "%title"
 
     # Screen lock
-      set $lock_command /usr/bin/swaylock --daemonize --ignore-empty-password --show-failed-attempts -c000000
-      exec ${pkgs.swayidle}/bin/swayidle -w \
+      set $lock_command swaylock --daemonize --ignore-empty-password --show-failed-attempts -c000000
+      exec swayidle -w \
       timeout 5 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
       resume 'swaymsg "output * dpms on"' \
       before-sleep "$lock_command"
@@ -96,14 +92,14 @@
     lib.mkOptionDefault {
       "${modifier}+l" = "exec $lock_command";
       "${modifier}+Shift+e" = "exec ${pkgs.wlogout}/bin/wlogout";
-      "${modifier}+Shift+d" = "exec /usr/bin/wdisplays";
+      "${modifier}+Shift+d" = "exec ${pkgs.wdisplays}/bin/wdisplays";
       Print = "exec grimshot copy anything";
       XF86AudioRaiseVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
       XF86AudioMute = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
       XF86AudioMicMute = "exec pactl set-source-mute @DEFAULT_SOURCE@ toggle";
-      XF86MonBrightnessDown = "exec brightnessctl set 5%-";
-      XF86MonBrightnessUp = "exec brightnessctl set 5%+";
+      XF86MonBrightnessDown = "exec light -U 10";
+      XF86MonBrightnessUp = "exec light -A 10";
     };
 
   gtk = {
@@ -117,4 +113,8 @@
   programs.wofi.enable = true;
   programs.wlogout.enable = true;
   programs.swaylock.enable = true;
+
+  # Enable the gnome-keyring secrets vault.
+  # Will be exposed through DBus to programs willing to store secrets.
+  services.gnome-keyring.enable = true;
 }
