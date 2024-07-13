@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    unstable.zellij
   ];
 
   # basic configuration of git, please change to your own
@@ -66,6 +65,7 @@
 
     zellij = {
       enable = true;
+      package = pkgs.unstable.zellij;
     };
 
     alacritty.settings.shell.program = "${pkgs.nushell}/bin/nu";

@@ -1,25 +1,26 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    vscode
+    unstable.vscode
 
     kubectl
-    k9s
     terraform
     terragrunt
     helm
 
-    microsoft-edge
+    unstable.microsoft-edge
 
     fnm
   ];
 
   programs = {
     go = {
-      enable = true;
       goPath = "go";
       goPrivate = ["gitlab.com/datahow"];
     };
 
-    k9s.enable = true;
+    k9s = {
+      enable = true;
+      package = pkgs.unstable.k9s;
+    };
   };
 }

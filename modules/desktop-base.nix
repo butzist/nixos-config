@@ -12,6 +12,8 @@
 
     ripgrep
     fd
+
+    evince
   ];
 
   # basic configuration of git, please change to your own

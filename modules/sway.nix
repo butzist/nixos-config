@@ -10,7 +10,6 @@
   ];
 
   wayland.windowManager.sway.enable = true;
-  wayland.windowManager.sway.package = null;
   wayland.windowManager.sway.checkConfig = true;
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
@@ -44,7 +43,11 @@
       };
     };
 
-    bars = [];
+    bars = [
+      {
+        command = "waybar";
+      }
+    ];
 
     gaps = {
       outer = 15;

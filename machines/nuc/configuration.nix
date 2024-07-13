@@ -1,25 +1,19 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules/system-base.nix
-    ];
+{pkgs, ...}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/system-base.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [ "ecryptfs" ];
 
   networking.hostName = "nuc"; # Define your hostname.
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.desktopManager.gnome.enable = true;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -47,7 +41,7 @@
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "video"];
     shell = pkgs.bash;
   };
 

@@ -4,7 +4,6 @@
 
   home.packages = with pkgs; [
     nodejs_20
-    unstable.go
 
     python312
     poetry
@@ -16,6 +15,13 @@
     unstable.wasm-bindgen-cli
     unstable.mold
   ];
+
+  programs = {
+    go = {
+      enable = true;
+      package = pkgs.unstable.go;
+    };
+  };
 
   home.file = {
     ".cargo/config.toml".text = ''
