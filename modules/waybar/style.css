@@ -34,7 +34,7 @@ window#waybar {
 #window,
 #hardware,
 #workspaces,
-.modules-right>widget>label {
+.modules-right > widget > label {
   background-color: @backgroundlight;
   color: @textcolor2;
   border-radius: 15px;
@@ -84,7 +84,8 @@ tooltip label {
   opacity: 0.4;
 }
 
-#workspaces button.focused {
+#workspaces button.focused,
+#workspaces button.active {
   color: @textcolor1;
   background: @workspacesbackground2;
   border-radius: 15px;
@@ -122,11 +123,11 @@ window#waybar.empty #window {
 * Modules
 * ----------------------------------------------------- */
 
-.modules-left>widget:first-child>#workspaces {
+.modules-left > widget:first-child > #workspaces {
   margin-left: 0;
 }
 
-.modules-right>widget:last-child>#workspaces {
+.modules-right > widget:last-child > #workspaces {
   margin-right: 0;
 }
 
@@ -216,10 +217,10 @@ window#waybar.empty #window {
 * Tray
 * ----------------------------------------------------- */
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }

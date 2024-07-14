@@ -9,7 +9,7 @@
 
   stylix.cursor = {
     package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
+    name = "Bibata-Modern-Amber";
     size = 16;
   };
 
@@ -33,5 +33,13 @@
   stylix.opacity = {
     terminal = 0.9;
     applications = 0.9;
+  };
+
+  gtk = {
+    enable = true;
+    iconTheme = {
+      package = pkgs.gnome.adwaita-icon-theme;
+      name = "Adwaita";
+    };
   };
 }

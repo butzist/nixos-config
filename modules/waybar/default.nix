@@ -1,10 +1,10 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
   home.packages = with pkgs; [
+    pavucontrol
   ];
 
   programs.waybar.enable = true;
@@ -16,10 +16,12 @@
         "*"
       ];
       "modules-left" = [
+        "hyprland/workspaces"
         "sway/workspaces"
         "sway/mode"
       ];
       "modules-center" = [
+        "hyprland/window"
         "sway/window"
       ];
       "modules-right" = [

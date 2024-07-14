@@ -9,8 +9,15 @@
     swayidle
   ];
 
-  wayland.windowManager.sway.enable = true;
-  wayland.windowManager.sway.checkConfig = true;
+  wayland.windowManager.sway = {
+    enable = true;
+    package = null;
+    checkConfig = true;
+
+    systemd.enable = true;
+    wrapperFeatures.gtk = true;
+  };
+
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
     terminal = "${pkgs.alacritty}/bin/alacritty";
@@ -55,8 +62,6 @@
     };
   };
 
-  wayland.windowManager.sway.systemd.enable = true;
-  wayland.windowManager.sway.wrapperFeatures.gtk = true;
   wayland.windowManager.sway.extraConfig = let
     script = pkgs.writeShellScript "import-gsettings.sh" ''
       config="''${XDG_CONFIG_HOME:-$HOME/.config}/gtk-3.0/settings.ini"
@@ -105,17 +110,10 @@
       XF86MonBrightnessUp = "exec light -A 10";
     };
 
-  gtk = {
-    enable = true;
-    iconTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
-      name = "Adwaita";
-    };
-  };
-
   programs.wofi.enable = true;
   programs.wlogout.enable = true;
   programs.swaylock.enable = true;
+  programs.waybar.enable = true;
 
   # Enable the gnome-keyring secrets vault.
   # Will be exposed through DBus to programs willing to store secrets.

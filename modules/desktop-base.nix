@@ -34,6 +34,7 @@
 
     lazygit.enable = true;
     btop.enable = true;
+    fzf.enable = true;
   };
 
   fonts.fontconfig.enable = true;
