@@ -1,7 +1,9 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
-    unstable.vscode
+  imports = [
+    ./vscode.nix
+  ];
 
+  home.packages = with pkgs; [
     kubectl
     terraform
     terragrunt

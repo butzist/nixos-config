@@ -10,7 +10,7 @@
     ../modules/hyprland.nix
     ../modules/waybar/default.nix
     ../modules/development.nix
-    ../modules/work.nix
+    ../modules/work/default.nix
     ../themes/ubuntu-catppuccin.nix
   ];
 
@@ -24,6 +24,13 @@
       enable = true;
       userName = "Adam";
       userEmail = "adam";
+    };
+
+    bash = {
+      enable = true;
+      profileExtra = ''
+        export GITLAB_AUTH_TOKEN=$(cat ~/Desktop/yarn-token.txt | head -n1 -c-1)
+      '';
     };
   };
 
