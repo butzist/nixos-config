@@ -1,8 +1,6 @@
 {...}: {
   plugins = {
     lsp-lines = {enable = true;};
-    lsp-format = {enable = true;};
-    helm = {enable = true;};
     lsp = {
       enable = true;
       keymaps = {

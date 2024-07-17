@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   plugins.lsp.servers = {
     html = {enable = true;};
     tsserver = {enable = true;};
@@ -8,16 +12,19 @@
   plugins.conform-nvim = {
     formattersByFt = {
       html = [
-        [ "prettierd" "prettier" ]
+        ["prettierd" "prettier"]
       ];
       css = [
-        [ "prettierd" "prettier" ]
+        ["prettierd" "prettier"]
       ];
       javascript = [
-        [ "prettierd" "prettier" ]
+        ["eslint" "prettierd" "prettier"]
       ];
       typescript = [
-        [ "prettierd" "prettier" ]
+        ["eslint" "prettierd" "prettier"]
+      ];
+      vue = [
+        ["eslint" "prettierd" "prettier"]
       ];
     };
 
