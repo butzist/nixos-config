@@ -35,6 +35,32 @@
     };
   };
 
+  plugins.lint = {
+    lintersByFt = {
+      html = [
+        "eslint_d"
+      ];
+      css = [
+        "eslint_d"
+      ];
+      javascript = [
+        "eslint_d"
+      ];
+      typescript = [
+        "eslint_d"
+      ];
+      vue = [
+        "eslint_d"
+      ];
+    };
+
+    linters = {
+      eslint_d = {
+        command = "${lib.getExe pkgs.eslint_d}";
+      };
+    };
+  };
+
   extraPlugins = with pkgs.vimPlugins; [
     nvim-web-devicons
   ];

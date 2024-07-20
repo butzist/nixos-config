@@ -34,6 +34,7 @@
   # LSP and formatting
   ./plugins/lsp/lsp.nix
   ./plugins/lsp/conform.nix
+  ./plugins/lsp/lint.nix
   ./plugins/lsp/fidget.nix
 
   # Git

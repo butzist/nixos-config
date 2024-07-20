@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   plugins.lsp.servers = {
     pyright = {enable = true;};
   };
@@ -17,6 +21,18 @@
       };
       isort = {
         command = "${lib.getExe pkgs.isort}";
+      };
+    };
+  };
+
+  plugins.lint = {
+    lintersByFt = {
+      python = ["ruff"];
+    };
+
+    linters = {
+      ruff = {
+        command = "${lib.getExe pkgs.ruff}";
       };
     };
   };

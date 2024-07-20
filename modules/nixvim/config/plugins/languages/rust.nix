@@ -1,7 +1,7 @@
-{pkgs, ...}: {
+{...}: {
   plugins = {
     lsp.servers.rust-analyzer = {
-      enable = true;
+      enable = false;
       installCargo = false;
       installRustc = false;
     };
