@@ -3,37 +3,43 @@
   pkgs,
   ...
 }: {
-  plugins.lsp.servers = {
-    pyright = {enable = true;};
-  };
-
-  plugins.conform-nvim = {
-    formattersByFt = {
-      python = [
-        "black"
-        "isort"
-      ];
+  plugins = {
+    lsp.servers = {
+      pyright = {enable = true;};
     };
 
-    formatters = {
-      black = {
-        command = "${lib.getExe pkgs.black}";
+    conform-nvim = {
+      formattersByFt = {
+        python = [
+          "black"
+          "isort"
+        ];
       };
-      isort = {
-        command = "${lib.getExe pkgs.isort}";
+
+      formatters = {
+        black = {
+          command = "${lib.getExe pkgs.black}";
+        };
+        isort = {
+          command = "${lib.getExe pkgs.isort}";
+        };
       };
     };
-  };
 
-  plugins.lint = {
-    lintersByFt = {
-      python = ["ruff"];
+    lint = {
+      lintersByFt = {
+        python = ["ruff"];
+      };
+
+      linters = {
+        ruff = {
+          command = "${lib.getExe pkgs.ruff}";
+        };
+      };
     };
 
-    linters = {
-      ruff = {
-        command = "${lib.getExe pkgs.ruff}";
-      };
+    dap.extensions.dap-python = {
+      enable = true;
     };
   };
 }

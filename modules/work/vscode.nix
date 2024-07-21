@@ -9,14 +9,14 @@
       [
         bierner.markdown-mermaid
         gitlab.gitlab-workflow
-        #heyimfuzz.banner-comments
         humao.rest-client
         ms-vscode-remote.remote-containers
         ms-vsliveshare.vsliveshare
-        #netcorext.uuid-generator
         streetsidesoftware.code-spell-checker
         usernamehw.errorlens
         vscodevim.vim
+        dbaeumer.vscode-eslint
+        vadimcn.vscode-lldb
       ]
       ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
         {

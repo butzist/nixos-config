@@ -36,6 +36,7 @@
   ./plugins/lsp/conform.nix
   ./plugins/lsp/lint.nix
   ./plugins/lsp/fidget.nix
+  ./plugins/lsp/dap.nix
 
   # Git
   ./plugins/git/lazygit.nix

@@ -1,55 +1,43 @@
-{ icons, pkgs, ... }:
-
-{
-  extra = {
-    packages = [ pkgs.vimPlugins.nvim-dap-ui ];
-
-    # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/configs/nvim-dap-ui.lua
-    # https://github.com/AstroNvim/AstroNvim/blob/v4.7.7/lua/astronvim/plugins/dap.lua#L37
-    config = ''
-      local dap, dapui = require "dap", require "dapui"
-
-      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
-      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-
-      dapui.setup({ floating = { border = "rounded" } })
-    '';
-  };
-
-  opts = {
+{...}: {
+  plugins.dap = {
     enable = true;
 
     signs = {
       dapBreakpoint = {
-        text = icons.DapBreakpoint;
-        texthl = "DiagnosticInfo";
+        text = "●";
+        texthl = "DapBreakpoint";
       };
-
       dapBreakpointCondition = {
-        text = icons.DapBreakpointCondition;
-        texthl = "DiagnosticInfo";
+        text = "●";
+        texthl = "DapBreakpointCondition";
+      };
+      dapLogPoint = {
+        text = "◆";
+        texthl = "DapLogPoint";
       };
 
       dapBreakpointRejected = {
-        text = icons.DapBreakpointRejected;
-        texthl = "DiagnosticError";
-      };
-
-      dapLogPoint = {
-        text = icons.DapLogPoint;
-        texthl = "DiagnosticInfo";
+        text = "✖️";
+        texthl = "DapBreakpointRejected";
       };
 
       dapStopped = {
-        text = icons.DapStopped;
-        texthl = "DiagnosticWarn";
+        text = "🠶";
+        texthl = "DapStopped";
+      };
+    };
+
+    extensions = {
+      dap-ui = {
+        enable = true;
+      };
+      dap-virtual-text = {
+        enable = true;
       };
     };
   };
 
-  # rootOpts.plugins.cmp-dap.enable = true;
-  rootOpts.keymaps = [
+  keymaps = [
     {
       mode = "n";
       key = "<leader>dE";
@@ -120,12 +108,6 @@
       key = "<F6>";
       action.__raw = "function() require('dap').pause() end";
       options.desc = "Debugger: Pause";
-    }
-    {
-      mode = "n";
-      key = "<F9>";
-      action.__raw = "function() require('dap').toggle_breakpoint() end";
-      options.desc = "Debugger: Toggle Breakpoint";
     }
     {
       mode = "n";
