@@ -14,6 +14,8 @@
     unstable.wasm-pack
     unstable.wasm-bindgen-cli
     unstable.mold
+    unstable.lldb
+    unstable.clang
   ];
 
   programs = {

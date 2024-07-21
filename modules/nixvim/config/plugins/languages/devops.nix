@@ -1,7 +1,7 @@
-{lib, pkgs, ...}: {
+{
   plugins.lsp.servers = {
     terraformls = {enable = true;};
-    helm-ls = { enable = true; };
+    helm-ls = {enable = true;};
   };
 
   plugins.conform-nvim = {

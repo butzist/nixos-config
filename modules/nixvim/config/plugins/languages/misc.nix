@@ -1,10 +1,14 @@
-{ lib, pkgs, ... }: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   plugins.lsp.servers = {
     lua-ls = {enable = true;};
     nil-ls = {enable = true;};
     marksman = {enable = true;};
     jsonls = {enable = true;};
-    yamlls = { enable = true; };
+    yamlls = {enable = true;};
   };
 
   plugins.conform-nvim = {
@@ -12,10 +16,10 @@
       lua = ["stylua"];
       nix = ["alejandra"];
       markdown = [
-        [ "prettierd" "prettier" ]
+        ["prettierd" "prettier"]
       ];
       yaml = [
-        [ "prettierd" "prettier" ]
+        ["prettierd" "prettier"]
       ];
       bash = [
         "shellcheck"
@@ -70,4 +74,4 @@
     yaml.enable = true;
     json.enable = false;
   };
-                    }
+}
