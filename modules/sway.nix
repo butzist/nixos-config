@@ -20,8 +20,8 @@
 
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
-    terminal = "${pkgs.alacritty}/bin/alacritty";
-    menu = "${pkgs.wofi}/bin/wofi -I --show drun | xargs swaymsg exec --";
+    terminal = "${lib.getExe pkgs.alacritty}";
+    menu = "${lib.getExe pkgs.wofi} -I --show drun | xargs swaymsg exec --";
 
     output = {
       "Samsung Electric Company S27F350 H4ZMA14287" = {
@@ -99,8 +99,8 @@
   in
     lib.mkOptionDefault {
       "${modifier}+l" = "exec $lock_command";
-      "${modifier}+Shift+e" = "exec ${pkgs.wlogout}/bin/wlogout";
-      "${modifier}+Shift+d" = "exec ${pkgs.wdisplays}/bin/wdisplays";
+      "${modifier}+Shift+e" = "exec ${lib.getExe pkgs.wlogout}";
+      "${modifier}+Shift+d" = "exec ${lib.getExe pkgs.wdisplays}";
       Print = "exec grimshot copy anything";
       XF86AudioRaiseVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";

@@ -46,6 +46,13 @@
     shell = pkgs.bash;
   };
 
+  users.users.games = {
+    isNormalUser = true;
+    description = "Gaming";
+    extraGroups = ["networkmanager" "video"];
+    shell = pkgs.bash;
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
