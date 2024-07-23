@@ -46,7 +46,7 @@
       };
 
       "*" = {
-        xkb_options = "compose:menu";
+        xkb_options = "compose:menu,caps:escape";
       };
     };
 

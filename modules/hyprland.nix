@@ -21,6 +21,10 @@
       "desc:Samsung Electric Company LS27A600U H4ZT400506, 2560x1440, 1920x0, 1"
     ];
 
+    input = {
+      kb_options = "compose:menu,caps:escape";
+    };
+
     bind =
       [
         "$mod, D, exec, ${pkgs.wofi}/bin/wofi -I --show drun"
