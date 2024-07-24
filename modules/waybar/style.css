@@ -4,15 +4,6 @@
 
 @import "colors.css";
 
-@define-color workspacesbackground2 @base01;
-@define-color backgroundlight @base05;
-@define-color backgrounddark @base01;
-@define-color textcolor1 @base05;
-@define-color textcolor2 @base00;
-@define-color error #550000;
-@define-color bordercolor @base03;
-@define-color shadowcolor @base03;
-
 /* -----------------------------------------------------
 * General 
 * ----------------------------------------------------- */
@@ -35,16 +26,16 @@ window#waybar {
 #hardware,
 #workspaces,
 .modules-right > widget > label {
-  background-color: @backgroundlight;
-  color: @textcolor2;
+  background-color: @background;
+  color: @text;
   border-radius: 15px;
   border-style: none;
   border-width: 0px;
-  border-color: @bordercolor;
+  border-color: @border;
   padding: 2px 10px 0px 10px;
   margin: 8px 10px 8px 0px;
   opacity: 0.7;
-  box-shadow: 2px 2px 4px @shadowcolor;
+  box-shadow: 2px 2px 4px @border;
 }
 
 /* -----------------------------------------------------
@@ -53,14 +44,14 @@ window#waybar {
 
 tooltip {
   border-radius: 10px;
-  background-color: @backgroundlight;
+  background-color: @background;
   opacity: 0.8;
   padding: 20px;
   margin: 0px;
 }
 
 tooltip label {
-  color: @textcolor2;
+  color: @text;
 }
 
 /* -----------------------------------------------------
@@ -78,16 +69,16 @@ tooltip label {
   font-size: 16px;
   border-radius: 15px;
   border: 0px;
-  color: @textcolor1;
-  background-color: @workspacesbackground2;
+  color: @text;
+  background-color: @altbackground;
   transition: all 0.3s ease-in-out;
   opacity: 0.4;
 }
 
 #workspaces button.focused,
 #workspaces button.active {
-  color: @textcolor1;
-  background: @workspacesbackground2;
+  color: @text;
+  background: @selbackground;
   border-radius: 15px;
   min-width: 40px;
   transition: all 0.3s ease-in-out;
@@ -95,8 +86,8 @@ tooltip label {
 }
 
 #workspaces button.urgent {
-  color: @textcolor1;
-  background: @error;
+  color: @text;
+  background: @urgent;
   border-radius: 15px;
   min-width: 40px;
   transition: all 0.3s ease-in-out;
@@ -104,8 +95,8 @@ tooltip label {
 }
 
 #workspaces button:hover {
-  color: @textcolor1;
-  background: @workspacesbackground2;
+  color: @text;
+  background: @altbackground;
   border-radius: 15px;
   opacity: 0.7;
 }
@@ -138,7 +129,8 @@ window#waybar.empty #window {
 #custom-power {
   background-color: transparent;
   box-shadow: none;
-  color: @textcolor1;
+  color: @background;
+  opacity: 0.7;
   margin: 0px;
   padding: 0px;
   font-size: 30px;
@@ -163,8 +155,8 @@ window#waybar.empty #window {
 * ----------------------------------------------------- */
 
 #pulseaudio.muted {
-  background-color: @backgrounddark;
-  color: @textcolor1;
+  background-color: @altbackground;
+  color: @text;
 }
 
 /* -----------------------------------------------------
@@ -176,7 +168,7 @@ window#waybar.empty #window {
 }
 
 #bluetooth.connected {
-  color: #0000bb;
+  color: @active;
 }
 
 #bluetooth.off {
@@ -192,19 +184,19 @@ window#waybar.empty #window {
 
 #battery.charging,
 #battery.plugged {
-  color: @textcolor2;
-  background-color: @backgroundlight;
+  color: @text;
+  background-color: @background;
 }
 
 @keyframes blink {
   to {
-    background-color: @backgroundlight;
-    color: @textcolor2;
+    background-color: @background;
+    color: @text;
   }
 }
 
 #battery.critical:not(.charging) {
-  background-color: #f53c3c;
+  background-color: @error;
   color: @error;
   animation-name: blink;
   animation-duration: 0.5s;
