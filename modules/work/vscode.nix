@@ -16,7 +16,6 @@
         usernamehw.errorlens
         vscodevim.vim
         dbaeumer.vscode-eslint
-        vadimcn.vscode-lldb
       ]
       ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
         {
