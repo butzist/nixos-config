@@ -175,5 +175,5 @@
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome-keyring.enable = true;
 
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+  systemd.user.sessionVariables.NIXOS_OZONE_WL = "1";
 }
