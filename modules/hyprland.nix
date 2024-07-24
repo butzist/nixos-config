@@ -3,6 +3,10 @@
   config,
   ...
 }: {
+  imports = [
+    ./wlogout.nix
+  ];
+
   home.packages = with pkgs; [
     sway-contrib.grimshot
     hypridle
@@ -111,8 +115,6 @@
   };
 
   programs.wofi.enable = true;
-  programs.wlogout.enable = true;
-
   programs.hyprlock.enable = true;
   programs.hyprlock.settings = {
     general = {

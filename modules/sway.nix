@@ -4,6 +4,10 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./wlogout.nix
+  ];
+
   home.packages = with pkgs; [
     sway-contrib.grimshot
     swayidle
@@ -111,9 +115,7 @@
     };
 
   programs.wofi.enable = true;
-  programs.wlogout.enable = true;
   programs.swaylock.enable = true;
-  programs.waybar.enable = true;
 
   # Enable the gnome-keyring secrets vault.
   # Will be exposed through DBus to programs willing to store secrets.
