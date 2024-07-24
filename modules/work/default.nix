@@ -24,5 +24,13 @@
       enable = true;
       package = pkgs.unstable.k9s;
     };
+
+    poetry = {
+      enable = true;
+      settings = {
+        virtualenvs.create = true;
+        virtualenvs.in-project = true;
+      };
+    };
   };
 }

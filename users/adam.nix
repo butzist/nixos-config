@@ -30,6 +30,8 @@
       enable = true;
       profileExtra = ''
         export GITLAB_AUTH_TOKEN=$(cat ~/Desktop/yarn-token.txt | head -n1 -c-1)
+        export POETRY_HTTP_BASIC_PYDHL_USERNAME=adam
+        export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ~/Desktop/yarn-token.txt | head -n1 -c-1)
       '';
     };
   };
