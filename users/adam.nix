@@ -24,6 +24,23 @@
       enable = true;
       userName = "Adam";
       userEmail = "adam";
+
+      extraConfig = {
+        init = {
+          defaultBranch = "main";
+        };
+        pull = {
+          rebase = true;
+        };
+        submodule = {
+          recurse = true;
+        };
+        url = {
+          "git@gitlab.com:" = {
+            insteadOf = "https://gitlab.com/";
+          };
+        };
+      };
     };
 
     bash = {
