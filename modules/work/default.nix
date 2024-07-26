@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./vscode.nix
+    ./k9s.nix
   ];
 
   home.packages = with pkgs; [
@@ -8,6 +9,7 @@
     terraform
     terragrunt
     helm
+    (azure-cli.withExtensions [])
 
     unstable.microsoft-edge
 
@@ -18,11 +20,6 @@
     go = {
       goPath = "go";
       goPrivate = ["gitlab.com/datahow"];
-    };
-
-    k9s = {
-      enable = true;
-      package = pkgs.unstable.k9s;
     };
 
     poetry = {
