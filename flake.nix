@@ -39,7 +39,6 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            #home-manager.users.games = import ./users/games.nix;
             home-manager.users.games = {...}: {
               imports = [
                 stylix.homeManagerModules.stylix
