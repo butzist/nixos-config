@@ -12,13 +12,22 @@
 
     ripgrep
     fd
+    eza
 
     evince
   ];
 
   # basic configuration of git, please change to your own
   programs = {
-    bash.enable = true;
+    bash = {
+      enable = true;
+      shellAliases = {
+        la = "eza -la";
+        ll = "eza -l";
+        ls = "eza";
+        cat = "bat";
+      };
+    };
 
     alacritty = {
       enable = true;
@@ -34,7 +43,9 @@
 
     lazygit.enable = true;
     btop.enable = true;
+    yazi.enable = true;
     fzf.enable = true;
+    bat.enable = true;
   };
 
   fonts.fontconfig.enable = true;
