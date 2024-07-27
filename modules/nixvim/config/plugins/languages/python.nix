@@ -33,7 +33,7 @@
 
       linters = {
         ruff = {
-          command = "${lib.getExe pkgs.ruff}";
+          cmd = "${lib.getExe pkgs.ruff}";
         };
       };
     };

@@ -57,7 +57,7 @@
 
       linters = {
         eslint_d = {
-          command = "${lib.getExe pkgs.eslint_d}";
+          cmd = "${lib.getExe pkgs.eslint_d}";
         };
       };
     };

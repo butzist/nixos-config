@@ -55,6 +55,20 @@
     };
   };
 
+  plugins.lint = {
+    lintersByFt = {
+      markdown = [
+        "vale"
+      ];
+    };
+
+    linters = {
+      vale = {
+        cmd = "${lib.getExe (pkgs.vale.withStyles (s: [s.google]))}";
+      };
+    };
+  };
+
   plugins.markdown-preview = {
     enable = true;
     settings = {
