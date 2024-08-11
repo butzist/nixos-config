@@ -9,6 +9,8 @@
     terraform
     terragrunt
     helm
+    bombardier
+    slowhttptest
     (azure-cli.withExtensions [])
 
     unstable.microsoft-edge
