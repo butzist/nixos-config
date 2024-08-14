@@ -5,16 +5,24 @@
   ];
 
   home.packages = with pkgs; [
+    unstable.microsoft-edge
+
+    # devops
     kubectl
     terraform
     terragrunt
     helm
-    bombardier
-    slowhttptest
     (azure-cli.withExtensions [])
 
-    unstable.microsoft-edge
+    # devops docs
+    pre-commit
+    helm-docs
 
+    # http testing
+    bombardier
+    slowhttptest
+
+    # language tools
     fnm
   ];
 
