@@ -12,6 +12,8 @@
     formatters = {};
   };
 
+  plugins.helm.enable = true;
+
   autoGroups = {
     filetypes = {};
   };
