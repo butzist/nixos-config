@@ -11,7 +11,7 @@
     kubectl
     terraform
     terragrunt
-    helm
+    kubernetes-helm
     (azure-cli.withExtensions [])
 
     # devops docs
