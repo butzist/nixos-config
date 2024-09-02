@@ -92,6 +92,7 @@
       "banner-comments.h1" = "Standard";
       "editor.renderWhitespace" = "trailing";
       "workbench.editor.empty.hint" = "hidden";
+      "workbench.startupEditor" = "none";
       "vim.leader" = "<space>";
     };
   };
