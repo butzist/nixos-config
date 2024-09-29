@@ -6,12 +6,14 @@
 
   home.packages = with pkgs; [
     unstable.microsoft-edge
+    remmina
 
     # devops
     kubectl
     terraform
     terragrunt
     kubernetes-helm
+    minio-client
     (azure-cli.withExtensions [])
 
     # devops docs
