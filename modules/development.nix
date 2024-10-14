@@ -10,6 +10,8 @@
     python312Packages.pip
     python312Packages.virtualenv
 
+    unstable.go-mockery
+
     unstable.rustup
     unstable.wasm-pack
     unstable.wasm-bindgen-cli
