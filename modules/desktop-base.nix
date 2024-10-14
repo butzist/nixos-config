@@ -9,6 +9,7 @@
 
     lazygit
     btop
+    killall
 
     ripgrep
     fd
