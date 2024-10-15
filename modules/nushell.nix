@@ -1,13 +1,8 @@
 {pkgs, ...}: {
-  # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
-  ];
-
   # basic configuration of git, please change to your own
   programs = {
     nushell = {
       enable = true;
-      package = pkgs.unstable.nushell;
       extraConfig = ''
         let carapace_completer = {|spans|
         carapace $spans.0 nushell $spans | from json
@@ -41,13 +36,11 @@
 
     carapace = {
       enable = true;
-      package = pkgs.unstable.carapace;
       enableNushellIntegration = true;
     };
 
     starship = {
       enable = true;
-      package = pkgs.unstable.starship;
       settings = {
         add_newline = true;
         character = {
@@ -59,13 +52,11 @@
 
     zoxide = {
       enable = true;
-      package = pkgs.unstable.zoxide;
       enableNushellIntegration = true;
     };
 
     zellij = {
       enable = true;
-      package = pkgs.unstable.zellij;
     };
 
     alacritty.settings.shell.program = "${pkgs.nushell}/bin/nu";

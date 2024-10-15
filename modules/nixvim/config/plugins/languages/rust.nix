@@ -1,6 +1,6 @@
 {
   plugins = {
-    lsp.servers.rust-analyzer = {
+    lsp.servers.rust_analyzer = {
       enable = false;
       installCargo = false;
       installRustc = false;

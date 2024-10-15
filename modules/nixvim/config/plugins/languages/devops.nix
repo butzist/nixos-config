@@ -1,15 +1,17 @@
 {
   plugins.lsp.servers = {
     terraformls = {enable = true;};
-    helm-ls = {enable = true;};
+    helm_ls = {enable = true;};
   };
 
   plugins.conform-nvim = {
-    formattersByFt = {
-      terraform = ["terraform_fmt"];
-    };
+    settings = {
+      formatters_by_ft = {
+        terraform = ["terraform_fmt"];
+      };
 
-    formatters = {};
+      formatters = {};
+    };
   };
 
   plugins.helm.enable = true;

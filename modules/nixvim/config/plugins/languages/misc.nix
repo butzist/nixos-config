@@ -4,53 +4,55 @@
   ...
 }: {
   plugins.lsp.servers = {
-    lua-ls = {enable = true;};
-    nil-ls = {enable = true;};
+    lua_ls = {enable = true;};
+    nil_ls = {enable = true;};
     marksman = {enable = true;};
     jsonls = {enable = true;};
     yamlls = {enable = true;};
   };
 
   plugins.conform-nvim = {
-    formattersByFt = {
-      lua = ["stylua"];
-      nix = ["alejandra"];
-      markdown = [
-        ["prettierd" "prettier"]
-      ];
-      yaml = [
-        ["prettierd" "prettier"]
-      ];
-      bash = [
-        "shellcheck"
-        "shellharden"
-        "shfmt"
-      ];
-      json = ["jq"];
-      "_" = ["trim_whitespace"];
-    };
+    settings = {
+      formatters_by_ft = {
+        lua = ["stylua"];
+        nix = ["alejandra"];
+        markdown = [
+          ["prettierd" "prettier"]
+        ];
+        yaml = [
+          ["prettierd" "prettier"]
+        ];
+        bash = [
+          "shellcheck"
+          "shellharden"
+          "shfmt"
+        ];
+        json = ["jq"];
+        "_" = ["trim_whitespace"];
+      };
 
-    formatters = {
-      alejandra = {
-        command = "${lib.getExe pkgs.alejandra}";
-      };
-      jq = {
-        command = "${lib.getExe pkgs.jq}";
-      };
-      prettierd = {
-        command = "${lib.getExe pkgs.prettierd}";
-      };
-      stylua = {
-        command = "${lib.getExe pkgs.stylua}";
-      };
-      shellcheck = {
-        command = "${lib.getExe pkgs.shellcheck}";
-      };
-      shfmt = {
-        command = "${lib.getExe pkgs.shfmt}";
-      };
-      shellharden = {
-        command = "${lib.getExe pkgs.shellharden}";
+      formatters = {
+        alejandra = {
+          command = "${lib.getExe pkgs.alejandra}";
+        };
+        jq = {
+          command = "${lib.getExe pkgs.jq}";
+        };
+        prettierd = {
+          command = "${lib.getExe pkgs.prettierd}";
+        };
+        stylua = {
+          command = "${lib.getExe pkgs.stylua}";
+        };
+        shellcheck = {
+          command = "${lib.getExe pkgs.shellcheck}";
+        };
+        shfmt = {
+          command = "${lib.getExe pkgs.shfmt}";
+        };
+        shellharden = {
+          command = "${lib.getExe pkgs.shellharden}";
+        };
       };
     };
   };
@@ -73,11 +75,11 @@
     enable = true;
     settings = {
       browser = "firefox";
-      echo_preview_url = true;
+      echo_preview_url = 1;
       port = "6969";
       preview_options = {
-        disable_filename = true;
-        disable_sync_scroll = true;
+        disable_filename = 1;
+        disable_sync_scroll = 1;
         sync_scroll_type = "middle";
       };
     };

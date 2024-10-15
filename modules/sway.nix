@@ -15,7 +15,6 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    package = null;
     checkConfig = true;
 
     systemd.enable = true;

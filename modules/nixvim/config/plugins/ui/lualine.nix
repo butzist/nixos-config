@@ -1,29 +1,32 @@
 _: {
   plugins.lualine = {
     enable = true;
-    globalstatus = true;
-    extensions = [
-      "neo-tree"
-    ];
-    disabledFiletypes = {
-      statusline = ["startup" "alpha"];
-    };
-    sections = {
-      lualine_a = [
-        {
-          name = "mode";
-        }
+
+    settings = {
+      options = {
+        globalstatus = true;
+        disabledFiletypes = {
+          statusline = ["startup" "alpha"];
+        };
+      };
+      extensions = [
+        "neo-tree"
       ];
-      lualine_b = [
-        {
-          name = "branch";
-          icon = "";
-        }
-      ];
-      lualine_c = [
-        {
-          name = "diagnostics";
-          extraConfig = {
+      sections = {
+        lualine_a = [
+          {
+            __unkeyed = "mode";
+          }
+        ];
+        lualine_b = [
+          {
+            __unkeyed = "branch";
+            icon = "";
+          }
+        ];
+        lualine_c = [
+          {
+            __unkeyed = "diagnostics";
             sources = ["nvim_lsp"];
             symbols = {
               error = " ";
@@ -31,30 +34,24 @@ _: {
               info = " ";
               hint = "󰝶 ";
             };
-          };
-        }
-        {
-          name = "filetype";
-          extraConfig = {
+          }
+          {
+            __unkeyed = "filetype";
             icon_only = true;
             separator = "";
             padding = {
               left = 1;
               right = 0;
             };
-          };
-        }
-        {
-          name = "filename";
-          extraConfig = {
+          }
+          {
+            __unkeyed = "filename";
             path = 1;
-          };
-        }
-      ];
-      lualine_x = [
-        {
-          name = "diff";
-          extraConfig = {
+          }
+        ];
+        lualine_x = [
+          {
+            __unkeyed = "diff";
             symbos = {
               added = " ";
               modified = " ";
@@ -74,19 +71,19 @@ _: {
                 end
               '';
             };
-          };
-        }
-      ];
-      lualine_y = [
-        {
-          name = "progress";
-        }
-      ];
-      lualine_z = [
-        {
-          name = "location";
-        }
-      ];
+          }
+        ];
+        lualine_y = [
+          {
+            __unkeyed = "progress";
+          }
+        ];
+        lualine_z = [
+          {
+            __unkeyed = "location";
+          }
+        ];
+      };
     };
   };
 }

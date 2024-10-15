@@ -9,19 +9,21 @@
     };
 
     conform-nvim = {
-      formattersByFt = {
-        python = [
-          "black"
-          "isort"
-        ];
-      };
-
-      formatters = {
-        black = {
-          command = "${lib.getExe pkgs.black}";
+      settings = {
+        formatters_by_ft = {
+          python = [
+            "black"
+            "isort"
+          ];
         };
-        isort = {
-          command = "${lib.getExe pkgs.isort}";
+
+        formatters = {
+          black = {
+            command = "${lib.getExe pkgs.black}";
+          };
+          isort = {
+            command = "${lib.getExe pkgs.isort}";
+          };
         };
       };
     };

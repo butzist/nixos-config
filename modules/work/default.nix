@@ -5,7 +5,7 @@
   ];
 
   home.packages = with pkgs; [
-    unstable.microsoft-edge
+    microsoft-edge
     remmina
 
     # devops
@@ -14,7 +14,8 @@
     terragrunt
     kubernetes-helm
     minio-client
-    (azure-cli.withExtensions [])
+    sops
+    (stable.azure-cli.withExtensions [])
 
     # devops docs
     pre-commit

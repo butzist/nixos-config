@@ -6,32 +6,34 @@
   plugins = {
     lsp.servers = {
       html = {enable = true;};
-      tsserver = {enable = true;};
+      ts_ls = {enable = true;};
       cssls = {enable = true;};
     };
 
     conform-nvim = {
-      formattersByFt = {
-        html = [
-          ["prettierd" "prettier"]
-        ];
-        css = [
-          ["prettierd" "prettier"]
-        ];
-        javascript = [
-          ["eslint" "prettierd" "prettier"]
-        ];
-        typescript = [
-          ["eslint" "prettierd" "prettier"]
-        ];
-        vue = [
-          ["eslint" "prettierd" "prettier"]
-        ];
-      };
+      settings = {
+        formatters_by_ft = {
+          html = [
+            ["prettierd" "prettier"]
+          ];
+          css = [
+            ["prettierd" "prettier"]
+          ];
+          javascript = [
+            ["eslint" "prettierd" "prettier"]
+          ];
+          typescript = [
+            ["eslint" "prettierd" "prettier"]
+          ];
+          vue = [
+            ["eslint" "prettierd" "prettier"]
+          ];
+        };
 
-      formatters = {
-        prettierd = {
-          command = "${lib.getExe pkgs.prettierd}";
+        formatters = {
+          prettierd = {
+            command = "${lib.getExe pkgs.prettierd}";
+          };
         };
       };
     };
@@ -70,7 +72,7 @@
           executable = {
             command = "node";
             args = [
-              "${pkgs.unstable.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
+              "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
               "\${port}"
             ];
           };
@@ -110,9 +112,9 @@
         typescript = nodeConfig;
       };
     };
-  };
 
-  extraPlugins = with pkgs.vimPlugins; [
-    nvim-web-devicons
-  ];
+    web-devicons = {
+      enable = true;
+    };
+  };
 }

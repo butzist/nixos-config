@@ -1,11 +1,10 @@
 {pkgs, ...}: {
   programs.vscode = {
     enable = true;
-    package = pkgs.unstable.vscode;
     enableUpdateCheck = false;
     mutableExtensionsDir = false;
     enableExtensionUpdateCheck = false;
-    extensions = with pkgs.unstable.vscode-extensions;
+    extensions = with pkgs.vscode-extensions;
       [
         bierner.markdown-mermaid
         gitlab.gitlab-workflow
@@ -17,7 +16,7 @@
         vscodevim.vim
         dbaeumer.vscode-eslint
       ]
-      ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "banner-comments";
           publisher = "heyimfuzz";
