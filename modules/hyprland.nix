@@ -8,7 +8,7 @@
   ];
 
   home.packages = with pkgs; [
-    sway-contrib.grimshot
+    hyprshot
     hypridle
   ];
 
@@ -31,12 +31,15 @@
 
     bind =
       [
-        "$mod, D, exec, ${pkgs.wofi}/bin/wofi -I --show drun"
+        "$mod, Space, exec, ${pkgs.wofi}/bin/wofi -I --show drun"
         "$mod, Return, exec, ${pkgs.alacritty}/bin/alacritty"
         "$mod, L, exec, loginctl lock-session"
-        "$mod&Shift, E, exec, ${pkgs.wlogout}/bin/wlogout"
-        "$mod&Shift, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
-        ", Print, exec, grimshot copy anything"
+        "$mod, E, exec, thunar"
+        "$mod&Shift, Q, exec, ${pkgs.wlogout}/bin/wlogout"
+        "$mod, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
+        ", Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --freeze --clipboard-only"
+        "Shift, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --freeze"
+        "$mod, Print, exec, ${pkgs.kooha}/bin/kooha"
         ", XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%"
         ", XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%"
         ", XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
@@ -51,6 +54,9 @@
         "$mod&Shift, Right, movewindoworgroup, r"
         "$mod&Shift, Up, movewindoworgroup, u"
         "$mod&Shift, Down, movewindoworgroup, d"
+        "$mod, mouse_down, workspace, e+1"
+        "$mod, mouse_up, workspace, e-1"
+        "$mod, C, killactive"
         "$mod, W, togglegroup"
         "$mod, F, fullscreen"
         "$mod&Shift, F, togglefloating"

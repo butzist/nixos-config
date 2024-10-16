@@ -77,6 +77,16 @@
     dconf.enable = true;
   };
 
+  # File manager
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+    ];
+  };
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
