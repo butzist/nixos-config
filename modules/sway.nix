@@ -26,28 +26,7 @@
     terminal = "${lib.getExe pkgs.alacritty}";
     menu = "${lib.getExe pkgs.wofi} -I --show drun | xargs swaymsg exec --";
 
-    output = {
-      "Samsung Electric Company S27F350 H4ZMA14287" = {
-        pos = "0 720";
-        res = "1920x1080";
-        scale = "1";
-      };
-
-      "Samsung Electric Company LS27A600U H4ZT400506" = {
-        pos = "1920 360";
-        res = "2560x1440";
-        scale = "1";
-      };
-    };
-
     input = {
-      "1267:12693:ELAN0676:00_04F3:3195_Touchpad" = {
-        dwt = "enabled";
-        tap = "enabled";
-        natural_scroll = "enabled";
-        middle_emulation = "disabled";
-      };
-
       "*" = {
         xkb_options = "compose:menu,caps:escape";
       };

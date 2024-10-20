@@ -9,7 +9,7 @@
     nixvim.url = "github:nix-community/nixvim";
   };
 
-  outputs = {
+  outputs = inputs @ {
     nixpkgs,
     nixpkgs-stable,
     home-manager,
@@ -19,7 +19,7 @@
   }: let
     system = "x86_64-linux";
     overlay-stable = final: _last: {
-      stable = import nixpkgs-stable {
+      stable = import inputs.nixpkgs-stable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -32,8 +32,8 @@
           ({...}: {
             nixpkgs.config.allowUnfree = true;
           })
-          ./machines/nuc/configuration.nix
           home-manager.nixosModules.home-manager
+          ./machines/nuc/configuration.nix
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -46,20 +46,26 @@
           }
         ];
       };
+
+      thinkpad = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [];
+      };
     };
-    homeConfigurations = {
-      adam = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
+    homeConfigurations =
+      (import ./config-builder.nix {
+        inherit (nixpkgs) lib;
+        inherit inputs;
+        systemConfigs = inputs.self.nixosConfigurations;
+        extraModules = [
           ({...}: {
             nixpkgs.overlays = [overlay-stable];
             nixpkgs.config.allowUnfree = true;
           })
-          stylix.homeManagerModules.stylix
-          nixvim.homeManagerModules.nixvim
-          ./users/adam.nix
+          inputs.stylix.homeManagerModules.stylix
+          inputs.nixvim.homeManagerModules.nixvim
         ];
-      };
-    };
+      })
+      .getHMConfigs;
   };
 }
