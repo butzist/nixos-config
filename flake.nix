@@ -25,33 +25,22 @@
       };
     };
   in {
-    nixosConfigurations = {
-      nuc = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
+    nixosConfigurations =
+      (import ./config-builder.nix {
+        inherit (nixpkgs) lib;
+        inherit inputs;
+        extraModules = [
           ({...}: {
+            nixpkgs.overlays = [overlay-stable];
             nixpkgs.config.allowUnfree = true;
           })
-          home-manager.nixosModules.home-manager
-          ./machines/nuc/configuration.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.games = {...}: {
-              imports = [
-                stylix.homeManagerModules.stylix
-                ./users/games.nix
-              ];
-            };
-          }
         ];
-      };
-
-      thinkpad = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [];
-      };
-    };
+        extraImports = [
+          inputs.stylix.homeManagerModules.stylix
+          inputs.nixvim.homeManagerModules.nixvim
+        ];
+      })
+      .getNixosConfigs;
     homeConfigurations =
       (import ./config-builder.nix {
         inherit (nixpkgs) lib;
