@@ -6,7 +6,6 @@
     ../modules/desktop-base.nix
     ../modules/nushell.nix
     ../modules/nixvim/default.nix
-    ../modules/sway.nix
     ../modules/hyprland.nix
     ../modules/waybar/default.nix
     ../modules/development.nix

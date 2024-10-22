@@ -63,8 +63,8 @@
     for_window [title="^.*"] border pixel 2, title_format "%title"
 
     # Screen lock
-      set $lock_command swaylock --daemonize --ignore-empty-password --show-failed-attempts -c000000
-      exec swayidle -w \
+      set $lock_command ${lib.getExe pkgs.swaylock} --daemonize --ignore-empty-password --show-failed-attempts -c000000
+      exec ${lib.getExe pkgs.swayidle} -w \
       timeout 5 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
       resume 'swaymsg "output * dpms on"' \
       before-sleep "$lock_command"
@@ -83,7 +83,7 @@
       "${modifier}+l" = "exec $lock_command";
       "${modifier}+Shift+e" = "exec ${lib.getExe pkgs.wlogout}";
       "${modifier}+Shift+d" = "exec ${lib.getExe pkgs.wdisplays}";
-      Print = "exec grimshot copy anything";
+      Print = "exec ${lib.getExe pkgs.grimshot} copy anything";
       XF86AudioRaiseVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
       XF86AudioMute = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
