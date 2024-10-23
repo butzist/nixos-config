@@ -15,6 +15,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    plugins = [pkgs.hyprlandPlugins.hy3];
   };
 
   wayland.windowManager.hyprland.settings = {
@@ -41,18 +42,18 @@
         ", XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle"
         ", XF86MonBrightnessDown, exec, light -U 10"
         ", XF86MonBrightnessUp, exec, light -A 10"
-        "$mod, Left, movefocus, l"
-        "$mod, Right, movefocus, r"
-        "$mod, Up, movefocus, u"
-        "$mod, Down, movefocus, d"
-        "$mod&Shift, Left, movewindoworgroup, l"
-        "$mod&Shift, Right, movewindoworgroup, r"
-        "$mod&Shift, Up, movewindoworgroup, u"
-        "$mod&Shift, Down, movewindoworgroup, d"
+        "$mod, Left, hy3:movefocus, l"
+        "$mod, Right, hy3:movefocus, r"
+        "$mod, Up, hy3:movefocus, u"
+        "$mod, Down, hy3:movefocus, d"
+        "$mod&Shift, Left, hy3:movewindow, l"
+        "$mod&Shift, Right, hy3:movewindow, r"
+        "$mod&Shift, Up, hy3:movewindow, u"
+        "$mod&Shift, Down, hy3:movewindow, d"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, C, killactive"
-        "$mod, W, togglegroup"
+        "$mod, W, hy3:makegroup, tab"
         "$mod, F, fullscreen"
         "$mod&Shift, F, togglefloating"
       ]
@@ -106,6 +107,18 @@
     windowrulev2 = [
       "noblur,class:^()$,title:^()$"
     ];
+
+    general = {
+      layout = "hy3";
+    };
+
+    plugin = {
+      hy3 = {
+        autotile = {
+          enable = true;
+        };
+      };
+    };
 
     exec-once = [
       "waybar"
