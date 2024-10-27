@@ -83,7 +83,7 @@
       "${modifier}+l" = "exec $lock_command";
       "${modifier}+Shift+e" = "exec ${lib.getExe pkgs.wlogout}";
       "${modifier}+Shift+d" = "exec ${lib.getExe pkgs.wdisplays}";
-      Print = "exec ${lib.getExe pkgs.grimshot} copy anything";
+      Print = "exec ${lib.getExe pkgs.sway-contrib.grimshot} copy anything";
       XF86AudioRaiseVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
       XF86AudioMute = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
