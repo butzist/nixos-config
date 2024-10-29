@@ -58,7 +58,5 @@
     zellij = {
       enable = true;
     };
-
-    alacritty.settings.shell.program = "${pkgs.nushell}/bin/nu";
   };
 }
