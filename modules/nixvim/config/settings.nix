@@ -28,7 +28,8 @@
       foldmethod = "manual";
       foldenable = false;
       linebreak = true;
-      spell = false;
+      spell = true;
+      spelllang = "en_gb";
       swapfile = false;
       timeoutlen = 300;
       termguicolors = true;

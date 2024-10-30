@@ -56,6 +56,7 @@
     cmp-path = {enable = true;}; # file system paths
     cmp_luasnip = {enable = true;}; # snippets
     cmp-cmdline = {enable = false;}; # autocomplete for cmdline
+    cmp-spell = {enable = false;}; # spelling correction
   };
   extraConfigLua = ''
         luasnip = require("luasnip")
