@@ -19,6 +19,7 @@
   boot.initrd.luks.devices.cryptlvm.device = "/dev/disk/by-uuid/3e2a29e9-2575-4529-b154-3408afc08c40";
   boot.kernelParams = [
     "i915.force_probe=7d45"
+    "snd_hda_intel.dmic_detect=0"
   ];
 
   fileSystems."/" = {
@@ -47,6 +48,8 @@
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
   };
+
+  hardware.bluetooth.powerOnBoot = true;
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
