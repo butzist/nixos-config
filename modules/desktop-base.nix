@@ -17,6 +17,7 @@
 
     evince
     kooha
+    pix
   ];
 
   # basic configuration of git, please change to your own
