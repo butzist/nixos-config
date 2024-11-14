@@ -114,6 +114,17 @@
 
     plugin = {
       hy3 = {
+        tabs = with config.lib.stylix.colors; let
+          rgba = color: alpha: "rgba(${color}${alpha})";
+        in {
+          rounding = 5;
+
+          "col.text.active" = rgba base05 "ff";
+          "col.text.inactive" = rgba base05 "ff";
+          "col.active" = rgba base0D "ff";
+          "col.inactive" = rgba base03 "80";
+        };
+
         autotile = {
           enable = true;
         };
