@@ -96,12 +96,13 @@
         popups_ignorealpha = 0.6;
       };
 
-      # Shadow
-      drop_shadow = true;
-      shadow_ignore_window = true;
-      shadow_range = 20;
-      shadow_offset = "0 2";
-      shadow_render_power = 4;
+      shadow = {
+        enabled = true;
+        ignore_window = true;
+        range = 20;
+        offset = "0 2";
+        render_power = 4;
+      };
     };
 
     windowrulev2 = [
@@ -143,6 +144,7 @@
 
   programs.wofi.enable = true;
   programs.hyprlock.enable = true;
+  stylix.targets.hyprlock.enable = false;
   programs.hyprlock.settings = {
     general = {
       disable_loading_bar = true;
