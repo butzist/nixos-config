@@ -67,6 +67,7 @@ args @ {
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.users = builtins.listToAttrs (map (user: {
                   name = user;
                   value = mkNixosUser hostname user;
