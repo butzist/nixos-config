@@ -18,6 +18,8 @@
     mold
     lldb
     clang
+
+    figlet
   ];
 
   programs = {
