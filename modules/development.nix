@@ -20,6 +20,7 @@
     clang
 
     figlet
+    pre-commit
   ];
 
   programs = {
