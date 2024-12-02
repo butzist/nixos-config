@@ -5,9 +5,9 @@
   stylix.polarity = "dark";
 
   stylix.cursor = {
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Amber";
-    size = 16;
+    package = pkgs.banana-cursor;
+    name = "Banana";
+    size = 28;
   };
 
   stylix.fonts = {
