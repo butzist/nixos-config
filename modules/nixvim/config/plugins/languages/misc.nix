@@ -19,6 +19,9 @@
         markdown = [
           ["prettierd" "prettier"]
         ];
+        toml = [
+          ["taplo"]
+        ];
         yaml = [
           ["prettierd" "prettier"]
         ];
@@ -53,6 +56,9 @@
         shellharden = {
           command = "${lib.getExe pkgs.shellharden}";
         };
+        taplo = {
+          command = "${lib.getExe pkgs.taplo}";
+        };
       };
     };
   };
@@ -74,7 +80,7 @@
   plugins.markdown-preview = {
     enable = true;
     settings = {
-      browser = "firefox";
+      browser = "microsoft-edge";
       echo_preview_url = 1;
       port = "6969";
       preview_options = {
