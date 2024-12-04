@@ -5,10 +5,10 @@
   home.packages = with pkgs; [
     nodejs_20
 
-    python312
+    python313
     poetry
-    python312Packages.pip
-    python312Packages.virtualenv
+    python313Packages.pip
+    python313Packages.virtualenv
 
     go-mockery
 
