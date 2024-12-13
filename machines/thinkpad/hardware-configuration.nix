@@ -17,10 +17,7 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
   boot.initrd.luks.devices.cryptlvm.device = "/dev/disk/by-uuid/3e2a29e9-2575-4529-b154-3408afc08c40";
-  boot.kernelParams = [
-    "i915.force_probe=7d45"
-    "snd_hda_intel.dmic_detect=0"
-  ];
+  boot.kernelParams = [];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/11672d50-db9e-43ad-9c2f-575c7e6ed325";
