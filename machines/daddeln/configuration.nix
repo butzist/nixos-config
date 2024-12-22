@@ -58,6 +58,7 @@
     isNormalUser = true;
     description = "Gaming";
     extraGroups = ["networkmanager" "video"];
+    uid = 1000;
     shell = pkgs.bash;
   };
 

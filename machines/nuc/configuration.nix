@@ -42,10 +42,11 @@
   services.blueman.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.adam = {
+  users.users.work = {
     isNormalUser = true;
     description = "Adam";
     extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    uid = 1000;
     shell = pkgs.bash;
   };
 
@@ -53,6 +54,7 @@
     isNormalUser = true;
     description = "Gaming";
     extraGroups = ["networkmanager" "video"];
+    uid = 1001;
     shell = pkgs.bash;
   };
 

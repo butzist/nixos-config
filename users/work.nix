@@ -1,6 +1,6 @@
 {pkgs, ...}: {
-  home.username = "adam";
-  home.homeDirectory = "/home/adam";
+  home.username = "work";
+  home.homeDirectory = "/home/work";
 
   imports = [
     ../modules/desktop-base.nix
