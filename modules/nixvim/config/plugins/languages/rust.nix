@@ -18,7 +18,7 @@
       };
     };
 
-    crates-nvim = {
+    crates = {
       enable = true;
     };
   };
