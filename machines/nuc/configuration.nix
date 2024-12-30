@@ -6,6 +6,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/system-base.nix
+    ../../modules/gnome.nix
   ];
 
   # Bootloader.
@@ -18,11 +19,6 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  };
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    extraPackages = [];
   };
 
   hardware = {

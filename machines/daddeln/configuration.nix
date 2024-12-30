@@ -6,6 +6,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/system-base.nix
+    ../../modules/gnome.nix
   ];
 
   # Bootloader.
@@ -14,31 +15,6 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "daddeln"; # Define your hostname.
-
-  services.xserver.desktopManager.gnome = {
-    enable = true;
-  };
-
-  environment.gnome.excludePackages =
-    (with pkgs; [
-      gnome-photos
-      gnome-tour
-      gedit
-    ])
-    ++ (with pkgs.gnome; [
-      cheese
-      gnome-music
-      gnome-terminal
-      epiphany
-      geary
-      evince
-      gnome-characters
-      totem
-      tali
-      iagno
-      hitori
-      atomix
-    ]);
 
   hardware = {
     graphics = {
