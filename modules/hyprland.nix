@@ -10,12 +10,13 @@
   home.packages = with pkgs; [
     hyprshot
     hypridle
+    hyprland-qtutils
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    plugins = [pkgs.bleeding.hyprlandPlugins.hy3];
+    plugins = [pkgs.hyprlandPlugins.hy3];
   };
 
   wayland.windowManager.hyprland.settings = {
