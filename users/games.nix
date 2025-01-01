@@ -21,9 +21,16 @@
     };
   };
 
-  wayland.windowManager.sway.config.startup = [
-    {command = "${pkgs.steam}/bin/steam -silent";}
-  ];
+  home.file.".config/autostart/steam.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Steam Autostart
+      Exec=${pkgs.steam}/bin/steam -silent
+      Type=Application
+      Terminal=false
+    '';
+    executable = false;
+  };
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
