@@ -87,6 +87,11 @@
   services.gvfs.enable = true;
   services.tumbler.enable = true;
 
+  services.udev.packages = with pkgs; [
+    via
+    vial
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -129,6 +134,9 @@
     ethtool
     pciutils
     usbutils
+
+    # hardware
+    vial
   ];
 
   nix = {
