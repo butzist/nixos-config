@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  sensitive = import ../secrets/users/work/sensitive.nix;
+in {
   home.username = "work";
   home.homeDirectory = "/home/work";
 
@@ -22,8 +24,8 @@
   programs = {
     git = {
       enable = true;
-      userName = "Adam";
-      userEmail = "adam";
+      userName = sensitive.name;
+      userEmail = sensitive.email;
 
       extraConfig = {
         init = {
@@ -47,7 +49,7 @@
       enable = true;
       profileExtra = ''
         export GITLAB_AUTH_TOKEN=$(cat ~/Desktop/yarn-token.txt | head -n1 -c-1)
-        export POETRY_HTTP_BASIC_PYDHL_USERNAME=adam
+        export POETRY_HTTP_BASIC_PYDHL_USERNAME=${sensitive.email}
         export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ~/Desktop/yarn-token.txt | head -n1 -c-1)
       '';
     };

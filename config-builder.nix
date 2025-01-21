@@ -25,7 +25,7 @@ args @ {
             )
           ];
         extraSpecialArgs = {
-          inherit inputs username hostname;
+          inherit inputs hostname;
         };
       }
   );
@@ -49,13 +49,41 @@ args @ {
     let
       system = import (./. + "/machines/${hostname}/system.nix");
       config = import (./. + "/machines/${hostname}/configuration.nix");
+      # preview nixos config for host
+      hostUsers = (config {pkgs = builtins.getAttr system inputs.nixpkgs.legacyPackages;}).users.users;
       userConfigs =
         builtins.attrNames
         (lib.filterAttrs (n: v: v == "regular") (builtins.readDir ./users));
       userHasConfig = user: builtins.elem "${user}.nix" userConfigs;
-      # preview nixos config for host
-      hostUsers = (config {pkgs = builtins.getAttr system inputs.nixpkgs.legacyPackages;}).users.users;
       hmUsers = builtins.filter userHasConfig (builtins.attrNames hostUsers);
+      secrets = builtins.listToAttrs (lib.flatten (map (user: let
+        sshYaml = ./secrets/users/${user}/ssh.yaml;
+      in
+        if builtins.pathExists sshYaml
+        then [
+          {
+            name = "users/${user}/ssh.yaml/private";
+            value = {
+              sopsFile = sshYaml;
+              key = "private";
+              mode = "0400";
+              owner = "${user}";
+              path = "/home/${user}/.ssh/id_ed25519";
+            };
+          }
+          {
+            name = "users/${user}/ssh.yaml/public";
+            value = {
+              sopsFile = sshYaml;
+              key = "public";
+              mode = "0444";
+              owner = "${user}";
+              path = "/home/${user}/.ssh/id_ed25519.pub";
+            };
+          }
+        ]
+        else [])
+      (builtins.attrNames hostUsers)));
     in
       inputs.nixpkgs.lib.nixosSystem {
         inherit system;
@@ -63,16 +91,21 @@ args @ {
           args.extraModules
           ++ [
             inputs.home-manager.nixosModules.home-manager
+            inputs.sops-nix.nixosModules.sops
             (./. + "/machines/${hostname}/configuration.nix")
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
+              home-manager.extraSpecialArgs = {
+                inherit inputs hostname;
+              };
               home-manager.users = builtins.listToAttrs (map (user: {
                   name = user;
                   value = mkNixosUser hostname user;
                 })
                 hmUsers);
+              sops.secrets = secrets;
             }
           ];
       }

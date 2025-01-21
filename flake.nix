@@ -7,17 +7,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     home-manager.url = "github:nix-community/home-manager";
     stylix.url = "github:danth/stylix";
+    sops-nix.url = "github:Mic92/sops-nix";
     nixvim.url = "github:nix-community/nixvim";
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    nixpkgs-stable,
-    home-manager,
-    stylix,
-    nixvim,
-    ...
-  }: let
+  outputs = inputs @ {nixpkgs, ...}: let
     system = "x86_64-linux";
     overlay-nixpkgs = final: _last: {
       stable = import inputs.nixpkgs-stable {
@@ -41,6 +35,7 @@
           })
         ];
         extraImports = [
+          inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nixvim.homeManagerModules.nixvim
         ];
@@ -56,6 +51,7 @@
             nixpkgs.overlays = [overlay-nixpkgs];
             nixpkgs.config.allowUnfree = true;
           })
+          inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nixvim.homeManagerModules.nixvim
         ];
