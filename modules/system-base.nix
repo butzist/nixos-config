@@ -27,14 +27,6 @@
     LC_TIME = "de_CH.UTF-8";
   };
 
-  # Enable Docker
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = false;
-    };
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 

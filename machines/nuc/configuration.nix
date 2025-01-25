@@ -6,6 +6,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/system-base.nix
+    ../../modules/containers.nix
     ../../modules/gnome.nix
   ];
 
