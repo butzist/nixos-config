@@ -1,9 +1,4 @@
-{
-  pkgs,
-  inputs,
-  system,
-  ...
-}: {
+{pkgs, ...}: {
   # Login
   services.xserver.displayManager.gdm.enable = true;
 
@@ -61,6 +56,13 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Firewall settings
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [];
+    allowedUDPPorts = [];
+  };
+
   programs = {
     firefox.enable = true;
 
@@ -91,6 +93,7 @@
 
   services.openssh = {
     enable = true;
+    ports = [];
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
