@@ -2,9 +2,11 @@
   plugins = {
     lsp.servers.gopls = {enable = true;};
 
-    dap.extensions.dap-go = {
+    dap-go = {
       enable = true;
-      delve.path = "${pkgs.delve}/bin/dlv-dap";
+      settings = {
+        delve.path = "${pkgs.delve}/bin/dlv-dap";
+      };
     };
   };
 }

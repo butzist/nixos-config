@@ -1,39 +1,42 @@
 {...}: {
-  plugins.dap = {
-    enable = true;
+  plugins = {
+    dap = {
+      enable = true;
 
-    signs = {
-      dapBreakpoint = {
-        text = "●";
-        texthl = "DapBreakpoint";
-      };
-      dapBreakpointCondition = {
-        text = "●";
-        texthl = "DapBreakpointCondition";
-      };
-      dapLogPoint = {
-        text = "◆";
-        texthl = "DapLogPoint";
-      };
+      signs = {
+        dapBreakpoint = {
+          text = "●";
+          texthl = "DapBreakpoint";
+        };
 
-      dapBreakpointRejected = {
-        text = "✖️";
-        texthl = "DapBreakpointRejected";
-      };
+        dapBreakpointCondition = {
+          text = "●";
+          texthl = "DapBreakpointCondition";
+        };
 
-      dapStopped = {
-        text = "🠶";
-        texthl = "DapStopped";
+        dapLogPoint = {
+          text = "◆";
+          texthl = "DapLogPoint";
+        };
+
+        dapBreakpointRejected = {
+          text = "✖️";
+          texthl = "DapBreakpointRejected";
+        };
+
+        dapStopped = {
+          text = "🠶";
+          texthl = "DapStopped";
+        };
       };
     };
 
-    extensions = {
-      dap-ui = {
-        enable = true;
-      };
-      dap-virtual-text = {
-        enable = true;
-      };
+    dap-ui = {
+      enable = true;
+    };
+
+    dap-virtual-text = {
+      enable = true;
     };
   };
 

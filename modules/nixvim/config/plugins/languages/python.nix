@@ -40,7 +40,7 @@
       };
     };
 
-    dap.extensions.dap-python = {
+    dap-python = {
       enable = true;
     };
   };
