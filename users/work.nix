@@ -19,6 +19,19 @@ in {
     ../themes/datahow-dark.nix
   ];
 
+  # compliance crap
+  services.hypridle = {
+    enable = true;
+    settings = {
+      listener = [
+        {
+          timeout = 900; # 15 min
+          on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
+        }
+      ];
+    };
+  };
+
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     freecad

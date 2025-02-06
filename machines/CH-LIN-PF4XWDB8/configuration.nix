@@ -6,6 +6,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/system-base.nix
+    ../../modules/gnome.nix
     ../../modules/containers.nix
     ../../modules/laptop.nix
   ];
@@ -15,7 +16,27 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "thinkpad"; # Define your hostname.
+  networking.hostName = "CH-LIN-PF4XWDB8"; # Define your hostname.
+
+  # compliance crap
+  services.intune.enable = true;
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
+    scanner.enable = true;
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    flake = "/home/work/nix/flake.nix";
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
+    dates = "09:00";
+    randomizedDelaySec = "45min";
+  };
 
   programs.hyprland = {
     enable = true;
@@ -50,6 +71,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    intune-portal
   ];
 
   # This value determines the NixOS release from which the default
