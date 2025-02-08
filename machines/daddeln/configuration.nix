@@ -38,6 +38,14 @@
     shell = pkgs.bash;
   };
 
+  users.users.adam = {
+    isNormalUser = true;
+    description = "Adam";
+    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    uid = 1002;
+    shell = pkgs.bash;
+  };
+
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "games";
 

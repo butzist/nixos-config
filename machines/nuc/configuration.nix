@@ -41,7 +41,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
     isNormalUser = true;
-    description = "Adam";
+    description = "Work";
     extraGroups = ["networkmanager" "wheel" "docker" "video"];
     uid = 1000;
     shell = pkgs.bash;
@@ -52,6 +52,14 @@
     description = "Gaming";
     extraGroups = ["networkmanager" "video"];
     uid = 1001;
+    shell = pkgs.bash;
+  };
+
+  users.users.adam = {
+    isNormalUser = true;
+    description = "Adam";
+    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    uid = 1002;
     shell = pkgs.bash;
   };
 
