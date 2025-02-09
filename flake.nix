@@ -8,7 +8,7 @@
     home-manager.url = "github:nix-community/home-manager";
     stylix.url = "github:danth/stylix";
     sops-nix.url = "github:Mic92/sops-nix";
-    nixvim.url = "github:nix-community/nixvim";
+    nvf.url = "github:notashelf/nvf";
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
@@ -37,7 +37,7 @@
         extraImports = [
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
-          inputs.nixvim.homeManagerModules.nixvim
+          inputs.nvf.homeManagerModules.nvf
         ];
       })
       .getNixosConfigs;
@@ -53,7 +53,7 @@
           })
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
-          inputs.nixvim.homeManagerModules.nixvim
+          inputs.nvf.homeManagerModules.nvf
         ];
       })
       .getHMConfigs;
