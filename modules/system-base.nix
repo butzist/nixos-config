@@ -31,7 +31,32 @@
   services.xserver.enable = true;
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+    ];
+  };
+
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Brother_MFC_L8390DCW";
+        location = "Home";
+        deviceUri = "dnssd://Brother%20MFC-L8390CDW%20series._ipp._tcp.local/?uuid=e3248000-80ce-11db-8000-94ddf83cc8fc";
+        model = "everywhere";
+        ppdOptions = {
+          PageSize = "A4";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Brother_MFC_L8390DCW";
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
