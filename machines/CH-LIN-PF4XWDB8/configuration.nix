@@ -19,7 +19,7 @@
   networking.hostName = "CH-LIN-PF4XWDB8"; # Define your hostname.
 
   # compliance crap
-  services.intune.enable = true;
+  # services.intune.enable = true;
   services.clamav = {
     daemon.enable = true;
     updater.enable = true;
@@ -71,7 +71,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    intune-portal
   ];
 
   # This value determines the NixOS release from which the default
