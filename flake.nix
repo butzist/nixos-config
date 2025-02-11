@@ -16,34 +16,28 @@
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
-    system = "x86_64-linux";
-    overlay-nixpkgs = final: prev: {
+    overlay-nixpkgs = _final: prev: {
       stable = import inputs.nixpkgs-stable {
-        inherit system;
+        inherit (prev) system;
         config.allowUnfree = true;
       };
       bleeding = import inputs.nixpkgs-bleeding {
-        inherit system;
+        inherit (prev) system;
         config.allowUnfree = true;
       };
-      basedpyright = prev.basedpyright.overrideAttrs {
-        dontCheckForBrokenSymlinks = true;
-      };
-      lldb = prev.lldb.overrideAttrs {
-        dontCheckForBrokenSymlinks = true;
-      };
+    };
+    extra-nixpkgs = {...}: {
+      imports = [./overlays/default.nix];
+
+      nixpkgs.overlays = [overlay-nixpkgs];
+      nixpkgs.config.allowUnfree = true;
     };
   in {
     nixosConfigurations =
       (import ./config-builder.nix {
         inherit (nixpkgs) lib;
         inherit inputs;
-        extraModules = [
-          ({...}: {
-            nixpkgs.overlays = [overlay-nixpkgs];
-            nixpkgs.config.allowUnfree = true;
-          })
-        ];
+        extraModules = [extra-nixpkgs];
         extraImports = [
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
@@ -57,10 +51,7 @@
         inherit inputs;
         systemConfigs = inputs.self.nixosConfigurations;
         extraModules = [
-          ({...}: {
-            nixpkgs.overlays = [overlay-nixpkgs];
-            nixpkgs.config.allowUnfree = true;
-          })
+          extra-nixpkgs
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
