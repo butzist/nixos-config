@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
+    # nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -21,10 +21,10 @@
         inherit (prev) system;
         config.allowUnfree = true;
       };
-      bleeding = import inputs.nixpkgs-bleeding {
-        inherit (prev) system;
-        config.allowUnfree = true;
-      };
+      # bleeding = import inputs.nixpkgs-bleeding {
+      #   inherit (prev) system;
+      #   config.allowUnfree = true;
+      # };
     };
     extra-nixpkgs = {...}: {
       imports = [./overlays/default.nix];
