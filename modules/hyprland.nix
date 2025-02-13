@@ -8,9 +8,8 @@
   ];
 
   home.packages = with pkgs; [
-    hyprshot
-    hypridle
     hyprland-qtutils
+    pix
   ];
 
   wayland.windowManager.hyprland = {

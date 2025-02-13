@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     stylix.url = "github:danth/stylix";
@@ -45,6 +47,18 @@
         ];
       })
       .getNixosConfigs;
+    darwinConfigurations =
+      (import ./config-builder.nix {
+        inherit (nixpkgs) lib;
+        inherit inputs;
+        extraModules = [extra-nixpkgs];
+        extraImports = [
+          inputs.sops-nix.homeManagerModules.sops
+          inputs.stylix.homeManagerModules.stylix
+          inputs.nvf.homeManagerModules.nvf
+        ];
+      })
+      .getDarwinConfigs;
     homeConfigurations =
       (import ./config-builder.nix {
         inherit (nixpkgs) lib;

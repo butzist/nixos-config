@@ -29,7 +29,7 @@ args @ {
         };
       }
   );
-  mkNixosUser = hostname: username: {
+  mkUser = hostname: username: {
     imports =
       args.extraImports
       ++ [
@@ -102,7 +102,71 @@ args @ {
               };
               home-manager.users = builtins.listToAttrs (map (user: {
                   name = user;
-                  value = mkNixosUser hostname user;
+                  value = mkUser hostname user;
+                })
+                hmUsers);
+              sops.secrets = secrets;
+            }
+          ];
+      }
+  );
+  mkDarwin = hostname: (
+    let
+      system = import (./. + "/machines/${hostname}/system.nix");
+      config = import (./. + "/machines/${hostname}/darwin-configuration.nix");
+      # preview nixos config for host
+      hostUsers = (config {pkgs = builtins.getAttr system inputs.nixpkgs.legacyPackages;}).users.users;
+      userConfigs =
+        builtins.attrNames
+        (lib.filterAttrs (n: v: v == "regular") (builtins.readDir ./users));
+      userHasConfig = user: builtins.elem "${user}.nix" userConfigs;
+      hmUsers = builtins.filter userHasConfig (builtins.attrNames hostUsers);
+      secrets = builtins.listToAttrs (lib.flatten (map (user: let
+        sshYaml = ./secrets/users/${user}/ssh.yaml;
+      in
+        if builtins.pathExists sshYaml
+        then [
+          {
+            name = "users/${user}/ssh.yaml/private";
+            value = {
+              sopsFile = sshYaml;
+              key = "private";
+              mode = "0400";
+              owner = "${user}";
+              path = "/Users/${user}/.ssh/id_ed25519";
+            };
+          }
+          {
+            name = "users/${user}/ssh.yaml/public";
+            value = {
+              sopsFile = sshYaml;
+              key = "public";
+              mode = "0444";
+              owner = "${user}";
+              path = "/Users/${user}/.ssh/id_ed25519.pub";
+            };
+          }
+        ]
+        else [])
+      (builtins.attrNames hostUsers)));
+    in
+      inputs.nix-darwin.lib.darwinSystem {
+        modules =
+          args.extraModules
+          ++ [
+            inputs.home-manager.darwinModules.home-manager
+            inputs.sops-nix.darwinModules.sops
+            (./. + "/machines/${hostname}/darwin-configuration.nix")
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
+              home-manager.extraSpecialArgs = {
+                inherit inputs hostname;
+              };
+              home-manager.users = builtins.listToAttrs (map (user: {
+                  name = user;
+                  value = mkUser hostname user;
                 })
                 hmUsers);
               sops.secrets = secrets;
@@ -142,19 +206,39 @@ in {
         (builtins.attrNames usersPerHost))
     );
   /*
-  getSystemConfigs returns all <host> = <nixosSystem> attributes according to the machine configs
+  getNixosConfigs returns all <host> = <nixosSystem> attributes according to the machine configs
   That means: mkNixos for each hostname that satisfies the following conditions
   - has a folder in ./machines
+  - folder contains configuration.nix file
   */
   getNixosConfigs = let
-    machineConfigs =
+    machines =
       builtins.attrNames
       (lib.filterAttrs (n: v: v == "directory") (builtins.readDir ./machines));
+    machineConfigs = lib.filter (hostname: builtins.pathExists (./. + "/machines/${hostname}/configuration.nix")) machines;
   in
     builtins.listToAttrs (map
       (host: {
         name = host;
         value = mkNixos host;
+      })
+      machineConfigs);
+  /*
+  getDarwinConfigs returns all <host> = <darwinSystem> attributes according to the machine configs
+  That means: mkDarwin for each hostname that satisfies the following conditions
+  - has a folder in ./machines
+  - folder contains darwin-configuration.nix file
+  */
+  getDarwinConfigs = let
+    machines =
+      builtins.attrNames
+      (lib.filterAttrs (n: v: v == "directory") (builtins.readDir ./machines));
+    machineConfigs = lib.filter (hostname: builtins.pathExists (./. + "/machines/${hostname}/darwin-configuration.nix")) machines;
+  in
+    builtins.listToAttrs (map
+      (host: {
+        name = host;
+        value = mkDarwin host;
       })
       machineConfigs);
 }
