@@ -61,8 +61,8 @@
           crates.enable = true;
         };
         nu.enable = true;
-        csharp.enable = true;
-        julia.enable = true;
+        #csharp.enable = true;
+        #julia.enable = true;
         ruby.enable = true;
       };
 

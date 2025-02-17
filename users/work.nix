@@ -1,27 +1,19 @@
 {
   pkgs,
   config,
+  isDarwin,
   ...
 }: let
   sensitive = import ../secrets/users/work/sensitive.nix;
 in {
   home.username = "work";
-  home.homeDirectory = "/home/work";
-
-  imports = [
-    ../modules/desktop-base.nix
-    ../modules/nushell.nix
-    ../modules/neovim.nix
-    ../modules/hyprland.nix
-    ../modules/waybar/default.nix
-    ../modules/development.nix
-    ../modules/work/default.nix
-    ../themes/datahow-dark.nix
-  ];
+  home.homeDirectory =
+    if isDarwin
+    then "/Users/work"
+    else "/home/work";
 
   # compliance crap
   services.hypridle = {
-    enable = true;
     settings = {
       listener = [
         {
@@ -31,6 +23,24 @@ in {
       ];
     };
   };
+  imports =
+    [
+      ../modules/desktop-base.nix
+      ../modules/nushell.nix
+      ../modules/neovim.nix
+      ../modules/development.nix
+      ../modules/work
+      ../themes/datahow-dark.nix
+    ]
+    ++ (
+      if isDarwin
+      then [
+      ]
+      else [
+        ../modules/hyprland.nix
+        ../modules/waybar
+      ]
+    );
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -38,10 +48,10 @@ in {
 
   sops = {
     defaultSopsFile = ../secrets/users/work/default.yaml;
-    age.sshKeyPaths = ["/home/work/.ssh/id_ed25519"];
+    age.sshKeyPaths = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
     secrets = {
       dockerConfig = {
-        path = "/home/work/.docker/config.json";
+        path = "${config.home.homeDirectory}/.docker/config.json";
       };
       yarnToken = {};
     };

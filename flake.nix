@@ -15,6 +15,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
@@ -29,7 +30,7 @@
       # };
     };
     extra-nixpkgs = {...}: {
-      imports = [./overlays/default.nix];
+      imports = [./overlays];
 
       nixpkgs.overlays = [overlay-nixpkgs];
       nixpkgs.config.allowUnfree = true;
@@ -44,6 +45,7 @@
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
+          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getNixosConfigs;
@@ -56,6 +58,7 @@
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
+          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getDarwinConfigs;
@@ -69,6 +72,7 @@
           inputs.sops-nix.homeManagerModules.sops
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
+          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getHMConfigs;

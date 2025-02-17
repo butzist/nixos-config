@@ -2,6 +2,30 @@
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
 
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+    };
+
+    brews = [];
+    casks = [
+      "microsoft-edge"
+      "microsoft-teams"
+      "microsoft-outlook"
+      "microsoft-word"
+      "microsoft-powerpoint"
+    ];
+  };
+
+  security.pam.enableSudoTouchIdAuth = true;
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
+  };
+  system.startup.chime = false;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -38,6 +62,10 @@
       };
       options = "--delete-older-than 15d";
     };
+  };
+
+  programs = {
+    bash.enable = true;
   };
 
   #  system.autoUpgrade = {

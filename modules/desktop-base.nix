@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  isDarwin,
   ...
 }: {
   imports = [
@@ -44,7 +45,7 @@
     };
 
     ghostty = {
-      enable = true;
+      enable = !isDarwin;
     };
 
     neovide = {

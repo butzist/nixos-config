@@ -9,7 +9,7 @@ in {
     ../modules/nushell.nix
     ../modules/neovim.nix
     ../modules/hyprland.nix
-    ../modules/waybar/default.nix
+    ../modules/waybar
     ../modules/development.nix
     ../themes/ubuntu-catppuccin.nix
   ];

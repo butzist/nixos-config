@@ -1,33 +1,44 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  isDarwin,
+  ...
+}: {
   imports = [
     ./vscode.nix
     ./k9s.nix
   ];
 
-  home.packages = with pkgs; [
-    microsoft-edge
-    remmina
+  home.packages = with pkgs;
+    [
+      remmina
 
-    # devops
-    kubectl
-    terraform
-    terragrunt
-    kubernetes-helm
-    minio-client
-    sops
-    (stable.azure-cli.withExtensions [])
+      # devops
+      kubectl
+      terraform
+      terragrunt
+      kubernetes-helm
+      minio-client
+      sops
+      (stable.azure-cli.withExtensions [])
 
-    # devops docs
-    pre-commit
-    helm-docs
+      # devops docs
+      pre-commit
+      helm-docs
 
-    # http testing
-    bombardier
-    slowhttptest
+      # http testing
+      bombardier
+      slowhttptest
 
-    # language tools
-    fnm
-  ];
+      # language tools
+      fnm
+    ]
+    ++ (
+      if isDarwin
+      then []
+      else [
+        microsoft-edge
+      ]
+    );
 
   programs = {
     go = {

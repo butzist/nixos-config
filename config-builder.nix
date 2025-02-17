@@ -26,6 +26,7 @@ args @ {
           ];
         extraSpecialArgs = {
           inherit inputs hostname;
+          isDarwin = pkgs.system == "aarch64-darwin";
         };
       }
   );
@@ -99,6 +100,7 @@ args @ {
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
                 inherit inputs hostname;
+                isDarwin = system == "aarch64-darwin";
               };
               home-manager.users = builtins.listToAttrs (map (user: {
                   name = user;
@@ -108,6 +110,10 @@ args @ {
               sops.secrets = secrets;
             }
           ];
+        specialArgs = {
+          inherit inputs hostname;
+          isDarwin = system == "aarch64-darwin";
+        };
       }
   );
   mkDarwin = hostname: (
@@ -156,6 +162,8 @@ args @ {
           ++ [
             inputs.home-manager.darwinModules.home-manager
             inputs.sops-nix.darwinModules.sops
+            inputs.mac-app-util.darwinModules.default
+
             (./. + "/machines/${hostname}/darwin-configuration.nix")
             {
               home-manager.useGlobalPkgs = true;
@@ -163,6 +171,7 @@ args @ {
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
                 inherit inputs hostname;
+                isDarwin = system == "aarch64-darwin";
               };
               home-manager.users = builtins.listToAttrs (map (user: {
                   name = user;
@@ -172,6 +181,10 @@ args @ {
               sops.secrets = secrets;
             }
           ];
+        specialArgs = {
+          inherit inputs hostname;
+          isDarwin = system == "aarch64-darwin";
+        };
       }
   );
 in {
