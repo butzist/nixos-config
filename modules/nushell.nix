@@ -59,4 +59,9 @@
       enable = true;
     };
   };
+
+  # disable zoxide diagnostics
+  home.sessionVariables = {
+    _ZO_DOCTOR = "0";
+  };
 }
