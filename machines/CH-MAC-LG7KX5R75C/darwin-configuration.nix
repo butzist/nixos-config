@@ -2,6 +2,7 @@
   imports = [
     ../../modules/darwin-base.nix
     ../../modules/aerospace.nix
+    ../../modules/containers
   ];
 
   users.users.work = {
