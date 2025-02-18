@@ -53,6 +53,9 @@ in {
       dockerConfig = {
         path = "${config.home.homeDirectory}/.docker/config.json";
       };
+      kubeConfig = {
+        path = "${config.home.homeDirectory}/.kube/config";
+      };
       yarnToken = {};
     };
   };
