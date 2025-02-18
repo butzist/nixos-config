@@ -15,6 +15,7 @@
         usernamehw.errorlens
         vscodevim.vim
         dbaeumer.vscode-eslint
+        ms-python.python
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
