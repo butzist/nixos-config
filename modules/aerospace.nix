@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   services.aerospace.enable = true;
-  #system.services.dock.enable = false;
 
   environment.systemPackages = with pkgs; [
   ];
@@ -9,6 +8,13 @@
 
   system.defaults = {
     WindowManager = {
+      AutoHide = false;
+      EnableStandardClickToShowDesktop = false;
+      EnableTiledWindowMargins = false;
+      EnableTilingByEdgeDrag = false;
+      EnableTilingOptionAccelerator = false;
+      EnableTopTilingByEdgeDrag = false;
+      GloballyEnabled = false;
       StandardHideDesktopIcons = true;
       StandardHideWidgets = true;
     };
@@ -26,6 +32,7 @@
     "after-login-command" = [];
     "after-startup-command" = [
       "exec-and-forget ${pkgs.jankyborders}/bin/borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0"
+      "exec-and-forget ${pkgs.autoraise}/bin/autoraise -delay 3"
     ];
 
     "automatically-unhide-macos-hidden-apps" = false;
@@ -71,10 +78,10 @@
           ];
           "alt-equal" = "resize smart +50";
           "alt-minus" = "resize smart -50";
-          "alt-h" = "focus left";
-          "alt-j" = "focus down";
-          "alt-k" = "focus up";
-          "alt-l" = "focus right";
+          "alt-h" = "focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors --ignore-floating left";
+          "alt-j" = "focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors --ignore-floating down";
+          "alt-k" = "focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors --ignore-floating up";
+          "alt-l" = "focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors --ignore-floating right";
           "alt-shift-1" = "move-node-to-workspace 1";
           "alt-shift-2" = "move-node-to-workspace 2";
           "alt-shift-3" = "move-node-to-workspace 3";
@@ -83,6 +90,8 @@
           "alt-shift-6" = "move-node-to-workspace 6";
           "alt-shift-7" = "move-node-to-workspace 7";
           "alt-shift-8" = "move-node-to-workspace 8";
+          "alt-shift-9" = "move-node-to-workspace 9";
+          "alt-shift-0" = "move-node-to-workspace 10";
           "alt-shift-h" = "move left";
           "alt-shift-j" = "move down";
           "alt-shift-k" = "move up";
@@ -137,5 +146,14 @@
     "on-focused-monitor-changed" = [
       "move-mouse monitor-lazy-center"
     ];
+    "on-focus-changed" = [
+      "move-mouse window-lazy-center"
+    ];
+    "workspace-to-monitor-force-assignment" = {
+      "1" = ["1" "main"];
+      "2" = ["2" "main"];
+      "3" = ["3" "main"];
+      "10" = ["3" "main"];
+    };
   };
 }
