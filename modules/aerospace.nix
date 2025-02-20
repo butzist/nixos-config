@@ -12,7 +12,7 @@
       StandardHideDesktopIcons = true;
       StandardHideWidgets = true;
     };
-
+    spaces.spans-displays = true;
     dock.autohide = true;
 
     CustomSystemPreferences = {
