@@ -20,6 +20,8 @@
           vscodevim.vim
           dbaeumer.vscode-eslint
           ms-python.python
+          ms-python.pylint
+          ms-python.black-formatter
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
@@ -36,6 +38,9 @@
           }
         ];
       userSettings = {
+        "[python]" = {
+          "editor.defaultFormatter" = "ms-python.black-formatter";
+        };
         "[json]" = {
           "editor.defaultFormatter" = "vscode.json-language-features";
         };
