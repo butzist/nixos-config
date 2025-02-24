@@ -10,6 +10,8 @@
         [
           bierner.markdown-mermaid
           gitlab.gitlab-workflow
+          github.copilot
+          github.copilot-chat
           humao.rest-client
           ms-vscode-remote.remote-containers
           ms-vsliveshare.vsliveshare
