@@ -33,6 +33,7 @@ args @ {
   mkUser = hostname: username: {
     imports =
       args.extraImports
+      ++ args.extraModules
       ++ [
         (
           if builtins.pathExists (./. + "/machines/${hostname}/home.nix")
@@ -95,7 +96,6 @@ args @ {
             inputs.sops-nix.nixosModules.sops
             (./. + "/machines/${hostname}/configuration.nix")
             {
-              home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
@@ -166,7 +166,6 @@ args @ {
 
             (./. + "/machines/${hostname}/darwin-configuration.nix")
             {
-              home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
