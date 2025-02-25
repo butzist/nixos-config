@@ -25,6 +25,21 @@
       NSGlobalDomain = {
         NSWindowShouldDragOnGesture = true;
       };
+
+      # use alt-space for Spotlight
+      "com.apple.symbolichotkeys" = {
+        "64" = {
+          enabled = 1;
+          value = {
+            parameters = [
+              32
+              49
+              524288
+            ];
+            type = "standard";
+          };
+        };
+      };
     };
   };
 
