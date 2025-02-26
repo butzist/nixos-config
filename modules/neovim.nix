@@ -42,8 +42,10 @@
         enableExtraDiagnostics = true;
 
         nix.enable = true;
-        markdown.enable = true;
-        bash.enable = true;
+        markdown = {
+          enable = true;
+          extensions.render-markdown-nvim.enable = true;
+        };
         clang.enable = true;
         css.enable = true;
         html.enable = true;
@@ -55,12 +57,15 @@
         lua.enable = true;
         zig.enable = true;
         python.enable = true;
-        typst.enable = true;
+        hcl.enable = true;
+        terraform.enable = true;
         rust = {
           enable = true;
           crates.enable = true;
         };
+        bash.enable = true;
         nu.enable = true;
+        hcl.enable = true;
         #csharp.enable = true;
         #julia.enable = true;
         ruby.enable = true;
