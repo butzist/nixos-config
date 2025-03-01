@@ -1,10 +1,31 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+  ];
+
+  home.packages = with pkgs; [
+    wl-clipboard
+  ];
+
   programs.nvf = {
     enable = true;
 
     settings.vim = {
       viAlias = true;
       vimAlias = true;
+
+      options = {
+        breakindent = true;
+        expandtab = true;
+        shiftwidth = 2;
+        showtabline = 2;
+        smartindent = true;
+        softtabstop = 2;
+        tabstop = 2;
+      };
 
       debugMode = {
         enable = false;
@@ -25,7 +46,7 @@
         lspSignature.enable = true;
         otter-nvim.enable = true;
         lsplines.enable = true;
-        nvim-docs-view.enable = true;
+        nvim-docs-view.enable = false; # keybind collides with navigation
       };
 
       debugger = {
@@ -65,9 +86,6 @@
         };
         bash.enable = true;
         nu.enable = true;
-        hcl.enable = true;
-        #csharp.enable = true;
-        #julia.enable = true;
         ruby.enable = true;
       };
 
@@ -80,21 +98,18 @@
 
         highlight-undo.enable = true;
         indent-blankline.enable = true;
-
-        # Fun
-        cellular-automaton.enable = false;
       };
 
       statusline = {
         lualine = {
           enable = true;
-          # theme = "catppuccin";
+          theme = "base16";
         };
       };
 
       theme = {
         enable = true;
-        name = "mini-base16";
+        name = "base16";
         base16-colors = {
           inherit
             (config.lib.stylix.colors.withHashtag)
@@ -120,7 +135,13 @@
       };
 
       autopairs.nvim-autopairs.enable = true;
-      autocomplete.nvim-cmp.enable = true;
+      autocomplete.nvim-cmp = {
+        enable = true;
+        mappings = {
+          next = "<C-j>";
+          previous = "<C-k>";
+        };
+      };
       snippets.luasnip.enable = true;
 
       filetree = {
@@ -163,7 +184,7 @@
       };
 
       projects = {
-        project-nvim.enable = true;
+        project-nvim.enable = false;
       };
 
       utility = {
@@ -245,6 +266,72 @@
       presence = {
         neocord.enable = false;
       };
+
+      keymaps = [
+        {
+          key = "<leader>e";
+          mode = ["n"];
+          action = "<cmd>Neotree<CR>";
+          desc = "Open File Tree";
+        }
+        {
+          key = "<leader>li";
+          mode = ["n"];
+          lua = true;
+          action = "function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr }) end";
+          desc = "Toggle Inlay Hints";
+        }
+        {
+          key = "<leader>la";
+          mode = ["v"];
+          lua = true;
+          action = "function() vim.lsp.buf.range_code_action() end";
+          desc = "Lsp Code Action";
+        }
+        {
+          key = "H";
+          mode = ["n"];
+          action = "<cmd>BufferLineCyclePrev<CR>";
+          desc = "Previous Tab";
+        }
+        {
+          key = "L";
+          mode = ["n"];
+          action = "<cmd>BufferLineCycleNext<CR>";
+          desc = "Next Tab";
+        }
+        {
+          key = "<leader>qq";
+          mode = ["n"];
+          action = "<cmd>qall<CR>";
+          desc = "Quit";
+        }
+        {
+          key = "<leader>q!";
+          mode = ["n"];
+          action = "<cmd>qall!<CR>";
+          desc = "Force Quit";
+        }
+        {
+          key = "<esc>";
+          mode = ["n" "i"];
+          action = "<cmd>noh<CR><esc>";
+          desc = "Escape and Clear hlsearch";
+        }
+      ];
+
+      luaConfigRC.myconfig =
+        /*
+        lua
+        */
+        ''
+          vim.api.nvim_create_autocmd({"TextYankPost"}, {
+            pattern = {"*"},
+            callback = function(ev)
+              vim.highlight.on_yank()
+            end
+          })
+        '';
     };
   };
 }

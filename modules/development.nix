@@ -13,6 +13,7 @@
     go-mockery
 
     rustup
+    cargo-nextest
     wasm-pack
     wasm-bindgen-cli
     mold
