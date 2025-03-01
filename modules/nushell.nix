@@ -1,27 +1,10 @@
-{pkgs, ...}: {
-  # basic configuration of git, please change to your own
+_: {
   programs = {
     nushell = {
       enable = true;
       extraConfig = ''
-        let carapace_completer = {|spans|
-        carapace $spans.0 nushell $spans | from json
-        }
         $env.config = {
          show_banner: false,
-         completions: {
-         case_sensitive: false # case-sensitive completions
-         quick: true    # set to false to prevent auto-selecting completions
-         partial: true    # set to false to prevent partial filling of the prompt
-         algorithm: "fuzzy"    # prefix or fuzzy
-         external: {
-         # set to false to prevent nushell looking into $env.PATH to find more suggestions
-             enable: true
-         # set to lower can improve completion performance at the cost of omitting some options
-             max_results: 100
-             completer: $carapace_completer # check 'carapace_completer'
-           }
-         }
         }
         $env.PATH = ($env.PATH |
         split row (char esep) |
@@ -31,16 +14,21 @@
       shellAliases = {
         vi = "nvim";
         vim = "nvim";
+        gg = "lazygit";
       };
     };
 
     carapace = {
       enable = true;
+      enableBashIntegration = true;
       enableNushellIntegration = true;
     };
 
     starship = {
       enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+
       settings = {
         add_newline = true;
         character = {
@@ -52,11 +40,63 @@
 
     zoxide = {
       enable = true;
+      enableBashIntegration = true;
       enableNushellIntegration = true;
     };
 
     zellij = {
       enable = true;
+      enableBashIntegration = true;
+
+      settings = {
+        default_mode = "locked";
+        keybinds = {
+          locked = {
+            _props = {clear-defaults = true;};
+
+            "bind \"Ctrl g\"" = {SwitchToMode = "normal";};
+            "bind \"Alt Super left\"" = {MoveFocusOrTab = "left";};
+            "bind \"Alt Super down\"" = {MoveFocus = "down";};
+            "bind \"Alt Super up\"" = {MoveFocus = "up";};
+            "bind \"Alt Super right\"" = {MoveFocusOrTab = "right";};
+            "bind \"Alt Super +\"" = {Resize = "Increase";};
+            "bind \"Alt Super -\"" = {Resize = "Decrease";};
+            "bind \"Alt Super =\"" = {Resize = "Increase";};
+            "bind \"Alt Super [\"" = {PreviousSwapLayout = {};};
+            "bind \"Alt Super ]\"" = {NextSwapLayout = {};};
+            "bind \"Alt Super f\"" = {ToggleFloatingPanes = {};};
+            "bind \"Alt Super h\"" = {MoveFocusOrTab = "left";};
+            "bind \"Alt Super i\"" = {MoveTab = "left";};
+            "bind \"Alt Super j\"" = {MoveFocus = "down";};
+            "bind \"Alt Super k\"" = {MoveFocus = "up";};
+            "bind \"Alt Super l\"" = {MoveFocusOrTab = "right";};
+            "bind \"Alt Super p\"" = {NewPane = {};};
+            "bind \"Alt Super t\"" = {NewTab = {};};
+            "bind \"Alt Super o\"" = {MoveTab = "right";};
+          };
+          unbind = [
+            "Alt left"
+            "Alt down"
+            "Alt up"
+            "Alt right"
+            "Alt +"
+            "Alt -"
+            "Alt ="
+            "Alt ["
+            "Alt ]"
+            "Alt f"
+            "Alt h"
+            "Alt i"
+            "Alt j"
+            "Alt k"
+            "Alt l"
+            "Alt n"
+            "Alt p"
+            "Alt t"
+            "Alt o"
+          ];
+        };
+      };
     };
   };
 

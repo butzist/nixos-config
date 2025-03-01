@@ -32,6 +32,7 @@
         ll = "eza -l";
         ls = "eza";
         cat = "bat";
+        gg = "lazygit";
       };
     };
 
