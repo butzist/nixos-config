@@ -7,7 +7,7 @@ in {
   imports = [
     ../modules/desktop-base.nix
     ../modules/nushell.nix
-    ../modules/neovim.nix
+    ../modules/neovim
     ../modules/hyprland.nix
     ../modules/waybar
     ../modules/development.nix

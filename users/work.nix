@@ -27,7 +27,8 @@ in {
     [
       ../modules/desktop-base.nix
       ../modules/nushell.nix
-      ../modules/neovim.nix
+      ../modules/neovim
+      ../modules/neovim/pylint.nix
       ../modules/development.nix
       ../modules/work
       ../themes/datahow-dark.nix
