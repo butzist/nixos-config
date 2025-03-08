@@ -47,17 +47,17 @@ in {
   home.packages = with pkgs; [
   ];
 
-  sops = {
-    defaultSopsFile = ../secrets/users/work/default.yaml;
-    age.sshKeyPaths = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
-    secrets = {
-      dockerConfig = {
-        path = "${config.home.homeDirectory}/.docker/config.json";
-      };
-      kubeConfig = {
-        path = "${config.home.homeDirectory}/.kube/config";
-      };
-      yarnToken = {};
+  age.secrets = {
+    dockerConfig = {
+      file = ../secrets/users/work/dockerConfig.age;
+      path = "${config.home.homeDirectory}/.docker/config.json";
+    };
+    kubeConfig = {
+      file = ../secrets/users/work/kubeConfig.age;
+      path = "${config.home.homeDirectory}/.kube/config";
+    };
+    yarnToken = {
+      file = ../secrets/users/work/yarnToken.age;
     };
   };
 
@@ -89,9 +89,9 @@ in {
     bash = {
       enable = true;
       profileExtra = ''
-        export GITLAB_AUTH_TOKEN=$(cat ${config.sops.secrets.yarnToken.path})
+        export GITLAB_AUTH_TOKEN=$(cat ${config.age.secrets.yarnToken.path})
         export POETRY_HTTP_BASIC_PYDHL_USERNAME=${sensitive.email}
-        export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ${config.sops.secrets.yarnToken.path})
+        export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ${config.age.secrets.yarnToken.path})
       '';
     };
   };

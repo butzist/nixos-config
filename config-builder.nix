@@ -7,6 +7,7 @@ args @ {
   mkHome = username: hostname: (
     let
       inherit (args.systemConfigs."${hostname}") pkgs;
+      sshPublicKey = ./secrets/users/${username}/id_ed25519.pub;
     in
       inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
@@ -23,6 +24,13 @@ args @ {
               then (./. + "/users/${username}.nix")
               else {}
             )
+            (
+              if (builtins.pathExists sshPublicKey)
+              then {
+                home.file.".ssh/id_ed25519.pub".source = sshPublicKey;
+              }
+              else {}
+            )
           ];
         extraSpecialArgs = {
           inherit inputs hostname;
@@ -30,7 +38,9 @@ args @ {
         };
       }
   );
-  mkUser = hostname: username: {
+  mkUser = hostname: username: let
+    sshPublicKey = ./secrets/users/${username}/id_ed25519.pub;
+  in {
     imports =
       args.extraImports
       ++ args.extraModules
@@ -43,6 +53,13 @@ args @ {
         (
           if builtins.pathExists (./. + "/users/${username}.nix")
           then (./. + "/users/${username}.nix")
+          else {}
+        )
+        (
+          if (builtins.pathExists sshPublicKey)
+          then {
+            home.file.".ssh/id_ed25519.pub".source = sshPublicKey;
+          }
           else {}
         )
       ];
@@ -58,56 +75,44 @@ args @ {
         (lib.filterAttrs (n: v: v == "regular") (builtins.readDir ./users));
       userHasConfig = user: builtins.elem "${user}.nix" userConfigs;
       hmUsers = builtins.filter userHasConfig (builtins.attrNames hostUsers);
-      secrets = builtins.listToAttrs (lib.flatten (map (user: let
-        sshYaml = ./secrets/users/${user}/ssh.yaml;
+      sshKeys = map (user: let
+        sshPrivateKey = ./secrets/users/${user}/id_ed25519.age;
       in
-        if builtins.pathExists sshYaml
-        then [
-          {
-            name = "users/${user}/ssh.yaml/private";
-            value = {
-              sopsFile = sshYaml;
-              key = "private";
-              mode = "0400";
-              owner = "${user}";
-              path = "/home/${user}/.ssh/id_ed25519";
-            };
-          }
-          {
-            name = "users/${user}/ssh.yaml/public";
-            value = {
-              sopsFile = sshYaml;
-              key = "public";
-              mode = "0444";
-              owner = "${user}";
-              path = "/home/${user}/.ssh/id_ed25519.pub";
-            };
-          }
-        ]
-        else [])
-      (builtins.attrNames hostUsers)));
+        if (builtins.pathExists sshPrivateKey)
+        then {
+          age.secrets."users/${user}/id_ed25519" = {
+            file = sshPrivateKey;
+            mode = "0400";
+            owner = "${user}";
+            path = "/home/${user}/.ssh/id_ed25519";
+          };
+        }
+        else {})
+      (builtins.attrNames hostUsers);
     in
       inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules =
           args.extraModules
+          ++ sshKeys
           ++ [
             inputs.home-manager.nixosModules.home-manager
-            inputs.sops-nix.nixosModules.sops
+            inputs.agenix.nixosModules.default
             (./. + "/machines/${hostname}/configuration.nix")
             {
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = {
-                inherit inputs hostname;
-                isDarwin = system == "aarch64-darwin";
+              home-manager = {
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                extraSpecialArgs = {
+                  inherit inputs hostname;
+                  isDarwin = system == "aarch64-darwin";
+                };
+                users = builtins.listToAttrs (map (user: {
+                    name = user;
+                    value = mkUser hostname user;
+                  })
+                  hmUsers);
               };
-              home-manager.users = builtins.listToAttrs (map (user: {
-                  name = user;
-                  value = mkUser hostname user;
-                })
-                hmUsers);
-              sops.secrets = secrets;
             }
           ];
         specialArgs = {
@@ -127,57 +132,45 @@ args @ {
         (lib.filterAttrs (n: v: v == "regular") (builtins.readDir ./users));
       userHasConfig = user: builtins.elem "${user}.nix" userConfigs;
       hmUsers = builtins.filter userHasConfig (builtins.attrNames hostUsers);
-      secrets = builtins.listToAttrs (lib.flatten (map (user: let
-        sshYaml = ./secrets/users/${user}/ssh.yaml;
+      sshKeys = map (user: let
+        sshPrivateKey = ./secrets/users/${user}/id_ed25519.age;
       in
-        if builtins.pathExists sshYaml
-        then [
-          {
-            name = "users/${user}/ssh.yaml/private";
-            value = {
-              sopsFile = sshYaml;
-              key = "private";
-              mode = "0400";
-              owner = "${user}";
-              path = "/Users/${user}/.ssh/id_ed25519";
-            };
-          }
-          {
-            name = "users/${user}/ssh.yaml/public";
-            value = {
-              sopsFile = sshYaml;
-              key = "public";
-              mode = "0444";
-              owner = "${user}";
-              path = "/Users/${user}/.ssh/id_ed25519.pub";
-            };
-          }
-        ]
-        else [])
-      (builtins.attrNames hostUsers)));
+        if (builtins.pathExists sshPrivateKey)
+        then {
+          age.secrets."users/${user}/id_ed25519" = {
+            file = sshPrivateKey;
+            mode = "0400";
+            owner = "${user}";
+            path = "/Users/${user}/.ssh/id_ed25519";
+          };
+        }
+        else {})
+      (builtins.attrNames hostUsers);
     in
       inputs.nix-darwin.lib.darwinSystem {
         modules =
           args.extraModules
+          ++ sshKeys
           ++ [
             inputs.home-manager.darwinModules.home-manager
-            inputs.sops-nix.darwinModules.sops
+            inputs.agenix.darwinModules.default
             inputs.mac-app-util.darwinModules.default
 
             (./. + "/machines/${hostname}/darwin-configuration.nix")
             {
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = {
-                inherit inputs hostname;
-                isDarwin = system == "aarch64-darwin";
+              home-manager = {
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                extraSpecialArgs = {
+                  inherit inputs hostname;
+                  isDarwin = system == "aarch64-darwin";
+                };
+                users = builtins.listToAttrs (map (user: {
+                    name = user;
+                    value = mkUser hostname user;
+                  })
+                  hmUsers);
               };
-              home-manager.users = builtins.listToAttrs (map (user: {
-                  name = user;
-                  value = mkUser hostname user;
-                })
-                hmUsers);
-              sops.secrets = secrets;
             }
           ];
         specialArgs = {

@@ -30,7 +30,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
-    sops
+    agenix
 
     # archives
     zip

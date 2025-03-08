@@ -11,8 +11,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     stylix.url = "github:danth/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
@@ -32,7 +32,10 @@
     extra-nixpkgs = {...}: {
       imports = [./overlays];
 
-      nixpkgs.overlays = [overlay-nixpkgs];
+      nixpkgs.overlays = [
+        overlay-nixpkgs
+        inputs.agenix.overlays.default
+      ];
       nixpkgs.config.allowUnfree = true;
     };
   in {
@@ -42,7 +45,7 @@
         inherit inputs;
         extraModules = [extra-nixpkgs];
         extraImports = [
-          inputs.sops-nix.homeManagerModules.sops
+          inputs.agenix.homeManagerModules.default
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default
@@ -55,7 +58,7 @@
         inherit inputs;
         extraModules = [extra-nixpkgs];
         extraImports = [
-          inputs.sops-nix.homeManagerModules.sops
+          inputs.agenix.homeManagerModules.default
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default
@@ -69,7 +72,7 @@
         systemConfigs = inputs.self.nixosConfigurations;
         extraModules = [
           extra-nixpkgs
-          inputs.sops-nix.homeManagerModules.sops
+          inputs.agenix.homeManagerModules.default
           inputs.stylix.homeManagerModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default

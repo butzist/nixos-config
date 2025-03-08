@@ -20,12 +20,6 @@ in {
     orca-slicer
   ];
 
-  sops = {
-    defaultSopsFile = ../secrets/users/adam/default.yaml;
-    age.sshKeyPaths = ["/home/adam/.ssh/id_ed25519"];
-    secrets = {};
-  };
-
   # basic configuration of git, please change to your own
   programs = {
     git = {
