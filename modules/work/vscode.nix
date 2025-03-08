@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  stylix.targets.vscode.profileNames = ["default"];
   programs.vscode = {
     enable = true;
     mutableExtensionsDir = false;
