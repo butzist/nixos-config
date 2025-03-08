@@ -4,7 +4,6 @@
 
   imports = [
     ../modules/desktop-base.nix
-    ../modules/sway.nix
     ../modules/waybar
     ../themes/ubuntu-catppuccin.nix
   ];
