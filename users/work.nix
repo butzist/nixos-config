@@ -61,22 +61,14 @@ in {
     };
   };
 
-  # basic configuration of git, please change to your own
   programs = {
     git = {
-      enable = true;
       userName = sensitive.name;
       userEmail = sensitive.email;
 
       extraConfig = {
         init = {
           defaultBranch = "main";
-        };
-        pull = {
-          rebase = true;
-        };
-        submodule = {
-          recurse = true;
         };
         url = {
           "git@gitlab.com:" = {
