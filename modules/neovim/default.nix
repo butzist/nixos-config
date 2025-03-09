@@ -83,6 +83,7 @@
         bash.enable = true;
         nu.enable = true;
         ruby.enable = true;
+        yaml.enable = true;
       };
 
       visuals = {
