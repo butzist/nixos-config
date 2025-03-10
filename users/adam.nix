@@ -5,12 +5,12 @@ in {
   home.homeDirectory = "/home/adam";
 
   imports = [
-    ../modules/desktop-base.nix
-    ../modules/nushell.nix
-    ../modules/neovim
-    ../modules/hyprland.nix
-    ../modules/waybar
-    ../modules/development.nix
+    ../modules/home/base.nix
+    ../modules/home/nushell.nix
+    ../modules/home/neovim
+    ../modules/home/hyprland.nix
+    ../modules/home/waybar
+    ../modules/home/development.nix
     ../themes/ubuntu-catppuccin.nix
   ];
 

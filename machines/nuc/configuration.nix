@@ -5,9 +5,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/system-base.nix
-    ../../modules/containers
-    ../../modules/gnome.nix
+    ../../modules/system/nixos/base.nix
+    ../../modules/system/nixos/gnome.nix
+    ../../modules/system/nixos/gaming.nix
+    ../../modules/system/containers
   ];
 
   # Bootloader.

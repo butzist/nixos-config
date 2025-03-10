@@ -3,14 +3,14 @@
   home.homeDirectory = "/home/games";
 
   imports = [
-    ../modules/desktop-base.nix
-    ../modules/waybar
+    ../modules/home/base.nix
+    ../modules/home/waybar
+    ../modules/home/gaming.nix
     ../themes/ubuntu-catppuccin.nix
   ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    steam
   ];
 
   # basic configuration of git, please change to your own

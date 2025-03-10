@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   imports = [
-    ../../modules/darwin-base.nix
-    ../../modules/aerospace.nix
-    ../../modules/containers
+    ../../modules/system/darwin/base.nix
+    ../../modules/system/darwin/aerospace.nix
+    ../../modules/system/containers
   ];
 
   users.users.work = {

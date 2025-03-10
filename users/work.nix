@@ -25,12 +25,12 @@ in {
   };
   imports =
     [
-      ../modules/desktop-base.nix
-      ../modules/nushell.nix
-      ../modules/neovim
-      ../modules/neovim/pylint.nix
-      ../modules/development.nix
-      ../modules/work
+      ../modules/home/base.nix
+      ../modules/home/nushell.nix
+      ../modules/home/neovim
+      ../modules/home/neovim/pylint.nix
+      ../modules/home/development.nix
+      ../modules/home/work
       ../themes/datahow-dark.nix
     ]
     ++ (
@@ -38,8 +38,8 @@ in {
       then [
       ]
       else [
-        ../modules/hyprland.nix
-        ../modules/waybar
+        ../modules/home/hyprland.nix
+        ../modules/home/waybar
       ]
     );
 
