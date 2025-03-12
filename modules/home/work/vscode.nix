@@ -20,7 +20,7 @@
           usernamehw.errorlens
           vscodevim.vim
           dbaeumer.vscode-eslint
-          pkgs.bleeding.vscode-extensions.ms-python.python
+          ms-python.python
           ms-python.pylint
           ms-python.black-formatter
         ]
