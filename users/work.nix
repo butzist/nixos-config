@@ -80,7 +80,7 @@ in {
 
     bash = {
       enable = true;
-      profileExtra = ''
+      bashrcExtra = ''
         export GITLAB_AUTH_TOKEN=$(cat ${config.age.secrets.yarnToken.path})
         export POETRY_HTTP_BASIC_PYDHL_USERNAME=${sensitive.email}
         export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ${config.age.secrets.yarnToken.path})
