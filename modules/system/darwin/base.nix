@@ -46,6 +46,9 @@
 
     # performance monitoring
     btop
+
+    # toolchain
+    libiconv
   ];
 
   nix = {
