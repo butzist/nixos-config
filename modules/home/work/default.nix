@@ -15,7 +15,7 @@
       # devops
       kubectl
       terraform
-      terragrunt
+      stable.terragrunt
       kubernetes-helm
       minio-client
       sops
