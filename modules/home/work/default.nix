@@ -15,11 +15,11 @@
       # devops
       kubectl
       terraform
-      stable.terragrunt
+      terragrunt
       kubernetes-helm
       minio-client
       sops
-      (stable.azure-cli.withExtensions [])
+      (azure-cli.withExtensions [])
 
       # devops docs
       pre-commit
