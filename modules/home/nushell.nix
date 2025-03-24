@@ -49,6 +49,7 @@ _: {
       enableBashIntegration = true;
 
       settings = {
+        show_startup_tips = false;
         default_mode = "locked";
         keybinds = {
           locked = {
