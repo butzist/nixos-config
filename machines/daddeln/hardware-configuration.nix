@@ -52,12 +52,12 @@
   };
 
   fileSystems."/" = {
-    device = "TODO";
+    device = "/dev/disk/by-uuid/1ebf8769-95e8-4122-aed9-911a12384e67";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "TODO";
+    device = "/dev/disk/by-uuid/763B-B1D4";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
