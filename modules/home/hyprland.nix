@@ -15,7 +15,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    plugins = [pkgs.hyprlandPlugins.hy3];
+    plugins = [pkgs.bleeding.hyprlandPlugins.hy3];
   };
 
   wayland.windowManager.hyprland.settings = {
@@ -58,10 +58,10 @@
         "$mod&Shift, K, hy3:movewindow, u"
         "$mod&Shift, J, hy3:movewindow, d"
         "$mod&Shift, L, hy3:movewindow, r"
+        "$mod, W, hy3:makegroup, tab"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, C, killactive"
-        "$mod, W, hy3:makegroup, tab"
         "$mod, F, fullscreen"
         "$mod&Shift, F, togglefloating"
       ]

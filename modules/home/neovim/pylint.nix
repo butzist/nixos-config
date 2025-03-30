@@ -1,34 +1,27 @@
 {
   pkgs,
-  inputs,
+  lib,
   ...
 }: let
-  inherit (inputs.nvf.lib.nvim.languages) diagnosticsToLua;
+  inherit (builtins) attrNames mapAttrs;
+  inherit (lib.meta) getExe;
 
   diagnosticsProviders = {
     pylint = {
       package = pkgs.pylint;
-      nullConfig = _: ''
-        table.insert(
-          ls_sources,
-          null_ls.builtins.diagnostics.pylint.with({
-            command = "pylint",
-            extra_args = {"--disable", "R"}
-          })
-        )
-      '';
     };
   };
 in {
   programs.nvf = {
     settings.vim = {
-      lsp = {
-        null-ls.enable = true;
-        null-ls.sources = diagnosticsToLua {
-          lang = "python";
-          config = ["pylint"];
-          inherit diagnosticsProviders;
-        };
+      diagnostics.nvim-lint = {
+        enable = true;
+        linters_by_ft.python = attrNames diagnosticsProviders;
+        linters =
+          mapAttrs (_: value: {
+            cmd = getExe value.package;
+          })
+          diagnosticsProviders;
       };
     };
   };
