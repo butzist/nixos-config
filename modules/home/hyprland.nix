@@ -28,7 +28,7 @@
     bind =
       [
         "$mod, Space, exec, ${pkgs.wofi}/bin/wofi -I --show drun"
-        "$mod, Return, exec, ${pkgs.ghostty}/bin/ghostty"
+        "$mod, Return, exec, ${pkgs.wezterm}/bin/wezterm"
         "$mod&Ctrl, L, exec, loginctl lock-session"
         "$mod, E, exec, thunar"
         "$mod&Shift, Q, exec, ${pkgs.wlogout}/bin/wlogout"

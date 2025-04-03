@@ -115,7 +115,7 @@
           "alt-shift-tab" = "move-workspace-to-monitor --wrap-around next";
           "alt-tab" = "workspace-back-and-forth";
 
-          "alt-enter" = "exec-and-forget ${pkgs.alacritty}/bin/alacritty";
+          "alt-enter" = "exec-and-forget ${pkgs.wezterm}/bin/wezterm";
         };
       };
 

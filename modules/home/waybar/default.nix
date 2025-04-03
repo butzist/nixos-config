@@ -58,7 +58,7 @@
         "format-ethernet" = "{ifname} ";
         "format-disconnected" = "";
         "max-length" = 50;
-        "on-click" = "alacritty -e 'nmtui'";
+        "on-click" = "wezterm start nmtui";
       };
       "tray" = {
         "icon-size" = 15;
@@ -93,12 +93,12 @@
       "memory" = {
         "interval" = 5;
         "format" = " {}%";
-        "on-click" = "alacritty -e 'btop'";
+        "on-click" = "wezterm start btop";
       };
       "cpu" = {
         "interval" = 5;
         "format" = " {usage}%";
-        "on-click" = "alacritty -e 'btop'";
+        "on-click" = "wezterm start btop";
       };
       "battery" = {
         "states" = {
