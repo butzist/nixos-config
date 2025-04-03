@@ -86,14 +86,13 @@
   };
 
   programs = {
-    firefox.enable = true;
-
     neovim = {
       enable = true;
       defaultEditor = true;
       viAlias = true;
     };
 
+    nix-ld.enable = true;
     light.enable = true;
     dconf.enable = true;
   };
