@@ -11,6 +11,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    firefox
   ];
 
   # basic configuration of git, please change to your own
