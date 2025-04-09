@@ -72,7 +72,10 @@
         go.enable = true;
         lua.enable = true;
         zig.enable = true;
-        python.enable = true;
+        python = {
+          enable = true;
+          format.type = "ruff";
+        };
         hcl.enable = true;
         terraform.enable = true;
         rust = {

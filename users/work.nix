@@ -28,7 +28,6 @@ in {
       ../modules/home/base.nix
       ../modules/home/nushell.nix
       ../modules/home/neovim
-      ../modules/home/neovim/pylint.nix
       ../modules/home/development.nix
       ../modules/home/work
       ../themes/datahow-dark.nix
