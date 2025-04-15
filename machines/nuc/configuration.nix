@@ -52,7 +52,7 @@
   users.users.work = {
     isNormalUser = true;
     description = "Work";
-    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm"];
     uid = 1000;
     shell = pkgs.bash;
   };
@@ -60,7 +60,7 @@
   users.users.games = {
     isNormalUser = true;
     description = "Gaming";
-    extraGroups = ["networkmanager" "video"];
+    extraGroups = ["networkmanager" "video" "gamemode"];
     uid = 1001;
     shell = pkgs.bash;
   };
