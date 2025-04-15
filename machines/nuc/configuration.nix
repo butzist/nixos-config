@@ -40,6 +40,14 @@
   # Enable buetooth manager.
   services.blueman.enable = true;
 
+  # Android development
+  programs.adb.enable = true;
+
+  # Extra udev packages
+  services.udev.packages = with pkgs; [
+    android-udev-rules
+  ];
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
     isNormalUser = true;
@@ -60,7 +68,7 @@
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers"];
     uid = 1002;
     shell = pkgs.bash;
   };
