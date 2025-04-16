@@ -49,6 +49,9 @@
 
     # toolchain
     libiconv
+
+    # libraries
+    darwin.libresolv
   ];
 
   nix = {
