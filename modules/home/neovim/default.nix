@@ -162,10 +162,10 @@
       utility = {
         ccc.enable = false;
         vim-wakatime.enable = false;
-        icon-picker.enable = true;
-        surround.enable = true;
         diffview-nvim.enable = true;
         yanky-nvim.enable = false;
+        icon-picker.enable = true;
+        surround.enable = true;
         motion = {
           hop.enable = true;
           leap.enable = true;
