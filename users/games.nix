@@ -12,6 +12,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     firefox
+    starsector
   ];
 
   # basic configuration of git, please change to your own
