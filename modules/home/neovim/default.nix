@@ -33,6 +33,13 @@
         enable = true;
       };
 
+      diagnostics = {
+        enable = true;
+        config = {
+          virtual_text = true;
+        };
+      };
+
       lsp = {
         formatOnSave = true;
         lspkind.enable = false;
