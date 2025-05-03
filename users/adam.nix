@@ -17,6 +17,7 @@ in {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     androidStudioPackages.beta
+    brave
     firefox
     freecad
     orca-slicer
