@@ -1,10 +1,10 @@
 {
   config,
   pkgs,
-  isDarwin,
   ...
 }: {
   imports = [
+    ./wezterm.nix
   ];
 
   # Packages that should be installed to the user profile.
@@ -34,11 +34,6 @@
         cat = "bat";
         gg = "lazygit";
       };
-    };
-
-    wezterm = {
-      enable = true;
-      enableBashIntegration = true;
     };
 
     neovide = {

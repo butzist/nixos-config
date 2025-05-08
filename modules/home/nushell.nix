@@ -46,7 +46,6 @@ _: {
 
     zellij = {
       enable = true;
-      enableBashIntegration = true;
 
       settings = {
         show_startup_tips = false;
