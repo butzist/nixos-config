@@ -41,6 +41,7 @@
     # networking tools
     dnsutils
     wget
+    curl
     socat
     nmap
 
