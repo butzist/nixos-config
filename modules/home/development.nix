@@ -14,14 +14,17 @@
 
     rustup
     cargo-nextest
+    cargo-watch
     wasm-pack
     wasm-bindgen-cli
     mold
     lldb
     clang
 
+    gnumake
     figlet
     pre-commit
+    watchexec
   ];
 
   programs = {
