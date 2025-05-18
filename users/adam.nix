@@ -21,6 +21,7 @@ in {
     firefox
     freecad
     orca-slicer
+    gimp3-with-plugins
   ];
 
   # basic configuration of git, please change to your own
