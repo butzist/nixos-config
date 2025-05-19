@@ -21,6 +21,11 @@
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
+    ecosystem = {
+      no_update_news = true;
+      no_donation_nag = true;
+    };
+
     input = {
       kb_options = "compose:menu,caps:escape";
     };
