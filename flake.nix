@@ -46,7 +46,7 @@
         extraModules = [extra-nixpkgs];
         extraImports = [
           inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeManagerModules.stylix
+          inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default
         ];
@@ -59,7 +59,7 @@
         extraModules = [extra-nixpkgs];
         extraImports = [
           inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeManagerModules.stylix
+          inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default
         ];
@@ -73,7 +73,7 @@
         extraModules = [
           extra-nixpkgs
           inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeManagerModules.stylix
+          inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
           inputs.mac-app-util.homeManagerModules.default
         ];
