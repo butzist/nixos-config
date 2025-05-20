@@ -47,8 +47,8 @@
     shell = pkgs.bash;
   };
 
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "games";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "games";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
