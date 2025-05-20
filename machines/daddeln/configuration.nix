@@ -17,6 +17,12 @@
 
   networking.hostName = "daddeln"; # Define your hostname.
 
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
+
   hardware = {
     graphics = {
       enable = true;
