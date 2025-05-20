@@ -6,6 +6,9 @@
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Enable automatic switching to network mode for some USB WLAN adapters
+  hardware.usb-modeswitch.enable = true;
+
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
@@ -164,6 +167,7 @@
     ethtool
     pciutils
     usbutils
+    usb-modeswitch
 
     # hardware
     vial
