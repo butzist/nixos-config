@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  isDarwin,
+  ...
+}: {
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/espresso.yaml";
   stylix.image = ../wallpapers/datahow-background-3.png;
@@ -25,6 +29,10 @@
       package = pkgs.nerd-fonts.fira-code;
       name = "FiraCode Nerd Font";
     };
+  };
+
+  stylix.targets = {
+    gnome.enable = !isDarwin;
   };
 
   stylix.opacity = {
