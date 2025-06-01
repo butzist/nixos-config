@@ -36,7 +36,7 @@
       if isDarwin
       then []
       else [
-        microsoft-edge
+        msedge.microsoft-edge
       ]
     );
 

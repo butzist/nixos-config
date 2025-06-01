@@ -526,6 +526,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-msedge": {
+      "locked": {
+        "lastModified": 1748600996,
+        "narHash": "sha256-ZQltwaKqMj9tk57QKlBVkPRzyfxjlkgnhschVZRuJKY=",
+        "owner": "Daholli",
+        "repo": "nixpkgs",
+        "rev": "484a565e8cb6ceabf7182b1452b17f2015c15213",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Daholli",
+        "ref": "reinit-msedge",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1748037224,
@@ -617,6 +633,7 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-bleeding": "nixpkgs-bleeding",
+        "nixpkgs-msedge": "nixpkgs-msedge",
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
         "stylix": "stylix"
