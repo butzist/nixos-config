@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-darwin-rebuild --flake '.?submodules=1' switch
+sudo darwin-rebuild --flake '.?submodules=1' switch
