@@ -1,6 +1,12 @@
-{pkgs, ...}: {
-  imports = [
-  ];
+{
+  pkgs,
+  isDarwin,
+  ...
+}: {
+  imports =
+    if isDarwin
+    then []
+    else [./rust-mold.nix];
 
   home.packages = with pkgs; [
     nodejs_20
@@ -17,7 +23,6 @@
     cargo-watch
     wasm-pack
     wasm-bindgen-cli
-    mold
     lldb
     clang
 
@@ -86,13 +91,5 @@
     go = {
       enable = true;
     };
-  };
-
-  home.file = {
-    ".cargo/config.toml".text = ''
-      [target.x86_64-unknown-linux-gnu]
-      linker = "clang"
-      rustflags = ["-C", "link-arg=--ld-path=mold"]
-    '';
   };
 }
