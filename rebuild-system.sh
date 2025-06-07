@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-sudo nixos-rebuild switch --flake '.?submodules=1'
+sudo nixos-rebuild switch --show-trace --flake '.?submodules=1'
