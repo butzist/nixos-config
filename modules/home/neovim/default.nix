@@ -62,6 +62,7 @@
       languages = {
         enableFormat = true;
         enableTreesitter = true;
+        enableDAP = true;
         enableExtraDiagnostics = true;
 
         nix.enable = true;
