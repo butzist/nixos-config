@@ -16,7 +16,6 @@
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
-    nixpkgs-msedge.url = "github:Daholli/nixpkgs/reinit-msedge";
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
@@ -26,10 +25,6 @@
         config.allowUnfree = true;
       };
       bleeding = import inputs.nixpkgs-bleeding {
-        inherit (prev) system;
-        config.allowUnfree = true;
-      };
-      msedge = import inputs.nixpkgs-msedge {
         inherit (prev) system;
         config.allowUnfree = true;
       };

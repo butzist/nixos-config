@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   # Login
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
