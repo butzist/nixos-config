@@ -5,7 +5,6 @@
 }: {
   imports = [
     ./vscode.nix
-    ./k9s.nix
   ];
 
   home.packages = with pkgs;
