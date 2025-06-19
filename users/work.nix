@@ -59,6 +59,9 @@ in {
     yarnToken = {
       file = ../secrets/users/work/yarnToken.age;
     };
+    anthropicApiKey = {
+      file = ../secrets/users/work/anthropicApiKey.age;
+    };
   };
 
   programs = {
@@ -81,6 +84,7 @@ in {
     bash = {
       enable = true;
       bashrcExtra = ''
+        export ANTHROPIC_API_KEY=$(cat ${config.age.secrets.anthropicApiKey.path})
         export GITLAB_AUTH_TOKEN=$(cat ${config.age.secrets.yarnToken.path})
         export POETRY_HTTP_BASIC_PYDHL_USERNAME=${sensitive.email}
         export POETRY_HTTP_BASIC_PYDHL_PASSWORD=$(cat ${config.age.secrets.yarnToken.path})

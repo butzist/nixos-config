@@ -31,6 +31,9 @@
 
       # language tools
       fnm
+
+      # assistants
+      opencode
     ]
     ++ (
       if isDarwin
