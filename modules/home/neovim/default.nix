@@ -134,7 +134,12 @@
         nvimBufferline.enable = true;
       };
 
-      treesitter.context.enable = true;
+      treesitter = {
+        context.enable = true;
+        grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          ron
+        ];
+      };
 
       binds = {
         whichKey.enable = true;
