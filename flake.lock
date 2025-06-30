@@ -5,7 +5,7 @@
         "darwin": "darwin",
         "home-manager": "home-manager",
         "nixpkgs": [
-          "nixpkgs-bleeding"
+          "nixpkgs"
         ],
         "systems": "systems"
       },
@@ -357,7 +357,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-bleeding"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -456,7 +456,7 @@
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-bleeding"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -586,7 +586,7 @@
         "mnw": "mnw",
         "nil": "nil",
         "nixpkgs": [
-          "nixpkgs-bleeding"
+          "nixpkgs"
         ],
         "systems": "systems_4"
       },
@@ -630,7 +630,7 @@
         "gnome-shell": "gnome-shell",
         "home-manager": "home-manager_3",
         "nixpkgs": [
-          "nixpkgs-bleeding"
+          "nixpkgs"
         ],
         "nur": "nur",
         "systems": "systems_5",
