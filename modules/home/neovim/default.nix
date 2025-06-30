@@ -137,6 +137,7 @@
       treesitter = {
         context.enable = true;
         grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          jinja
           ron
         ];
       };
