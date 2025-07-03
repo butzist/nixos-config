@@ -56,5 +56,7 @@
         virtualenvs.in-project = true;
       };
     };
+
+    k9s.enable = true;
   };
 }
