@@ -47,7 +47,7 @@
         lightbulb.enable = true;
         lspsaga.enable = false;
         trouble.enable = true;
-        lspSignature.enable = true;
+        lspSignature.enable = false; # conflicts with blink
         otter-nvim.enable = true;
         nvim-docs-view.enable = true;
       };
@@ -122,7 +122,13 @@
           previous = "<C-k>";
         };
       };
-      snippets.luasnip.enable = true;
+      snippets.luasnip = {
+        enable = true;
+        setupOpts.enable_autosnippets = true;
+        loaders = ''
+          require('luasnip.loaders.from_vscode').lazy_load()
+        ''; # workaround for https://github.com/NotAShelf/nvf/issues/1011
+      };
 
       filetree = {
         neo-tree = {
@@ -216,25 +222,12 @@
           enable = true;
           navbuddy.enable = true;
         };
-        smartcolumn = {
-          enable = true;
-          setupOpts.custom_colorcolumn = {
-            # this is a freeform module, it's `buftype = int;` for configuring column position
-            nix = "110";
-            ruby = "120";
-            java = "130";
-            go = ["90" "130"];
-          };
-        };
         fastaction.enable = true;
       };
 
       assistant = {
         chatgpt.enable = false;
-        copilot = {
-          enable = false;
-          cmp.enable = true;
-        };
+        copilot.enable = false;
       };
 
       session = {
