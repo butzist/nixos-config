@@ -264,7 +264,7 @@
           key = "<leader>la";
           mode = ["v"];
           lua = true;
-          action = "function() vim.lsp.buf.range_code_action() end";
+          action = "function() vim.lsp.buf.code_action() end";
           desc = "Lsp Code Action";
         }
         {
