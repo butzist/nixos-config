@@ -33,7 +33,7 @@
       fnm
 
       # assistants
-      opencode
+      bleeding.opencode
     ]
     ++ (
       if isDarwin

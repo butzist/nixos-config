@@ -24,7 +24,7 @@
       };
 
       debugMode = {
-        enable = false;
+        enable = true;
         level = 16;
         logFile = "/tmp/nvim.log";
       };
@@ -125,9 +125,6 @@
       snippets.luasnip = {
         enable = true;
         setupOpts.enable_autosnippets = true;
-        loaders = ''
-          require('luasnip.loaders.from_vscode').lazy_load()
-        ''; # workaround for https://github.com/NotAShelf/nvf/issues/1011
       };
 
       filetree = {
