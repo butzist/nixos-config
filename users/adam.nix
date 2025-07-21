@@ -20,6 +20,7 @@ in {
     brave
     firefox
     freecad
+    inkscape
     orca-slicer
     gimp3-with-plugins
   ];
