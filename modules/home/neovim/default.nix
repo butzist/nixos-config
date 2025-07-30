@@ -24,7 +24,7 @@
       };
 
       debugMode = {
-        enable = true;
+        enable = false;
         level = 16;
         logFile = "/tmp/nvim.log";
       };
