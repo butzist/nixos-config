@@ -141,7 +141,9 @@
         context.enable = true;
         grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
           jinja
+          json
           ron
+          toml
         ];
       };
 
