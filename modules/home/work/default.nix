@@ -10,7 +10,7 @@
 
   home.packages = with pkgs;
     [
-      remmina
+      stable.remmina
 
       # devops
       kubectl

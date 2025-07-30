@@ -1,10 +1,18 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  isDarwin,
+  ...
+}: {
   imports = [
   ];
 
-  home.packages = with pkgs; [
-    wl-clipboard
-  ];
+  home.packages = with pkgs;
+    if isDarwin
+    then [
+    ]
+    else [
+      wl-clipboard
+    ];
 
   programs.nvf = {
     enable = true;
