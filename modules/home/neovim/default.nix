@@ -7,12 +7,18 @@
   ];
 
   home.packages = with pkgs;
-    if isDarwin
-    then [
+    [
+      taplo
+      jq
     ]
-    else [
-      wl-clipboard
-    ];
+    ++ (
+      if isDarwin
+      then [
+      ]
+      else [
+        wl-clipboard
+      ]
+    );
 
   programs.nvf = {
     enable = true;
@@ -45,6 +51,20 @@
         enable = true;
         config = {
           virtual_text = true;
+        };
+        nvim-lint = {
+          linters_by_ft = {
+            json = ["jq"];
+          };
+        };
+      };
+
+      formatter.conform-nvim = {
+        setupOpts = {
+          formatters_by_ft = {
+            json = ["jq"];
+            toml = ["taplo"];
+          };
         };
       };
 
