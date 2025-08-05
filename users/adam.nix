@@ -21,7 +21,7 @@ in {
     firefox
     freecad
     inkscape
-    orca-slicer
+    stable.orca-slicer
     gimp3-with-plugins
   ];
 
