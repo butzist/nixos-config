@@ -135,6 +135,7 @@
   environment.systemPackages = with pkgs; [
     git
     agenix
+    nix-tree
 
     # archives
     zip
