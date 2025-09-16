@@ -45,8 +45,10 @@
 
   programs = {
     go = {
-      goPath = "go";
-      goPrivate = ["gitlab.com/datahow"];
+      env = {
+        GOPATH = "go";
+        GOPRIVATE = ["gitlab.com/datahow"];
+      };
     };
 
     poetry = {
