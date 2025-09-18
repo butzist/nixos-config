@@ -56,36 +56,7 @@
     darwin.libresolv
   ];
 
-  nix = {
-    package = pkgs.bleeding.nix;
-    settings = {
-      experimental-features = ["nix-command" "flakes"];
-    };
-    optimise = {automatic = true;};
-    gc = {
-      automatic = true;
-      interval = {
-        Hour = 3;
-        Minute = 15;
-        Weekday = 7;
-      };
-      options = "--delete-older-than 15d";
-    };
-  };
-
   programs = {
     bash.enable = true;
   };
-
-  #  system.autoUpgrade = {
-  #    enable = true;
-  #    flake = inputs.self.ourPath;
-  #    flags = [
-  #      "--update-input"
-  #      "nixpkgs"
-  #      "-L"
-  #    ];
-  #    dates = "09:00";
-  #    randomizedDelaySec = "45min";
-  #  };
 }
