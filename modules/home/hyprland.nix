@@ -15,7 +15,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    plugins = [];
+    plugins = [pkgs.hyprlandPlugins.hy3];
   };
 
   wayland.windowManager.hyprland.settings = {
@@ -47,25 +47,23 @@
         ", XF86AudioMicMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
         ", XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10"
         ", XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10"
-        "$mod, Left, movefocus, l"
-        "$mod, Up, movefocus, u"
-        "$mod, Down, movefocus, d"
-        "$mod, Right, movefocus, r"
-        "$mod, H, movefocus, l"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
-        "$mod, L, movefocus, r"
-        "$mod, I, changegroupactive, f"
-        "$mod, U, changegroupactive, b"
-        "$mod&Shift, Left, movewindoworgroup, l"
-        "$mod&Shift, Up, movewindoworgroup, u"
-        "$mod&Shift, Down, movewindoworgroup, d"
-        "$mod&Shift, Right, movewindoworgroup, r"
-        "$mod&Shift, H, movewindoworgroup, l"
-        "$mod&Shift, K, movewindoworgroup, u"
-        "$mod&Shift, J, movewindoworgroup, d"
-        "$mod&Shift, L, movewindoworgroup, r"
-        "$mod, W, togglegroup, tab"
+        "$mod, Left, hy3:movefocus, l"
+        "$mod, Up, hy3:movefocus, u"
+        "$mod, Down, hy3:movefocus, d"
+        "$mod, Right, hy3:movefocus, r"
+        "$mod, H, hy3:movefocus, l"
+        "$mod, K, hy3:movefocus, u"
+        "$mod, J, hy3:movefocus, d"
+        "$mod, L, hy3:movefocus, r"
+        "$mod&Shift, Left, hy3:movewindow, l"
+        "$mod&Shift, Up, hy3:movewindow, u"
+        "$mod&Shift, Down, hy3:movewindow, d"
+        "$mod&Shift, Right, hy3:movewindow, r"
+        "$mod&Shift, H, hy3:movewindow, l"
+        "$mod&Shift, K, hy3:movewindow, u"
+        "$mod&Shift, J, hy3:movewindow, d"
+        "$mod&Shift, L, hy3:movewindow, r"
+        "$mod, W, hy3:makegroup, tab"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, C, killactive"
@@ -123,6 +121,29 @@
     windowrulev2 = [
       "noblur,class:^()$,title:^()$"
     ];
+
+    general = {
+      layout = "hy3";
+    };
+
+    plugin = {
+      hy3 = {
+        tabs = with config.lib.stylix.colors; let
+          rgba = color: alpha: "rgba(${color}${alpha})";
+        in {
+          rounding = 5;
+
+          "col.text.active" = rgba base05 "ff";
+          "col.text.inactive" = rgba base05 "ff";
+          "col.active" = rgba base0D "ff";
+          "col.inactive" = rgba base03 "80";
+        };
+
+        autotile = {
+          enable = true;
+        };
+      };
+    };
 
     exec-once = [
       "waybar"
