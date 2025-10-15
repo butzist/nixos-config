@@ -10,7 +10,7 @@
 
   home.packages = with pkgs;
     [
-      stable.remmina
+      remmina
 
       # devops
       kubectl
@@ -39,7 +39,7 @@
       if isDarwin
       then []
       else [
-        microsoft-edge
+        security.microsoft-edge
       ]
     );
 

@@ -17,11 +17,11 @@ in {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     androidStudioPackages.beta
-    brave
-    firefox
+    security.brave
+    security.firefox
     freecad
     inkscape
-    bleeding.orca-slicer
+    orca-slicer
     gimp3-with-plugins
   ];
 

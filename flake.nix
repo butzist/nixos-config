@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
+    nixpkgs-security.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -21,11 +22,15 @@
 
   outputs = inputs @ {nixpkgs, ...}: let
     overlay-nixpkgs = _final: prev: {
-      stable = import inputs.nixpkgs-stable {
+      bleeding = import inputs.nixpkgs-bleeding {
         inherit (prev) system;
         config.allowUnfree = true;
       };
-      bleeding = import inputs.nixpkgs-bleeding {
+      security = import inputs.nixpkgs-security {
+        inherit (prev) system;
+        config.allowUnfree = true;
+      };
+      stable = import inputs.nixpkgs-stable {
         inherit (prev) system;
         config.allowUnfree = true;
       };

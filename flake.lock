@@ -550,11 +550,11 @@
     },
     "nixpkgs-bleeding": {
       "locked": {
-        "lastModified": 1760525543,
-        "narHash": "sha256-/OHE6Q6kfDyWS6rMLBxYpJ3YitAomNszjlFVjtkR/Ow=",
+        "lastModified": 1760526226,
+        "narHash": "sha256-ovqn+M2iAQGqefaJkyUBtoZUkTaISSxcZQWrr3BPzWM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c97bb0568dcd809a3c625e26930a903a71099324",
+        "rev": "42cb7bb386dd132db45bf4a63612858d9967a382",
         "type": "github"
       },
       "original": {
@@ -577,6 +577,22 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "215d4d0fd80ca5163643b03a33fde804a29cc1e2",
+        "type": "github"
+      }
+    },
+    "nixpkgs-security": {
+      "locked": {
+        "lastModified": 1760284886,
+        "narHash": "sha256-TK9Kr0BYBQ/1P5kAsnNQhmWWKgmZXwUQr4ZMjCzWf2c=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cf3f5c4def3c7b5f1fc012b3d839575dbe552d43",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -716,6 +732,7 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-bleeding": "nixpkgs-bleeding",
+        "nixpkgs-security": "nixpkgs-security",
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
         "stylix": "stylix"
