@@ -165,7 +165,7 @@
 
     # system call monitoring
     strace
-    bleeding.ltrace
+    ltrace
     lsof
 
     # system tools

@@ -23,7 +23,7 @@
   hardware.graphics.extraPackages = with pkgs; [
     intel-vaapi-driver
     intel-media-driver
-    bleeding.libvdpau-va-gl
+    libvdpau-va-gl
   ];
 
   environment.variables = {
