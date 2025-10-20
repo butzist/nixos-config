@@ -38,7 +38,7 @@
     git = {
       enable = true;
 
-      extraConfig = {
+      settings = {
         help = {
           autocorrect = "prompt";
         };

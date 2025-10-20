@@ -27,9 +27,11 @@ in {
 
   # basic configuration of git, please change to your own
   programs = {
-    git = {
-      userName = sensitive.name;
-      userEmail = sensitive.email;
+    git.settings = {
+      user = {
+        inherit (sensitive) name;
+        inherit (sensitive) email;
+      };
     };
 
     bash = {

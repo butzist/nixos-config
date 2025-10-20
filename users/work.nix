@@ -65,18 +65,19 @@ in {
   };
 
   programs = {
-    git = {
-      userName = sensitive.name;
-      userEmail = sensitive.email;
+    git.settings = {
+      user = {
+        inherit (sensitive) name;
+        inherit (sensitive) email;
+      };
 
-      extraConfig = {
-        init = {
-          defaultBranch = "main";
-        };
-        url = {
-          "git@gitlab.com:" = {
-            insteadOf = "https://gitlab.com/";
-          };
+      init = {
+        defaultBranch = "main";
+      };
+
+      url = {
+        "git@gitlab.com:" = {
+          insteadOf = "https://gitlab.com/";
         };
       };
     };
