@@ -12,6 +12,9 @@
     jq
     yq-go
 
+    mdcat
+    figlet
+
     lazygit
     btop
     killall
@@ -21,6 +24,7 @@
     eza
 
     evince
+    bc
   ];
 
   # basic configuration of git, please change to your own

@@ -15,6 +15,8 @@
 
     python313
     poetry
+    uv
+    ruff
     python313Packages.pip
     python313Packages.virtualenv
 
@@ -23,13 +25,13 @@
     rustup
     cargo-nextest
     cargo-watch
+    cargo-binstall
     wasm-pack
     wasm-bindgen-cli
     lldb
     clang
 
     gnumake
-    figlet
     pre-commit
     watchexec
   ];
