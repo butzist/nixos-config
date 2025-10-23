@@ -9,10 +9,12 @@
     else [./rust-mold.nix];
 
   home.packages = with pkgs; [
+    # js
     nodejs_20
     bun
     deno
 
+    # python
     python313
     poetry
     uv
@@ -20,8 +22,10 @@
     python313Packages.pip
     python313Packages.virtualenv
 
+    # go
     go-mockery
 
+    # rust
     rustup
     cargo-nextest
     cargo-watch
@@ -31,9 +35,14 @@
     lldb
     clang
 
+    # build
     gnumake
+    just
     pre-commit
     watchexec
+
+    # assistants
+    bleeding.opencode
   ];
 
   programs = {

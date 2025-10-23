@@ -31,9 +31,6 @@
 
       # language tools
       fnm
-
-      # assistants
-      bleeding.opencode
     ]
     ++ (
       if isDarwin
