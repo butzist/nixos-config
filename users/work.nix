@@ -66,10 +66,12 @@ in {
 
   programs = {
     git = {
-      userName = sensitive.name;
-      userEmail = sensitive.email;
+      settings = {
+        user = {
+          inherit (sensitive) name;
+          inherit (sensitive) email;
+        };
 
-      extraConfig = {
         init = {
           defaultBranch = "main";
         };
