@@ -46,7 +46,6 @@
   programs = {
     go = {
       env = {
-        GOPATH = "go";
         GOPRIVATE = ["gitlab.com/datahow"];
       };
     };
