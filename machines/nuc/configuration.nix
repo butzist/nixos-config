@@ -43,11 +43,6 @@
   # Android development
   programs.adb.enable = true;
 
-  # Extra udev packages
-  services.udev.packages = with pkgs; [
-    android-udev-rules
-  ];
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
     isNormalUser = true;
