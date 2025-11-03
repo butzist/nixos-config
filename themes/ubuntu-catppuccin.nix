@@ -17,7 +17,7 @@
     };
 
     sansSerif = {
-      package = pkgs.ubuntu_font_family;
+      package = pkgs.ubuntu-classic;
       name = "Ubuntu";
     };
 
