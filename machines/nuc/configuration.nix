@@ -40,6 +40,11 @@
   # Enable buetooth manager.
   services.blueman.enable = true;
 
+  # Enable SSH server
+  services.openssh = {
+    ports = [22];
+  };
+
   # Android development
   programs.adb.enable = true;
 
