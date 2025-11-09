@@ -20,6 +20,9 @@ in {
     security.brave
     security.firefox
     freecad
+    stable.kicad
+    stable.kicadAddons.kikit
+    easyeda2kicad
     inkscape
     orca-slicer
     gimp3-with-plugins
