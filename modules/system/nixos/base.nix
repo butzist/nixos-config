@@ -33,6 +33,9 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # Disable screen reader
+  services.orca.enable = false;
+
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
