@@ -2,7 +2,7 @@ _: {
   programs.nvf = {
     settings.vim = {
       assistant.avante-nvim = {
-        enable = true;
+        enable = false;
 
         setupOpts = {
           behaviour = {
