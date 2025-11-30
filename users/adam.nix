@@ -11,7 +11,7 @@ in {
     ../modules/home/hyprland.nix
     ../modules/home/waybar
     ../modules/home/development.nix
-    ../themes/ubuntu-catppuccin.nix
+    ../themes/everforest-kingdoms.nix
   ];
 
   # Packages that should be installed to the user profile.
