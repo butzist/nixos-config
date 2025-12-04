@@ -30,6 +30,7 @@
     cargo-nextest
     cargo-watch
     cargo-binstall
+    cargo-binutils
     wasm-pack
     wasm-bindgen-cli
     lldb
