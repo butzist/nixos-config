@@ -110,13 +110,15 @@
         zig.enable = true;
         python = {
           enable = true;
-          format.type = "ruff";
+          format.type = ["ruff"];
         };
         hcl.enable = true;
         terraform.enable = true;
         rust = {
           enable = true;
-          crates.enable = true;
+          extensions = {
+            crates-nvim.enable = true;
+          };
         };
         bash.enable = true;
         nu.enable = true;
