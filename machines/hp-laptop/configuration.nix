@@ -8,12 +8,16 @@
     ../../modules/system/nixos/base.nix
     ../../modules/system/nixos/gnome.nix
     ../../modules/system/nixos/gaming.nix
+    ../../modules/system/nixos/laptop.nix
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [
+    "amd_iommu=off"
+  ];
 
   networking.hostName = "hp-laptop"; # Define your hostname.
 
