@@ -17,7 +17,6 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
-    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs @ {nixpkgs, ...}: let
@@ -56,7 +55,6 @@
           inputs.agenix.homeManagerModules.default
           inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
-          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getNixosConfigs;
@@ -69,7 +67,6 @@
           inputs.agenix.homeManagerModules.default
           inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
-          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getDarwinConfigs;
@@ -83,7 +80,6 @@
           inputs.agenix.homeManagerModules.default
           inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
-          inputs.mac-app-util.homeManagerModules.default
         ];
       })
       .getHMConfigs;

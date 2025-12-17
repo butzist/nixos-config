@@ -154,7 +154,6 @@ args @ {
           ++ [
             inputs.home-manager.darwinModules.home-manager
             inputs.agenix.darwinModules.default
-            inputs.mac-app-util.darwinModules.default
             inputs.determinate.darwinModules.default
 
             (./. + "/machines/${hostname}/darwin-configuration.nix")
