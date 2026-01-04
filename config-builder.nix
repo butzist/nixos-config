@@ -34,7 +34,7 @@ args @ {
           ];
         extraSpecialArgs = {
           inherit inputs hostname;
-          isDarwin = pkgs.system == "aarch64-darwin";
+          isDarwin = pkgs.stdenv.hostPlatform.system == "aarch64-darwin";
         };
       }
   );

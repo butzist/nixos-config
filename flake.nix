@@ -22,15 +22,15 @@
   outputs = inputs @ {nixpkgs, ...}: let
     overlay-nixpkgs = _final: prev: {
       bleeding = import inputs.nixpkgs-bleeding {
-        inherit (prev) system;
+        inherit (prev.stdenv.hostPlatform) system;
         config.allowUnfree = true;
       };
       security = import inputs.nixpkgs-security {
-        inherit (prev) system;
+        inherit (prev.stdenv.hostPlatform) system;
         config.allowUnfree = true;
       };
       stable = import inputs.nixpkgs-stable {
-        inherit (prev) system;
+        inherit (prev.stdenv.hostPlatform) system;
         config.allowUnfree = true;
       };
     };
