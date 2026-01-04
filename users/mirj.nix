@@ -13,7 +13,7 @@ in {
   home.packages = with pkgs; [
     security.brave
     security.firefox
-    freecad
+    stable.freecad
     inkscape
     orca-slicer
     gimp3-with-plugins

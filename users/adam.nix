@@ -19,7 +19,7 @@ in {
     androidStudioPackages.beta
     security.brave
     security.firefox
-    freecad
+    stable.freecad
     stable.kicad
     stable.kicadAddons.kikit
     easyeda2kicad
