@@ -45,9 +45,6 @@
     ports = [22];
   };
 
-  # Android development
-  programs.adb.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
     isNormalUser = true;
