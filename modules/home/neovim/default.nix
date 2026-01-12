@@ -209,20 +209,22 @@
 
       utility = {
         ccc.enable = false;
-        vim-wakatime.enable = false;
         diffview-nvim.enable = true;
-        yanky-nvim.enable = false;
         icon-picker.enable = true;
-        surround.enable = true;
+        images = {
+          image-nvim.enable = false;
+        };
         motion = {
           hop.enable = true;
           leap.enable = true;
           precognition.enable = true;
         };
-
-        images = {
-          image-nvim.enable = false;
+        preview = {
+          markdownPreview.enable = true;
         };
+        surround.enable = true;
+        vim-wakatime.enable = false;
+        yanky-nvim.enable = false;
       };
 
       notes = {
