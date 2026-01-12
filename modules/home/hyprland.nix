@@ -14,6 +14,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = true;
     plugins = [];
   };
 
@@ -128,11 +129,6 @@
     ];
   };
 
-  wayland.windowManager.hyprland.systemd = {
-    enable = true;
-    variables = ["--all"];
-  };
-
   programs.wofi.enable = true;
   programs.hyprlock.enable = true;
   stylix.targets.hyprlock.enable = false;
@@ -170,6 +166,8 @@
       }
     ];
   };
+
+  services.hyprpaper.enable = true;
 
   services.hypridle = {
     enable = true;
