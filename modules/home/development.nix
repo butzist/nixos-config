@@ -16,7 +16,7 @@
 
     # python
     python313
-    poetry
+    stable.poetry
     uv
     ruff
     python313Packages.pip

@@ -49,6 +49,7 @@
 
     poetry = {
       enable = true;
+      package = pkgs.stable.poetry;
       settings = {
         virtualenvs.create = true;
         virtualenvs.in-project = true;
