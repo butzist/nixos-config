@@ -53,7 +53,6 @@
         extraModules = [extra-nixpkgs];
         extraImports = [
           inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeModules.stylix
           inputs.nvf.homeManagerModules.nvf
         ];
       })

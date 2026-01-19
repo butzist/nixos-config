@@ -98,6 +98,7 @@ args @ {
           ++ [
             inputs.home-manager.nixosModules.home-manager
             inputs.agenix.nixosModules.default
+            inputs.stylix.nixosModules.stylix
             (./. + "/machines/${hostname}/configuration.nix")
             {
               home-manager = {

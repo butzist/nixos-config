@@ -2,6 +2,10 @@
   # Login
   services.displayManager.gdm.enable = true;
 
+  # Style
+  stylix.enable = true;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
+
   # Enable networking
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
