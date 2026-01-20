@@ -11,6 +11,7 @@
 
     brews = [];
     casks = [
+      "claude"
       "microsoft-edge"
       "microsoft-teams"
       "microsoft-outlook"
