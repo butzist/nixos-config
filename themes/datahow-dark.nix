@@ -33,6 +33,7 @@
 
   stylix.targets = {
     gnome.enable = !isDarwin;
+    qt.platform = "qtct";
   };
 
   stylix.opacity = {

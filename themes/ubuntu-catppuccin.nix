@@ -32,6 +32,10 @@
     applications = 0.9;
   };
 
+  stylix.targets = {
+    qt.platform = "qtct";
+  };
+
   gtk = {
     enable = true;
     iconTheme = {

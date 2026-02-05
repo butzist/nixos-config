@@ -120,9 +120,13 @@
       };
     };
 
-    windowrulev2 = [
-      "noblur,class:^()$,title:^()$"
-    ];
+    windowrule = {
+      name = "tool windows";
+      "match:class" = "^()$";
+      "match:title" = "^()$";
+
+      no_blur = true;
+    };
 
     exec-once = [
       "waybar"
