@@ -14,7 +14,7 @@ in {
     security.brave
     security.firefox
     stable.freecad
-    inkscape
+    stable.inkscape
     orca-slicer
     gimp3-with-plugins
     libreoffice

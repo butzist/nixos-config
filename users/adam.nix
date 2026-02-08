@@ -24,7 +24,7 @@ in {
     stable.kicad
     stable.kicadAddons.kikit
     easyeda2kicad
-    inkscape
+    stable.inkscape
     orca-slicer
     gimp3-with-plugins
     pulseview
