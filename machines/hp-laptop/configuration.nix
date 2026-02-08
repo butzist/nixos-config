@@ -44,7 +44,7 @@
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout" "plugdev"];
     uid = 1000;
     shell = pkgs.bash;
   };

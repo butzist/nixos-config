@@ -27,6 +27,9 @@ in {
     inkscape
     orca-slicer
     gimp3-with-plugins
+    pulseview
+    sigrok-cli
+    sigrok-firmware-fx2lafw
   ];
 
   # basic configuration of git, please change to your own

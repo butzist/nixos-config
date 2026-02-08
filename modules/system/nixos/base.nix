@@ -117,10 +117,17 @@
   services.gvfs.enable = true;
   services.tumbler.enable = true;
 
-  services.udev.packages = with pkgs; [
-    via
-    vial
-  ];
+  services.udev = {
+    enable = true;
+    packages = with pkgs; [
+      libsigrok
+      openocd
+      via
+      vial
+    ];
+  };
+
+  users.extraGroups.plugdev = {};
 
   services.openssh = {
     enable = true;
