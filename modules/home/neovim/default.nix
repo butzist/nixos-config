@@ -100,14 +100,14 @@
         };
         clang.enable = true;
         css.enable = true;
-        html.enable = false;
+        html.enable = true;
         sql.enable = true;
         java.enable = true;
         kotlin.enable = true;
         ts.enable = true;
         go.enable = true;
         lua.enable = true;
-        zig.enable = false;
+        zig.enable = true;
         python = {
           enable = true;
           format.type = ["ruff"];
