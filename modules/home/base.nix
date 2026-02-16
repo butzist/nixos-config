@@ -50,9 +50,13 @@
       };
     };
 
+    yazi = {
+      enable = true;
+      shellWrapperName = "y";
+    };
+
     lazygit.enable = true;
     btop.enable = true;
-    yazi.enable = true;
     fzf.enable = true;
     bat.enable = true;
   };
