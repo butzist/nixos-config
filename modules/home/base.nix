@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ./wezterm.nix
+    ./kitty.nix
   ];
 
   # Packages that should be installed to the user profile.
@@ -37,16 +37,6 @@
         ls = "eza";
         cat = "bat";
         gg = "lazygit";
-      };
-    };
-
-    neovide = {
-      enable = true;
-      settings = {
-        font = with config.stylix.fonts; {
-          normal = [monospace.name];
-          size = sizes.terminal;
-        };
       };
     };
 

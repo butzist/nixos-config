@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   services.aerospace.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -115,7 +119,7 @@
           "alt-shift-tab" = "move-workspace-to-monitor --wrap-around next";
           "alt-tab" = "workspace-back-and-forth";
 
-          "alt-enter" = "exec-and-forget ${pkgs.wezterm}/bin/wezterm";
+          "alt-enter" = "exec-and-forget ${lib.getExe pkgs.kitty}";
         };
       };
 

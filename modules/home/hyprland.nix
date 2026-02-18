@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   imports = [
@@ -32,21 +33,21 @@
 
     bind =
       [
-        "$mod, Space, exec, ${pkgs.wofi}/bin/wofi -I --show drun"
-        "$mod, Return, exec, ${pkgs.wezterm}/bin/wezterm"
+        "$mod, Space, exec, ${lib.getExe pkgs.wofi} -I --show drun"
+        "$mod, Return, exec, ${lib.getExe pkgs.kitty}"
         "$mod&Ctrl, L, exec, loginctl lock-session"
         "$mod, E, exec, thunar"
-        "$mod&Shift, Q, exec, ${pkgs.wlogout}/bin/wlogout"
-        "$mod, D, exec, ${pkgs.wdisplays}/bin/wdisplays"
-        ", Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --freeze --clipboard-only"
-        "Shift, Print, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --freeze"
-        "$mod, Print, exec, ${pkgs.kooha}/bin/kooha"
+        "$mod&Shift, Q, exec, ${lib.getExe pkgs.wlogout}"
+        "$mod, D, exec, ${lib.getExe pkgs.wdisplays}"
+        ", Print, exec, ${lib.getExe pkgs.hyprshot} -m region --freeze --clipboard-only"
+        "Shift, Print, exec, ${lib.getExe pkgs.hyprshot} -m region --freeze"
+        "$mod, Print, exec, ${lib.getExe pkgs.kooha}"
         ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
         ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
         ", XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"
         ", XF86AudioMicMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-        ", XF86MonBrightnessDown, exec, ${pkgs.light}/bin/light -U 10"
-        ", XF86MonBrightnessUp, exec, ${pkgs.light}/bin/light -A 10"
+        ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.light} -U 10"
+        ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.light} -A 10"
         "$mod, Left, movefocus, l"
         "$mod, Up, movefocus, u"
         "$mod, Down, movefocus, d"

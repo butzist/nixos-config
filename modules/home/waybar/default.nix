@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   home.packages = with pkgs; [
@@ -58,7 +59,7 @@
         "format-ethernet" = "{ifname} ";
         "format-disconnected" = "";
         "max-length" = 50;
-        "on-click" = "wezterm start nmtui";
+        "on-click" = "${lib.getExe pkgs.kitty} nmtui";
       };
       "tray" = {
         "icon-size" = 15;
@@ -93,12 +94,12 @@
       "memory" = {
         "interval" = 5;
         "format" = " {}%";
-        "on-click" = "wezterm start btop";
+        "on-click" = "${lib.getExe pkgs.kitty} btop";
       };
       "cpu" = {
         "interval" = 5;
         "format" = " {usage}%";
-        "on-click" = "wezterm start btop";
+        "on-click" = "${lib.getExe pkgs.kitty} btop";
       };
       "battery" = {
         "states" = {

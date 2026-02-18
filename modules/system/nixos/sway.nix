@@ -23,7 +23,7 @@
 
   wayland.windowManager.sway.config = {
     modifier = "Mod4";
-    terminal = "${lib.getExe pkgs.wezterm}";
+    terminal = "${lib.getExe pkgs.kitty}";
     menu = "${lib.getExe pkgs.wofi} -I --show drun | xargs swaymsg exec --";
 
     input = {
