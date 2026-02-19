@@ -36,7 +36,7 @@
       if isDarwin
       then []
       else [
-        security.microsoft-edge
+        #security.microsoft-edge disabled temporarily
       ]
     );
 
