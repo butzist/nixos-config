@@ -24,6 +24,7 @@
     eza
 
     evince
+    pdftk
     bc
   ];
 
