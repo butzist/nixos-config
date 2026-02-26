@@ -15,7 +15,7 @@ _: {
     keybindings = {
       "cmd+alt+h" = "previous_tab";
       "cmd+alt+l" = "next_tab";
-      "cmd+alt+t" = "new_tab";
+      "cmd+alt+t" = "new_tab_with_cwd";
       "cmd+c" = "copy_to_clipboard";
       "cmd+v" = "paste_from_clipboard";
     };
