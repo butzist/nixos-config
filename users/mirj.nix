@@ -17,7 +17,7 @@ in {
     stable.inkscape
     orca-slicer
     gimp3-with-plugins
-    libreoffice
+    stable.libreoffice
     hunspell
     hunspellDicts.de_CH
     hunspellDicts.de_DE

@@ -27,7 +27,7 @@ in {
     stable.inkscape
     orca-slicer
     gimp3-with-plugins
-    pulseview
+    stable.pulseview
     sigrok-cli
     sigrok-firmware-fx2lafw
   ];
