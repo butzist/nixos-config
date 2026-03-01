@@ -18,16 +18,16 @@ in {
   home.packages = with pkgs; [
     androidStudioPackages.beta
     android-tools
-    security.brave
-    security.firefox
-    stable.freecad
-    stable.kicad
-    stable.kicadAddons.kikit
+    _security.brave
+    _security.firefox
+    _stable.freecad
+    kicad
+    kicadAddons.kikit
     easyeda2kicad
-    stable.inkscape
+    _stable.inkscape
     orca-slicer
     gimp3-with-plugins
-    stable.pulseview
+    _stable.pulseview
     sigrok-cli
     sigrok-firmware-fx2lafw
   ];

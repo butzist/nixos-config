@@ -11,13 +11,13 @@ in {
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    security.brave
-    security.firefox
-    stable.freecad
-    stable.inkscape
+    _security.brave
+    _security.firefox
+    _stable.freecad
+    _stable.inkscape
     orca-slicer
     gimp3-with-plugins
-    stable.libreoffice
+    _stable.libreoffice
     hunspell
     hunspellDicts.de_CH
     hunspellDicts.de_DE

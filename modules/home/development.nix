@@ -16,7 +16,7 @@
 
     # python
     python313
-    stable.poetry
+    _stable.poetry
     uv
     ruff
     python313Packages.pip
@@ -43,7 +43,7 @@
     watchexec
 
     # assistants
-    bleeding.opencode
+    _bleeding.opencode
   ];
 
   programs = {

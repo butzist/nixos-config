@@ -15,7 +15,7 @@
       # devops
       kubectl
       terraform
-      stable.terragrunt
+      terragrunt
       kubernetes-helm
       minio-client
       sops
@@ -36,7 +36,7 @@
       if isDarwin
       then []
       else [
-        security.microsoft-edge
+        _security.microsoft-edge
       ]
     );
 
@@ -49,7 +49,7 @@
 
     poetry = {
       enable = true;
-      package = pkgs.stable.poetry;
+      package = pkgs._stable.poetry;
       settings = {
         virtualenvs.create = true;
         virtualenvs.in-project = true;
