@@ -88,8 +88,8 @@
       XF86AudioLowerVolume = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
       XF86AudioMute = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
       XF86AudioMicMute = "exec pactl set-source-mute @DEFAULT_SOURCE@ toggle";
-      XF86MonBrightnessDown = "exec light -U 10";
-      XF86MonBrightnessUp = "exec light -A 10";
+      XF86MonBrightnessDown = "exec ${lib.getExe pkgs.brightnessctl} set 10%-";
+      XF86MonBrightnessUp = "exec ${lib.getExe pkgs.brightnessctl} set +10%";
     };
 
   programs.wofi.enable = true;

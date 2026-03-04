@@ -103,7 +103,6 @@
     };
 
     nix-ld.enable = true;
-    light.enable = true;
     dconf.enable = true;
   };
 
@@ -185,10 +184,11 @@
     lsof
 
     # system tools
-    sysstat
-    lm_sensors
+    brightnessctl
     ethtool
+    lm_sensors
     pciutils
+    sysstat
     usbutils
     usb-modeswitch
 
