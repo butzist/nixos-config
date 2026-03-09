@@ -30,6 +30,8 @@ in {
     _stable.pulseview
     sigrok-cli
     sigrok-firmware-fx2lafw
+    audacity
+    ffmpeg
   ];
 
   # basic configuration of git, please change to your own
