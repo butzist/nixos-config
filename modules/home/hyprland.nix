@@ -27,6 +27,10 @@
       no_donation_nag = true;
     };
 
+    general = {
+      layout = "scrolling";
+    };
+
     input = {
       kb_options = "compose:menu,caps:escape";
     };
@@ -48,23 +52,23 @@
         ", XF86AudioMicMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
         ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} set 10%-"
         ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl} set +10%"
-        "$mod, Left, movefocus, l"
-        "$mod, Up, movefocus, u"
-        "$mod, Down, movefocus, d"
-        "$mod, Right, movefocus, r"
-        "$mod, H, movefocus, l"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
-        "$mod, L, movefocus, r"
+        "$mod, Left, focusmonitor, l"
+        "$mod, Up, layoutmsg, move -col"
+        "$mod, Down, layoutmsg, move +col"
+        "$mod, Right, focusmonitor, r"
+        "$mod, H, focusmonitor, l"
+        "$mod, J, layoutmsg, move -col"
+        "$mod, K, layoutmsg, move +col"
+        "$mod, L, focusmonitor, r"
         "$mod, I, changegroupactive, f"
         "$mod, U, changegroupactive, b"
         "$mod&Shift, Left, movewindoworgroup, l"
-        "$mod&Shift, Up, movewindoworgroup, u"
-        "$mod&Shift, Down, movewindoworgroup, d"
+        "$mod&Shift, Up, layoutmsg, swapcol l"
+        "$mod&Shift, Down, layoutmsg, swapcol r"
         "$mod&Shift, Right, movewindoworgroup, r"
         "$mod&Shift, H, movewindoworgroup, l"
-        "$mod&Shift, K, movewindoworgroup, u"
-        "$mod&Shift, J, movewindoworgroup, d"
+        "$mod&Shift, J, layoutmsg, swapcol u"
+        "$mod&Shift, K, layoutmsg, swapcol d"
         "$mod&Shift, L, movewindoworgroup, r"
         "$mod, W, togglegroup, tab"
         "$mod, mouse_down, workspace, e+1"
@@ -119,6 +123,12 @@
         offset = "0 2";
         render_power = 4;
       };
+    };
+
+    scrolling = {
+      fullscreen_on_one_column = true;
+      column_width = 0.9;
+      direction = "right";
     };
 
     windowrule = {
