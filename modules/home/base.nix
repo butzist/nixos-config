@@ -14,6 +14,7 @@
 
     mdcat
     figlet
+    fastfetch
 
     lazygit
     btop
