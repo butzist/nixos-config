@@ -22,7 +22,6 @@ in {
     _security.firefox
     freecad
     kicad
-    kicadAddons.kikit
     easyeda2kicad
     _stable.inkscape
     orca-slicer
