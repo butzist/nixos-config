@@ -20,6 +20,7 @@ in {
     android-tools
     _security.brave
     _security.firefox
+    blender
     freecad
     kicad
     easyeda2kicad
