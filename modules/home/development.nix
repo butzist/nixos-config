@@ -10,17 +10,16 @@
 
   home.packages = with pkgs; [
     # js
-    nodejs_20
+    nodejs_24
     bun
     deno
 
     # python
-    python313
-    _stable.poetry
+    python314
     uv
     ruff
-    python313Packages.pip
-    python313Packages.virtualenv
+    python314Packages.pip
+    python314Packages.virtualenv
 
     # go
     go-mockery
@@ -43,7 +42,7 @@
     watchexec
 
     # assistants
-    _bleeding.opencode
+    opencode
   ];
 
   programs = {
