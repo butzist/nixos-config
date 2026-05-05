@@ -30,6 +30,8 @@
     cargo-watch
     cargo-binstall
     cargo-binutils
+    cargo-flamegraph
+    cargo-valgrind
     wasm-pack
     wasm-bindgen-cli
     lldb
@@ -43,6 +45,12 @@
 
     # assistants
     opencode
+
+    # analytics
+    flamegraph
+    ghidra
+    perf
+    valgrind
   ];
 
   programs = {
