@@ -16,6 +16,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
+    configType = "hyprlang";
     plugins = [];
   };
 
@@ -118,7 +119,6 @@
 
       shadow = {
         enabled = true;
-        ignore_window = true;
         range = 20;
         offset = "0 2";
         render_power = 4;
