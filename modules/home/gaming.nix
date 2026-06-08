@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     steam
-    (_stable.heroic.override {
+    (heroic.override {
       extraPkgs = pkgs: [
         pkgs.gamescope
       ];
