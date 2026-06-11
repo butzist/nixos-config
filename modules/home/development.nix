@@ -9,6 +9,9 @@
     else [./rust-mold.nix];
 
   home.packages = with pkgs; [
+    # version control
+    gh
+
     # js
     nodejs_24
     bun
