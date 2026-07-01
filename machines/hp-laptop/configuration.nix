@@ -17,6 +17,9 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "amd_iommu=off"
+    "rtw89_core.disable_ps_mode=Y"
+    "rtw89_pci.disable_aspm_l1=Y"
+    "rtw89_pci.disable_clkreq=Y"
   ];
 
   networking.hostName = "hp-laptop"; # Define your hostname.
