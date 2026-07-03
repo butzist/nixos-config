@@ -159,10 +159,13 @@
     p7zip
 
     # networking tools
+    net-tools
     dnsutils
+    iproute2
     wget
     socat
     nmap
+    iw
 
     # misc
     file
