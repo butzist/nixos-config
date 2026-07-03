@@ -1,25 +1,17 @@
-/* -----------------------------------------------------
-* Colors
-* ----------------------------------------------------- */
-
 @import "colors.css";
-
-/* -----------------------------------------------------
-* General 
-* ----------------------------------------------------- */
 
 * {
   font-family: "FiraCode Nerd Font";
   font-weight: bold;
   font-size: 12px;
-  border: solid;
+  border: none;
   border-radius: 0px;
+  min-height: 0;
 }
 
 window#waybar {
-  background-color: transparent;
-  transition-property: background-color;
-  transition-duration: 0.5s;
+  background-color: @background;
+  border-bottom: 2px solid @border;
 }
 
 #window,
@@ -27,93 +19,63 @@ window#waybar {
 #internet,
 #workspaces,
 .modules-right > widget > label {
-  background-color: @background;
+  background-color: transparent;
   color: @text;
-  border-radius: 15px;
-  border-style: none;
-  border-width: 0px;
-  border-color: @border;
-  padding: 2px 10px 0px 10px;
-  margin: 8px 10px 8px 0px;
-  opacity: 0.7;
-  box-shadow: 2px 2px 4px @border;
+  padding: 0 10px;
+  margin: 0;
 }
 
-/* -----------------------------------------------------
-* Tooltips
-* ----------------------------------------------------- */
-
 tooltip {
-  border-radius: 10px;
+  border-radius: 8px;
   background-color: @background;
-  opacity: 0.8;
-  padding: 20px;
-  margin: 0px;
+  border: 1px solid @border;
+  padding: 12px;
 }
 
 tooltip label {
   color: @text;
 }
 
-/* -----------------------------------------------------
-* Workspaces 
-* ----------------------------------------------------- */
-
 #workspaces {
-  margin: 5px 1px 6px 1px;
-  padding: 0px 1px;
+  margin: 0;
+  padding: 0;
 }
 
 #workspaces button {
-  padding: 0px 5px;
-  margin: 4px 3px;
-  font-size: 16px;
-  border-radius: 15px;
-  border: 0px;
-  color: @text;
+  padding: 0 6px;
+  margin: 4px 2px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: @alttext;
   background-color: @altbackground;
-  transition: all 0.3s ease-in-out;
-  opacity: 0.4;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.6;
 }
 
 #workspaces button.focused,
 #workspaces button.active {
   color: @text;
   background: @selbackground;
-  border-radius: 15px;
-  min-width: 40px;
-  transition: all 0.3s ease-in-out;
+  min-width: 30px;
   opacity: 1;
 }
 
 #workspaces button.urgent {
   color: @text;
   background: @urgent;
-  border-radius: 15px;
-  min-width: 40px;
-  transition: all 0.3s ease-in-out;
+  min-width: 30px;
   opacity: 1;
 }
 
 #workspaces button:hover {
   color: @text;
   background: @altbackground;
-  border-radius: 15px;
-  opacity: 0.7;
+  opacity: 0.9;
 }
-
-/* -----------------------------------------------------
-* Window
-* ----------------------------------------------------- */
 
 window#waybar.empty #window {
   background-color: transparent;
-  box-shadow: none;
 }
-
-/* -----------------------------------------------------
-* Modules
-* ----------------------------------------------------- */
 
 .modules-left > widget:first-child > #workspaces {
   margin-left: 0;
@@ -123,70 +85,47 @@ window#waybar.empty #window {
   margin-right: 0;
 }
 
-/* -----------------------------------------------------
-* Custom Power
-* ----------------------------------------------------- */
-
-#custom-power {
-  background-color: transparent;
-  box-shadow: none;
-  color: @background;
-  opacity: 0.7;
-  margin: 0px;
-  padding: 0px;
-  font-size: 30px;
-}
-
-/* -----------------------------------------------------
-* Internet Group
-* ----------------------------------------------------- */
-
 #internet #custom-internet,
 #internet #network {
   background-color: transparent;
-  box-shadow: none;
-  margin: 8px 4px;
-  padding: 0px;
-  border-style: none;
+  margin: 0 4px;
+  padding: 0;
 }
 
 #internet #custom-internet.connected {
   min-width: 0;
-  padding: 0px;
-  margin: 0px;
-  font-size: 0px;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
 }
 
 #internet #custom-internet.disconnected {
   color: @warning;
 }
 
-/* -----------------------------------------------------
-* Hardware Group
-* ----------------------------------------------------- */
+#custom-power {
+  background-color: transparent;
+  color: @alttext;
+  margin: 0 12px 0 4px;
+  padding: 0;
+  font-size: 20px;
+}
+
+#custom-power:hover {
+  color: @error;
+}
 
 #disk,
 #memory,
 #cpu {
   background-color: transparent;
-  box-shadow: none;
-  margin: 8px 4px 8px 4px;
-  padding: 0px;
-  border-style: none;
+  margin: 0 4px;
+  padding: 0;
 }
-
-/* -----------------------------------------------------
-* Pulseaudio
-* ----------------------------------------------------- */
 
 #pulseaudio.muted {
-  background-color: @altbackground;
-  color: @text;
+  color: @alttext;
 }
-
-/* -----------------------------------------------------
-* Bluetooth
-* ----------------------------------------------------- */
 
 #bluetooth {
   font-size: 14px;
@@ -198,19 +137,13 @@ window#waybar.empty #window {
 
 #bluetooth.off {
   background-color: transparent;
-  box-shadow: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
-
-/* -----------------------------------------------------
-* Battery
-* ----------------------------------------------------- */
 
 #battery.charging,
 #battery.plugged {
-  color: @text;
-  background-color: @background;
+  color: @active;
 }
 
 @keyframes blink {
@@ -222,7 +155,7 @@ window#waybar.empty #window {
 
 #battery.critical:not(.charging) {
   background-color: @error;
-  color: @error;
+  color: @text;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
@@ -230,9 +163,9 @@ window#waybar.empty #window {
   animation-direction: alternate;
 }
 
-/* -----------------------------------------------------
-* Tray
-* ----------------------------------------------------- */
+#tray {
+  margin: 0 6px;
+}
 
 #tray > .passive {
   -gtk-icon-effect: dim;
@@ -240,4 +173,35 @@ window#waybar.empty #window {
 
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
+}
+
+#clock {
+  color: @text;
+  margin: 0 10px;
+}
+
+#pulseaudio {
+  margin: 0 6px;
+}
+
+#network {
+  margin: 0 6px;
+}
+
+#network.disconnected {
+  color: @alttext;
+}
+
+#battery {
+  margin: 0 6px;
+}
+
+#clock:hover,
+#pulseaudio:hover,
+#battery:hover,
+#network:hover,
+#memory:hover,
+#cpu:hover,
+#disk:hover {
+  color: @active;
 }

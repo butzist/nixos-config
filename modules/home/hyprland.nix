@@ -127,7 +127,7 @@
 
     scrolling = {
       fullscreen_on_one_column = true;
-      column_width = 0.9;
+      column_width = 0.95;
       direction = "right";
     };
 
