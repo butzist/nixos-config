@@ -24,6 +24,7 @@ window#waybar {
 
 #window,
 #hardware,
+#internet,
 #workspaces,
 .modules-right > widget > label {
   background-color: @background;
@@ -134,6 +135,30 @@ window#waybar.empty #window {
   margin: 0px;
   padding: 0px;
   font-size: 30px;
+}
+
+/* -----------------------------------------------------
+* Internet Group
+* ----------------------------------------------------- */
+
+#internet #custom-internet,
+#internet #network {
+  background-color: transparent;
+  box-shadow: none;
+  margin: 8px 4px;
+  padding: 0px;
+  border-style: none;
+}
+
+#internet #custom-internet.connected {
+  min-width: 0;
+  padding: 0px;
+  margin: 0px;
+  font-size: 0px;
+}
+
+#internet #custom-internet.disconnected {
+  color: @warning;
 }
 
 /* -----------------------------------------------------

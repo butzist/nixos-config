@@ -27,7 +27,7 @@
       ];
       "modules-right" = [
         "tray"
-        "network"
+        "group/internet"
         "bluetooth"
         "pulseaudio"
         "battery"
@@ -35,6 +35,13 @@
         "clock"
         "custom/power"
       ];
+      "group/internet" = {
+        "orientation" = "horizontal";
+        "modules" = [
+          "custom/internet"
+          "network"
+        ];
+      };
       "group/hardware" = {
         "orientation" = "horizontal";
         "modules" = [
@@ -53,6 +60,19 @@
       "sway/window" = {
         "format" = "{}";
         "max-length" = 50;
+      };
+      "custom/internet" = {
+        "exec" = let
+          script = pkgs.writeShellScript "internet-check" ''
+            if ping -c 1 -W 1 1.1.1.1 > /dev/null 2>&1; then
+              echo '{"text":"","class":"connected"}'
+            else
+              echo '{"text":"","class":"disconnected"}'
+            fi
+          '';
+        in "${script}";
+        "interval" = 10;
+        "return-type" = "json";
       };
       "network" = {
         "format-wifi" = "  {signalStrength}% ({essid})";
