@@ -32,6 +32,9 @@ in {
     sigrok-firmware-fx2lafw
     audacity
     ffmpeg
+    shotcut
+    obs-studio
+    obs-cmd
   ];
 
   # basic configuration of git, please change to your own
