@@ -102,7 +102,7 @@
         css.enable = true;
         html.enable = true;
         sql.enable = true;
-        java.enable = true;
+        java.enable = false;
         kotlin.enable = true;
         typescript.enable = true;
         go.enable = true;
