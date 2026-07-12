@@ -98,7 +98,7 @@
           enable = true;
           extensions.render-markdown-nvim.enable = true;
         };
-        clang.enable = true;
+        clang.enable = false;
         css.enable = true;
         html.enable = true;
         sql.enable = true;
