@@ -98,11 +98,14 @@
           enable = true;
           extensions.render-markdown-nvim.enable = true;
         };
-        clang.enable = false;
+        clang = {
+          enable = true;
+          extraDiagnostics.enable = false;
+        };
         css.enable = true;
         html.enable = true;
         sql.enable = true;
-        java.enable = false;
+        java.enable = true;
         kotlin.enable = true;
         typescript.enable = true;
         go.enable = true;
