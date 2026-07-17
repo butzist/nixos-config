@@ -104,6 +104,11 @@
 
     nix-ld.enable = true;
     dconf.enable = true;
+
+    localsend = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   # File manager
