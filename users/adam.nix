@@ -21,13 +21,13 @@ in {
     _security.brave
     _security.firefox
     blender
-    _stable.freecad
+    freecad
     kicad
     easyeda2kicad
     _stable.inkscape
     orca-slicer
     gimp3-with-plugins
-    _stable.pulseview
+    pulseview
     sigrok-cli
     sigrok-firmware-fx2lafw
     audacity

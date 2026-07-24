@@ -215,7 +215,7 @@
         diffview-nvim.enable = true;
         icon-picker.enable = true;
         images = {
-          image-nvim.enable = false;
+          image-nvim.enable = true;
         };
         motion = {
           hop.enable = true;
