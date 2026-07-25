@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./wlogout.nix
+    ./walker.nix
   ];
 
   home.packages = with pkgs; [
@@ -38,7 +39,7 @@
 
     bind =
       [
-        "$mod, Space, exec, ${lib.getExe pkgs.wofi} -I --show drun"
+        "$mod, Space, exec, walker"
         "$mod, Return, exec, ${lib.getExe pkgs.kitty}"
         "$mod&Ctrl, L, exec, loginctl lock-session"
         "$mod, E, exec, thunar"
@@ -144,7 +145,6 @@
     ];
   };
 
-  programs.wofi.enable = true;
   programs.hyprlock.enable = true;
   stylix.targets.hyprlock.enable = false;
   programs.hyprlock.settings = {
