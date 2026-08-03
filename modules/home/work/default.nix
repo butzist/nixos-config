@@ -1,52 +1,28 @@
-{
-  pkgs,
-  isDarwin,
-  ...
-}: {
-  imports = [
-    ./nvf-avante.nix
-    ./vscode.nix
+{pkgs, ...}: {
+  imports = [];
+
+  home.packages = with pkgs; [
+    remmina
+
+    # devops
+    kubectl
+    kubernetes-helm
+    sops
+    (azure-cli.withExtensions [])
+
+    # devops docs
+    pre-commit
+    helm-docs
+
+    # http testing
+    bombardier
+    slowhttptest
+
+    # language tools
+    fnm
   ];
 
-  home.packages = with pkgs;
-    [
-      remmina
-
-      # devops
-      kubectl
-      terraform
-      terragrunt
-      kubernetes-helm
-      minio-client
-      sops
-      (azure-cli.withExtensions [])
-
-      # devops docs
-      pre-commit
-      helm-docs
-
-      # http testing
-      bombardier
-      slowhttptest
-
-      # language tools
-      fnm
-    ]
-    ++ (
-      if isDarwin
-      then []
-      else [
-        _security.microsoft-edge
-      ]
-    );
-
   programs = {
-    go = {
-      env = {
-        GOPRIVATE = ["gitlab.com/datahow"];
-      };
-    };
-
     poetry = {
       enable = true;
       package = pkgs._stable.poetry;
