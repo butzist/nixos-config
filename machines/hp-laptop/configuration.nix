@@ -40,6 +40,14 @@
     variant = "nodeadkeys";
   };
 
+  # Enable bluetooth manager.
+  services.blueman.enable = true;
+
+  # Enable SSH server
+  services.openssh = {
+    ports = [22];
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.adam = {
     isNormalUser = true;

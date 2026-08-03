@@ -36,6 +36,14 @@
     variant = "euro";
   };
 
+  # Enable bluetooth manager.
+  services.blueman.enable = true;
+
+  # Enable SSH server
+  services.openssh = {
+    ports = [22];
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.games = {
     isNormalUser = true;

@@ -37,7 +37,7 @@
     variant = "euro";
   };
 
-  # Enable buetooth manager.
+  # Enable bluetooth manager.
   services.blueman.enable = true;
 
   # Enable SSH server
