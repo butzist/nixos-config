@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }: let
   # The NVIDIA driver occasionally fails to train a DisplayPort link at
@@ -26,13 +27,31 @@ in {
     # used. These are stable across boots unlike the connector names (which
     # have been observed to change, e.g. eDP-1 <-> eDP-2).
     monitor = [
-      "desc:Samsung Display Corp. ATNA60HS03-0, 2560x1600, 0x0, 1.333333"
-      "desc:HP Inc. HP E24i G4 6CM406371S, 1920x1200, 1920x0, 1"
-      "desc:HP Inc. HP E24i G4 6CM40635HR, 1920x1200, 3840x0, 1"
+      {
+        output = "desc:Samsung Display Corp. ATNA60HS03-0";
+        mode = "2560x1600";
+        position = "0x0";
+        scale = "1.333333";
+      }
+      {
+        output = "desc:HP Inc. HP E24i G4 6CM406371S";
+        mode = "1920x1200";
+        position = "1920x0";
+        scale = "1";
+      }
+      {
+        output = "desc:HP Inc. HP E24i G4 6CM40635HR";
+        mode = "1920x1200";
+        position = "3840x0";
+        scale = "1";
+      }
     ];
 
-    exec-once = [
-      "${dpms-retrain}/bin/dpms-retrain"
-    ];
+    on = {
+      _args = [
+        "hyprland.start"
+        (lib.generators.mkLuaInline "function()\n  hl.exec_cmd(\"${dpms-retrain}/bin/dpms-retrain\")\nend")
+      ];
+    };
   };
 }

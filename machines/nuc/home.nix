@@ -1,8 +1,18 @@
 {...}: {
   wayland.windowManager.hyprland.settings = {
     monitor = [
-      "desc:Samsung Electric Company S27F350 H4ZMA14287, 1920x1080, 0x194, 1"
-      "desc:Samsung Electric Company LS27A600U H4ZT400506, 2560x1440, 1920x0, 1"
+      {
+        output = "desc:Samsung Electric Company S27F350 H4ZMA14287";
+        mode = "1920x1080";
+        position = "0x194";
+        scale = "1";
+      }
+      {
+        output = "desc:Samsung Electric Company LS27A600U H4ZT400506";
+        mode = "2560x1440";
+        position = "1920x0";
+        scale = "1";
+      }
     ];
   };
 

@@ -17,67 +17,158 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-    configType = "hyprlang";
+    configType = "lua";
     plugins = [];
   };
 
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
+  wayland.windowManager.hyprland.settings = let
+    inline = lib.generators.mkLuaInline;
 
-    ecosystem = {
-      no_update_news = true;
-      no_donation_nag = true;
+    # Concatenate modifiers and key into a Lua expression. The token `mod`
+    # expands to the Lua local defined by the `mod` variable below.
+    keys = mods: key:
+      inline (
+        builtins.concatStringsSep " .. \" + \" .. " (
+          map (m:
+            if m == "mod"
+            then "mod"
+            else "\"${m}\"")
+          mods
+          ++ ["\"${key}\""]
+        )
+      );
+
+    exec = cmd: inline "hl.dsp.exec_cmd(\"${cmd}\")";
+    focusMonitor = mon: inline "hl.dsp.focus({ monitor = \"${mon}\" })";
+    focusWorkspace = ws:
+      inline "hl.dsp.focus({ workspace = ${
+        if builtins.isInt ws
+        then toString ws
+        else "\"${ws}\""
+      } })";
+    moveToWorkspace = ws:
+      inline "hl.dsp.window.move({ workspace = ${
+        if builtins.isInt ws
+        then toString ws
+        else "\"${ws}\""
+      } })";
+    layout = msg: inline "hl.dsp.layout(\"${msg}\")";
+    moveWindowOrGroup = dir: inline "hl.dsp.window.move({ direction = \"${dir}\", group_aware = true })";
+    groupActive = next:
+      inline (
+        if next
+        then "hl.dsp.group.next()"
+        else "hl.dsp.group.prev()"
+      );
+
+    mkBind = mods: key: dispatch: {
+      _args = [
+        (keys mods key)
+        dispatch
+      ];
     };
 
-    general = {
-      layout = "scrolling";
+    mkBindMouse = mods: key: dispatch: {
+      _args = [
+        (keys mods key)
+        dispatch
+        {mouse = true;}
+      ];
+    };
+  in {
+    mod = {
+      _var = "SUPER";
     };
 
-    input = {
-      kb_options = "compose:menu,caps:escape";
+    config = {
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+      };
+
+      general = {
+        layout = "scrolling";
+      };
+
+      input = {
+        kb_options = "compose:menu,caps:escape";
+      };
+
+      decoration = {
+        rounding = 20;
+
+        blur = {
+          enabled = true;
+          xray = true;
+          special = false;
+          new_optimizations = true;
+          size = 14;
+          passes = 4;
+          brightness = 1;
+          noise = 0.01;
+          contrast = 1;
+          popups = true;
+          popups_ignorealpha = 0.6;
+        };
+
+        shadow = {
+          enabled = true;
+          range = 20;
+          offset = [0 2];
+          render_power = 4;
+        };
+      };
+
+      scrolling = {
+        fullscreen_on_one_column = true;
+        column_width = 0.95;
+        direction = "right";
+      };
     };
 
     bind =
       [
-        "$mod, Space, exec, walker"
-        "$mod, Return, exec, ${lib.getExe pkgs.kitty}"
-        "$mod&Ctrl, L, exec, loginctl lock-session"
-        "$mod, E, exec, thunar"
-        "$mod&Shift, Q, exec, ${lib.getExe pkgs.wlogout}"
-        "$mod, D, exec, ${lib.getExe pkgs.wdisplays}"
-        ", Print, exec, ${lib.getExe pkgs.hyprshot} -m region --freeze --clipboard-only"
-        "Shift, Print, exec, ${lib.getExe pkgs.hyprshot} -m region --freeze"
-        "$mod, Print, exec, ${lib.getExe pkgs.kooha}"
-        ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
-        ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
-        ", XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"
-        ", XF86AudioMicMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-        ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} set 10%-"
-        ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl} set +10%"
-        "$mod, Left, focusmonitor, l"
-        "$mod, Up, layoutmsg, move -col"
-        "$mod, Down, layoutmsg, move +col"
-        "$mod, Right, focusmonitor, r"
-        "$mod, H, focusmonitor, l"
-        "$mod, J, layoutmsg, move -col"
-        "$mod, K, layoutmsg, move +col"
-        "$mod, L, focusmonitor, r"
-        "$mod, I, changegroupactive, f"
-        "$mod, U, changegroupactive, b"
-        "$mod&Shift, Left, movewindoworgroup, l"
-        "$mod&Shift, Up, layoutmsg, swapcol l"
-        "$mod&Shift, Down, layoutmsg, swapcol r"
-        "$mod&Shift, Right, movewindoworgroup, r"
-        "$mod&Shift, H, movewindoworgroup, l"
-        "$mod&Shift, J, layoutmsg, swapcol u"
-        "$mod&Shift, K, layoutmsg, swapcol d"
-        "$mod&Shift, L, movewindoworgroup, r"
-        "$mod, W, togglegroup, tab"
-        "$mod, mouse_down, workspace, e+1"
-        "$mod, mouse_up, workspace, e-1"
-        "$mod, C, killactive"
-        "$mod, F, fullscreen"
-        "$mod&Shift, F, togglefloating"
+        (mkBind ["mod"] "Space" (exec "walker"))
+        (mkBind ["mod"] "Return" (exec (lib.getExe pkgs.kitty)))
+        (mkBind ["mod" "CTRL"] "L" (exec "loginctl lock-session"))
+        (mkBind ["mod"] "E" (exec "thunar"))
+        (mkBind ["mod" "SHIFT"] "Q" (exec (lib.getExe pkgs.wlogout)))
+        (mkBind ["mod"] "D" (exec (lib.getExe pkgs.wdisplays)))
+        (mkBind [] "Print" (exec "${lib.getExe pkgs.hyprshot} -m region --freeze --clipboard-only"))
+        (mkBind ["SHIFT"] "Print" (exec "${lib.getExe pkgs.hyprshot} -m region --freeze"))
+        (mkBind ["mod"] "Print" (exec (lib.getExe pkgs.kooha)))
+        (mkBind [] "XF86AudioRaiseVolume" (exec "${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"))
+        (mkBind [] "XF86AudioLowerVolume" (exec "${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"))
+        (mkBind [] "XF86AudioMute" (exec "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"))
+        (mkBind [] "XF86AudioMicMute" (exec "${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"))
+        (mkBind [] "XF86MonBrightnessDown" (exec "${lib.getExe pkgs.brightnessctl} set 10%-"))
+        (mkBind [] "XF86MonBrightnessUp" (exec "${lib.getExe pkgs.brightnessctl} set +10%"))
+        (mkBind ["mod"] "Left" (focusMonitor "l"))
+        (mkBind ["mod"] "Up" (layout "move -col"))
+        (mkBind ["mod"] "Down" (layout "move +col"))
+        (mkBind ["mod"] "Right" (focusMonitor "r"))
+        (mkBind ["mod"] "H" (focusMonitor "l"))
+        (mkBind ["mod"] "J" (layout "move -col"))
+        (mkBind ["mod"] "K" (layout "move +col"))
+        (mkBind ["mod"] "L" (focusMonitor "r"))
+        (mkBind ["mod"] "I" (groupActive true))
+        (mkBind ["mod"] "U" (groupActive false))
+        (mkBind ["mod" "SHIFT"] "Left" (moveWindowOrGroup "left"))
+        (mkBind ["mod" "SHIFT"] "Up" (layout "swapcol l"))
+        (mkBind ["mod" "SHIFT"] "Down" (layout "swapcol r"))
+        (mkBind ["mod" "SHIFT"] "Right" (moveWindowOrGroup "right"))
+        (mkBind ["mod" "SHIFT"] "H" (moveWindowOrGroup "left"))
+        (mkBind ["mod" "SHIFT"] "J" (layout "swapcol u"))
+        (mkBind ["mod" "SHIFT"] "K" (layout "swapcol d"))
+        (mkBind ["mod" "SHIFT"] "L" (moveWindowOrGroup "right"))
+        (mkBind ["mod"] "W" (inline "hl.dsp.group.toggle()"))
+        (mkBind ["mod"] "mouse_down" (focusWorkspace "e+1"))
+        (mkBind ["mod"] "mouse_up" (focusWorkspace "e-1"))
+        (mkBind ["mod"] "C" (inline "hl.dsp.window.close()"))
+        (mkBind ["mod"] "F" (inline "hl.dsp.window.fullscreen({ action = \"toggle\" })"))
+        (mkBind ["mod" "SHIFT"] "F" (inline "hl.dsp.window.float({ action = \"toggle\" })"))
+        (mkBindMouse ["mod"] "mouse:272" (inline "hl.dsp.window.drag()"))
+        (mkBindMouse ["mod"] "mouse:273" (inline "hl.dsp.window.resize()"))
       ]
       ++ (
         # workspaces
@@ -89,60 +180,29 @@
               in
                 builtins.toString (x + 1 - (c * 10));
             in [
-              "$mod, ${ws}, workspace, ${toString (x + 1)}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+              (mkBind ["mod"] ws (focusWorkspace (x + 1)))
+              (mkBind ["mod" "SHIFT"] ws (moveToWorkspace (x + 1)))
             ]
           )
           10)
       );
 
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-
-    decoration = {
-      rounding = 20;
-
-      blur = {
-        enabled = true;
-        xray = true;
-        special = false;
-        new_optimizations = true;
-        size = 14;
-        passes = 4;
-        brightness = 1;
-        noise = 0.01;
-        contrast = 1;
-        popups = true;
-        popups_ignorealpha = 0.6;
-      };
-
-      shadow = {
-        enabled = true;
-        range = 20;
-        offset = "0 2";
-        render_power = 4;
-      };
-    };
-
-    scrolling = {
-      fullscreen_on_one_column = true;
-      column_width = 0.95;
-      direction = "right";
-    };
-
-    windowrule = {
+    window_rule = {
       name = "tool windows";
-      "match:class" = "^()$";
-      "match:title" = "^()$";
+      match = {
+        class = "^()$";
+        title = "^()$";
+      };
 
       no_blur = true;
     };
 
-    exec-once = [
-      "waybar"
-    ];
+    on = {
+      _args = [
+        "hyprland.start"
+        (inline "function()\n  hl.exec_cmd(\"waybar\")\nend")
+      ];
+    };
   };
 
   programs.hyprlock.enable = true;
