@@ -29,6 +29,8 @@ in {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     brave
+    kicad
+    easyeda2kicad
   ];
 
   age.secrets = {};
