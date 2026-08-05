@@ -36,6 +36,8 @@ in {
   programs = {
     git = {
       settings = {
+        credential.helper = "!f() { gh auth git-credential \"$@\"; }; f";
+
         user = {
           inherit (sensitive) name;
           inherit (sensitive) email;
