@@ -1,22 +1,29 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{pkgs, ...}: {
+{
+  pkgs,
+  ezModules,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/system/nixos/base.nix
-    ../../modules/system/nixos/gnome.nix
-    ../../modules/system/nixos/gaming.nix
-    ../../modules/system/containers
-  ];
+  ] ++ (with ezModules; [
+    base
+    gnome
+    gaming
+  ]);
+
+  # Home-manager settings applied to every user on this machine.
+  home-manager.sharedModules = [./home.nix];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nuc"; # Define your hostname.
+  networking.hostName = "daddeln"; # Define your hostname.
 
   programs.hyprland = {
     enable = true;
@@ -46,29 +53,24 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.work = {
-    isNormalUser = true;
-    description = "Work";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm"];
-    uid = 1000;
-    shell = pkgs.bash;
-  };
-
   users.users.games = {
     isNormalUser = true;
     description = "Gaming";
     extraGroups = ["networkmanager" "video" "gamemode"];
-    uid = 1001;
+    uid = 1000;
     shell = pkgs.bash;
   };
 
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout" "plugdev"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video"];
     uid = 1002;
     shell = pkgs.bash;
   };
+
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "games";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

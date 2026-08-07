@@ -4,11 +4,6 @@
   lib,
   ...
 }: {
-  imports = [
-    ./wlogout.nix
-    ./walker.nix
-  ];
-
   home.packages = with pkgs; [
     hyprland-qtutils
     pix

@@ -1,12 +1,12 @@
 {
+  lib,
   pkgs,
-  isDarwin,
   ...
 }: {
-  imports =
-    if isDarwin
-    then [./darwin.nix]
-    else [./linux.nix];
+  imports = [
+    ./containers-linux.nix
+    ./containers-darwin.nix
+  ];
 
   # Common useful other development tools
   environment.systemPackages = with pkgs; [

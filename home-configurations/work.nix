@@ -1,6 +1,9 @@
-{pkgs, ...}: let
-  sensitive = import ../secrets/users/work/sensitive.nix;
-in {
+{
+  config,
+  pkgs,
+  ezModules,
+  ...
+}: {
   home.username = "work";
   home.homeDirectory = "/home/work";
 
@@ -15,16 +18,23 @@ in {
       ];
     };
   };
-  imports = [
-    ../modules/home/base.nix
-    ../modules/home/nushell.nix
-    ../modules/home/neovim
-    ../modules/home/development.nix
-    ../modules/home/work
-    ../themes/everforest-kingdoms.nix
-    ../modules/home/hyprland.nix
-    ../modules/home/waybar
-  ];
+
+  imports =
+    (with ezModules; [
+      base
+      kitty
+      nushell
+      neovim
+      development
+      work
+      hyprland
+      wlogout
+      walker
+      waybar
+    ])
+    ++ [
+      ../themes/everforest-kingdoms.nix
+    ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
@@ -41,8 +51,8 @@ in {
         credential.helper = "!f() { gh auth git-credential \"$@\"; }; f";
 
         user = {
-          inherit (sensitive) name;
-          inherit (sensitive) email;
+          inherit (config.sensitive) name;
+          inherit (config.sensitive) email;
         };
 
         init = {

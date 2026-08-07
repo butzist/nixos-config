@@ -1,33 +1,42 @@
-{pkgs, ...}: let
-in {
-  home.username = "mirj";
-  home.homeDirectory = "/home/mirj";
+{
+  pkgs,
+  ezModules,
+  ...
+}: {
+  home.username = "games";
+  home.homeDirectory = "/home/games";
 
-  imports = [
-    ../modules/home/base.nix
-    ../modules/home/nushell.nix
+  imports = (with ezModules; [
+    base
+    kitty
+    waybar
+    gaming
+  ]) ++ [
     ../themes/ubuntu-catppuccin.nix
   ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    _security.brave
-    _security.firefox
-    freecad
-    orca-slicer
-    _stable.inkscape
-    gimp3-with-plugins
-    _stable.libreoffice
-    hunspell
-    hunspellDicts.de_CH
-    hunspellDicts.de_DE
-    hunspellDicts.en_US
+    brave
+    starsector
   ];
 
+  # basic configuration of git, please change to your own
   programs = {
     bash = {
       enable = true;
     };
+  };
+
+  home.file.".config/autostart/steam.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Steam Autostart
+      Exec=${pkgs.steam}/bin/steam -silent
+      Type=Application
+      Terminal=false
+    '';
+    executable = false;
   };
 
   # This value determines the home Manager release that your

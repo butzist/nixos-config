@@ -1,12 +1,10 @@
 {
   pkgs,
-  isDarwin,
   ...
 }: {
-  imports =
-    if isDarwin
-    then []
-    else [./rust-mold.nix];
+  imports = [
+    ./rust-mold.nix
+  ];
 
   home.packages = with pkgs; [
     # version control

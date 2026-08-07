@@ -2,85 +2,62 @@
   description = "NixOS configuration";
 
   inputs = {
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
     nixpkgs-security.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     determinate.url = "github:DeterminateSystems/determinate";
+
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
-  };
 
-  outputs = inputs @ {nixpkgs, ...}: let
-    overlay-nixpkgs = _final: prev: {
-      _bleeding = import inputs.nixpkgs-bleeding {
-        inherit (prev.stdenv.hostPlatform) system;
-        config.allowUnfree = true;
-      };
-      _security = import inputs.nixpkgs-security {
-        inherit (prev.stdenv.hostPlatform) system;
-        config.allowUnfree = true;
-      };
-      _stable = import inputs.nixpkgs-stable {
-        inherit (prev.stdenv.hostPlatform) system;
-        config.allowUnfree = true;
+    ez-configs = {
+      url = "github:ehllie/ez-configs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
       };
     };
-    extra-nixpkgs = {...}: {
-      imports = [./overlays];
+  };
 
-      nixpkgs.overlays = [
-        overlay-nixpkgs
-        inputs.agenix.overlays.default
+  outputs = inputs @ { flake-parts, ez-configs, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [];
+
+      imports = [
+        ez-configs.flakeModule
       ];
-      nixpkgs.config = {
-        allowUnfree = true;
+
+      ezConfigs = {
+        root = ./.;
+        globalArgs = { inherit inputs; };
+
+        nixos.hosts = {
+          daddeln.userHomeModules = ["games" "adam"];
+          hp-laptop.userHomeModules = ["adam" "games" "mirj"];
+          legion.userHomeModules = ["work"];
+          nuc.userHomeModules = ["work" "games" "adam"];
+        };
       };
+
+      flake.description = "NixOS configuration";
     };
-  in {
-    nixosConfigurations =
-      (import ./config-builder.nix {
-        inherit (nixpkgs) lib;
-        inherit inputs;
-        extraModules = [extra-nixpkgs];
-        extraImports = [
-          inputs.agenix.homeManagerModules.default
-          inputs.nvf.homeManagerModules.nvf
-        ];
-      })
-      .getNixosConfigs;
-    darwinConfigurations =
-      (import ./config-builder.nix {
-        inherit (nixpkgs) lib;
-        inherit inputs;
-        extraModules = [extra-nixpkgs];
-        extraImports = [
-          inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeModules.stylix
-          inputs.nvf.homeManagerModules.nvf
-        ];
-      })
-      .getDarwinConfigs;
-    homeConfigurations =
-      (import ./config-builder.nix {
-        inherit (nixpkgs) lib;
-        inherit inputs;
-        systemConfigs = inputs.self.nixosConfigurations;
-        extraModules = [
-          extra-nixpkgs
-          inputs.agenix.homeManagerModules.default
-          inputs.stylix.homeModules.stylix
-          inputs.nvf.homeManagerModules.nvf
-        ];
-      })
-      .getHMConfigs;
-  };
 }

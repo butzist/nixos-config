@@ -1,23 +1,30 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{pkgs, ...}: {
+{
+  pkgs,
+  ezModules,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/system/nixos/base.nix
-    ../../modules/system/nixos/gnome.nix
-    ../../modules/system/nixos/laptop.nix
-    ../../modules/system/containers
-  ];
+  ] ++ (with ezModules; [
+    base
+    gnome
+    gaming
+    containers
+  ]);
+
+  # Home-manager settings applied to every user on this machine.
+  home-manager.sharedModules = [./home.nix];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
-  boot.initrd.luks.devices."luks-badc0975-bd8f-4323-a781-203aa39328fa".device = "/dev/disk/by-uuid/badc0975-bd8f-4323-a781-203aa39328fa";
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "legion"; # Define your hostname.
+  networking.hostName = "nuc"; # Define your hostname.
 
   programs.hyprland = {
     enable = true;
@@ -32,25 +39,6 @@
     };
   };
 
-  services.xserver.videoDrivers = ["amdgpu" "nvidia"];
-
-  hardware.nvidia = {
-    open = true;
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    powerManagement.finegrained = true;
-
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-
-      amdgpuBusId = "PCI:5:0:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -60,12 +48,33 @@
   # Enable bluetooth manager.
   services.blueman.enable = true;
 
+  # Enable SSH server
+  services.openssh = {
+    ports = [22];
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
     isNormalUser = true;
     description = "Work";
     extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm"];
     uid = 1000;
+    shell = pkgs.bash;
+  };
+
+  users.users.games = {
+    isNormalUser = true;
+    description = "Gaming";
+    extraGroups = ["networkmanager" "video" "gamemode"];
+    uid = 1001;
+    shell = pkgs.bash;
+  };
+
+  users.users.adam = {
+    isNormalUser = true;
+    description = "Adam";
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout" "plugdev"];
+    uid = 1002;
     shell = pkgs.bash;
   };
 
@@ -80,5 +89,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

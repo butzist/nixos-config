@@ -1,21 +1,33 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{pkgs, ...}: {
+{
+  pkgs,
+  ezModules,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/system/nixos/base.nix
-    ../../modules/system/nixos/gnome.nix
-    ../../modules/system/nixos/gaming.nix
-  ];
+  ] ++ (with ezModules; [
+    base
+    gnome
+    gaming
+    laptop
+  ]);
+
+  # Home-manager settings applied to every user on this machine.
+  home-manager.sharedModules = [./home.nix];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.kernelParams = [
+    "amd_iommu=off"
+  ];
 
-  networking.hostName = "daddeln"; # Define your hostname.
+  networking.hostName = "hp-laptop"; # Define your hostname.
 
   programs.hyprland = {
     enable = true;
@@ -32,8 +44,8 @@
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us";
-    variant = "euro";
+    layout = "de";
+    variant = "nodeadkeys";
   };
 
   # Enable bluetooth manager.
@@ -45,24 +57,29 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.games = {
+  users.users.adam = {
     isNormalUser = true;
-    description = "Gaming";
-    extraGroups = ["networkmanager" "video" "gamemode"];
+    description = "Adam";
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout" "plugdev"];
     uid = 1000;
     shell = pkgs.bash;
   };
 
-  users.users.adam = {
+  users.users.games = {
     isNormalUser = true;
-    description = "Adam";
-    extraGroups = ["networkmanager" "wheel" "docker" "video"];
+    description = "Gaming";
+    extraGroups = ["networkmanager" "video" "gamemode"];
     uid = 1002;
     shell = pkgs.bash;
   };
 
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "games";
+  users.users.mirj = {
+    isNormalUser = true;
+    description = "Mirjam";
+    extraGroups = ["networkmanager" "video"];
+    uid = 1003;
+    shell = pkgs.bash;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -75,5 +92,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

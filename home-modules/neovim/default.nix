@@ -1,6 +1,5 @@
 {
   pkgs,
-  isDarwin,
   ...
 }: {
   imports = [
@@ -12,7 +11,7 @@
       jq
     ]
     ++ (
-      if isDarwin
+      if pkgs.stdenv.isDarwin
       then [
       ]
       else [
