@@ -54,4 +54,50 @@ in {
       ];
     };
   };
+
+  # opencode: use the local ollama instance
+  xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
+    "$schema" = "https://opencode.ai/config.json";
+    model = "ollama/gemma4:e4b";
+    provider.ollama = {
+      npm = "@ai-sdk/openai-compatible";
+      name = "Ollama (local)";
+      options.baseURL = "http://localhost:11434/v1";
+      models = {
+        "gemma4:12b" = {
+          name = "Gemma4 (slow)";
+          tool_call = true;
+          options = {
+            reasoning_effort = "none";
+            temperature = 1.0;
+            top_p = 0.95;
+            top_k = 64;
+          };
+          maxTokens = 16384;
+        };
+        "gemma4:e4b" = {
+          name = "Gemma4 (medium)";
+          tool_call = true;
+          options = {
+            reasoning_effort = "none";
+            temperature = 1.0;
+            top_p = 0.95;
+            top_k = 64;
+          };
+          maxTokens = 16384;
+        };
+        "gemma4:e2b" = {
+          name = "Gemma4 (fast)";
+          tool_call = true;
+          options = {
+            reasoning_effort = "none";
+            temperature = 1.0;
+            top_p = 0.95;
+            top_k = 64;
+          };
+          maxTokens = 16384;
+        };
+      };
+    };
+  };
 }

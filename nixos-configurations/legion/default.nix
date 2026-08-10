@@ -6,15 +6,17 @@
   ezModules,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ] ++ (with ezModules; [
-    base
-    gnome
-    laptop
-    containers
-  ]);
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ (with ezModules; [
+      base
+      gnome
+      laptop
+      containers
+    ]);
 
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
@@ -67,6 +69,25 @@
 
   # Enable bluetooth manager.
   services.blueman.enable = true;
+
+  # Local LLM server for opencode, accelerated with the NVIDIA GPU.
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
+    loadModels = ["gemma4:12b" "gemma4:e4b" "gemma4:e2b"];
+    # Ollama's default context window is 4096 tokens, which opencode
+    # (system prompt + tool definitions) exceeds in a single turn, so the
+    # server silently truncates history and the model appears to "forget"
+    # everything between prompts. Bump the server-wide default to 64k.
+    environmentVariables.OLLAMA_CONTEXT_LENGTH = "65536";
+  };
+
+  # Binary cache for CUDA packages so ollama-cuda (and friends) don't have
+  # to be built from source. See https://cache.nixos-cuda.org/
+  nix.settings = {
+    substituters = ["https://cache.nixos-cuda.org"];
+    trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.work = {
