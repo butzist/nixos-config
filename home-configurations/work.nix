@@ -7,18 +7,6 @@
   home.username = "work";
   home.homeDirectory = "/home/work";
 
-  # compliance crap
-  services.hypridle = {
-    settings = {
-      listener = [
-        {
-          timeout = 900; # 15 min
-          on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
-        }
-      ];
-    };
-  };
-
   imports =
     (with ezModules; [
       base
