@@ -11,6 +11,7 @@
     lazygit
     btop
     killall
+    codex
 
     ripgrep
     fd
@@ -31,6 +32,7 @@
         ls = "eza";
         cat = "bat";
         gg = "lazygit";
+        chatgpt = "codex --sandbox read-only --ask-for-approval never";
       };
     };
 
