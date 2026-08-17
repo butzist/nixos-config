@@ -26,7 +26,6 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    brave
     kicad
     easyeda2kicad
   ];
@@ -34,6 +33,19 @@
   age.secrets = {};
 
   programs = {
+    # Chrome/Brave 142+ gates public -> loopback requests behind the Local
+    # Network Access permission. The loopback-network permissions policy only
+    # allows same-origin iframes by default, so the nested OnlyOffice engine
+    # (onlyoffice.github.io) could never be delegated the permission. This
+    # switch makes the LNA permissions policy default-enabled in ALL frames,
+    # so no allow attribute is needed anywhere on the iframe chain.
+    brave = {
+      enable = true;
+      commandLineArgs = [
+        "--local-network-access-permissions-policy-default-enabled"
+      ];
+    };
+
     git = {
       settings = {
         credential.helper = "!f() { gh auth git-credential \"$@\"; }; f";

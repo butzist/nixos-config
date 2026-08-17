@@ -79,7 +79,38 @@
     # (system prompt + tool definitions) exceeds in a single turn, so the
     # server silently truncates history and the model appears to "forget"
     # everything between prompts. Bump the server-wide default to 64k.
-    environmentVariables.OLLAMA_CONTEXT_LENGTH = "65536";
+    # Allow the OnlyOffice GitHub page to call the local Ollama API from
+    # the browser (CORS).
+    environmentVariables = {
+      OLLAMA_CONTEXT_LENGTH = "65536";
+      OLLAMA_ORIGINS = "https://onlyoffice.github.io,http://localhost,http://localhost:*,https://localhost,https://localhost:*";
+    };
+    # Move Ollama off 11434; nginx listens there instead (see below).
+    host = "127.0.0.1";
+    port = 11435;
+  };
+
+  # Browsers (Chrome/Brave) block public HTTPS pages from talking to
+  # localhost unless the server answers the Private Network Access (PNA)
+  # preflight with `Access-Control-Allow-Private-Network`. Ollama does not
+  # emit that header, so proxy it here on the port the OnlyOffice page uses
+  # and add the header ourselves.
+  services.nginx = {
+    enable = true;
+    virtualHosts."localhost" = {
+      listen = [{ addr = "127.0.0.1"; port = 11434; }];
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:11435";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_buffering off;
+          proxy_read_timeout 600s;
+          add_header Access-Control-Allow-Private-Network true always;
+        '';
+      };
+    };
   };
 
   # Binary cache for CUDA packages so ollama-cuda (and friends) don't have
