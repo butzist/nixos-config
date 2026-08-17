@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
   ];
 
@@ -193,7 +190,6 @@
 
       minimap = {
         minimap-vim.enable = false;
-        codewindow.enable = false;
       };
 
       dashboard = {
