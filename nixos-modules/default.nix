@@ -7,6 +7,7 @@
     inputs.agenix.nixosModules.default
     inputs.stylix.nixosModules.stylix
     ../overlays
+    ../shared-modules/ssh-keys.nix
   ];
 
   home-manager = {
