@@ -4,7 +4,7 @@
   ...
 }: {
   # mold's cargo config targets a Linux linker
-  config = lib.mkIf (!pkgs.stdenv.isDarwin) {
+  config = lib.mkIf (!pkgs.stdenv.hostPlatform.isDarwin) {
     home.packages = with pkgs; [
       mold
     ];

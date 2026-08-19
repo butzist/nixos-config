@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf pkgs.stdenv.isLinux {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     virtualisation = {
       # Enable common container config files in /etc/containers
       containers.enable = true;

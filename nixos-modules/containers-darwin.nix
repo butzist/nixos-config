@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf pkgs.stdenv.isDarwin {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     # Useful other development tools
     environment.systemPackages = with pkgs; [
       colima
