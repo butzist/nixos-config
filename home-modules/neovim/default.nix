@@ -139,6 +139,10 @@
       statusline = {
         lualine = {
           enable = true;
+          integrations.breadcrumbs = {
+            navbuddy.enable = true;
+            nvim-navic.enable = true;
+          };
         };
       };
 
@@ -245,10 +249,6 @@
         colorizer.enable = true;
         modes-nvim.enable = false;
         illuminate.enable = true;
-        breadcrumbs = {
-          enable = true;
-          navbuddy.enable = true;
-        };
         fastaction.enable = true;
       };
 
