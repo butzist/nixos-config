@@ -211,6 +211,12 @@
 
       utility = {
         ccc.enable = false;
+        crazy-coverage = {
+          enable = true;
+          setupOpts = {
+            coverage_dirs = ["target/coverage" "coverage" "."];
+          };
+        };
         diffview-nvim.enable = true;
         icon-picker.enable = true;
         images = {
