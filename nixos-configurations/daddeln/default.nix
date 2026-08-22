@@ -6,14 +6,16 @@
   ezModules,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ] ++ (with ezModules; [
-    base
-    gnome
-    gaming
-  ]);
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ (with ezModules; [
+      base
+      gnome
+      gaming
+    ]);
 
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
@@ -65,7 +67,7 @@
     isNormalUser = true;
     description = "Adam";
     extraGroups = ["networkmanager" "wheel" "docker" "video"];
-    uid = 1002;
+    uid = 1001;
     shell = pkgs.bash;
   };
 
