@@ -31,7 +31,9 @@
     easyeda2kicad
   ];
 
-  age.secrets = {};
+  age.secrets = {
+    gpg-private = {file = ../secrets/users/work/gpg-private.asc.age;};
+  };
 
   programs = {
     # Chrome/Brave 142+ gates public -> loopback requests behind the Local
@@ -54,6 +56,11 @@
         user = {
           inherit (config.sensitive) name;
           inherit (config.sensitive) email;
+          signingkey = "68C8B8A1A0A099640AC225E7F5B9095486E4F9FF";
+        };
+
+        commit = {
+          gpgsign = true;
         };
 
         init = {
@@ -65,6 +72,19 @@
     bash = {
       enable = true;
     };
+  };
+
+  systemd.user.services.import-gpg-key = {
+    Unit = {
+      Description = "Import GPG private key from agenix secret";
+      After = ["agenix.service"];
+      Requires = ["agenix.service"];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.gnupg}/bin/gpg --batch --import ${config.age.secrets.gpg-private.path}";
+    };
+    Install.WantedBy = ["default.target"];
   };
 
   # This value determines the home Manager release that your
