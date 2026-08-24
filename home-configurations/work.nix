@@ -26,6 +26,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    libreoffice
     kicad
     easyeda2kicad
   ];
