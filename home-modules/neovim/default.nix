@@ -123,6 +123,7 @@
         nu.enable = true;
         yaml.enable = true;
         helm.enable = true;
+        qml.enable = true;
       };
 
       visuals = {
