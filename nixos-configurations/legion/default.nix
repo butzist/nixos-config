@@ -69,6 +69,8 @@
 
   # Enable bluetooth manager.
   services.blueman.enable = true;
+  # Power the adapter on at boot.
+  hardware.bluetooth.powerOnBoot = true;
 
   # Local LLM server for opencode, accelerated with the NVIDIA GPU.
   services.ollama = {
