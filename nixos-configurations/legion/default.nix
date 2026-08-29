@@ -24,7 +24,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.luks.devices."luks-badc0975-bd8f-4323-a781-203aa39328fa".device = "/dev/disk/by-uuid/badc0975-bd8f-4323-a781-203aa39328fa";
 
   networking.hostName = "legion"; # Define your hostname.
@@ -100,7 +100,12 @@
   services.nginx = {
     enable = true;
     virtualHosts."localhost" = {
-      listen = [{ addr = "127.0.0.1"; port = 11434; }];
+      listen = [
+        {
+          addr = "127.0.0.1";
+          port = 11434;
+        }
+      ];
       locations."/" = {
         proxyPass = "http://127.0.0.1:11435";
         proxyWebsockets = true;
