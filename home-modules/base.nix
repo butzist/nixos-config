@@ -41,7 +41,15 @@
       shellWrapperName = "y";
     };
 
-    lazygit.enable = true;
+    lazygit = {
+      enable = true;
+      settings = {
+        git = {
+          overrideGpg = true;
+        };
+      };
+    };
+
     btop.enable = true;
     fzf.enable = true;
     bat.enable = true;
