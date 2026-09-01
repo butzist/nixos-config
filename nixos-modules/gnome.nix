@@ -3,21 +3,9 @@
     enable = true;
   };
 
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit
-    cheese
-    gnome-music
-    gnome-terminal
-    epiphany
-    geary
-    evince
-    gnome-characters
-    totem
-    tali
-    iagno
-    hitori
-    atomix
-  ];
+  services.gnome = {
+    core-apps.enable = false;
+    core-developer-tools.enable = false;
+    games.enable = false;
+  };
 }
