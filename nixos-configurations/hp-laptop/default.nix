@@ -6,15 +6,17 @@
   ezModules,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ] ++ (with ezModules; [
-    base
-    gnome
-    gaming
-    laptop
-  ]);
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ (with ezModules; [
+      base
+      gnome
+      gaming
+      laptop
+    ]);
 
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
@@ -22,7 +24,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "amd_iommu=off"
   ];
