@@ -100,4 +100,8 @@ in {
       };
     };
   };
+
+  programs.brave.commandLineArgs = [
+    "--disable-features=VaapiVideoEncoder"
+  ];
 }
