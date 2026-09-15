@@ -135,9 +135,14 @@
 
   users.extraGroups.plugdev = {};
 
+  # SSH over the tailnet only: with openFirewall off, the trusted tailscale0
+  # interface is the sole path in (no LAN fallback). `ports` is explicit because
+  # an empty list does not mean "no listener" - sshd just falls back to 22 and
+  # only the firewall rule is skipped.
   services.openssh = {
     enable = true;
-    ports = [];
+    ports = [22];
+    openFirewall = false;
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;

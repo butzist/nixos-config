@@ -8,6 +8,7 @@
     inputs.stylix.nixosModules.stylix
     ../overlays
     ../shared-modules/ssh-keys.nix
+    ../shared-modules/tailscale.nix
   ];
 
   home-manager = {

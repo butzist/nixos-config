@@ -1,0 +1,23 @@
+# Nix build results. These matter: Nix hashes the flake's own tree when it is
+# used as a `source` input, and stray files here change that hash per machine,
+# which turns into cache misses and uploads junk to the binary cache.
+result
+result-*
+
+# Editors / shells
+.direnv/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Local infrastructure state: never commit tfstate or generated credentials.
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Scratch
+*.log
+.env
+.envrc.local
