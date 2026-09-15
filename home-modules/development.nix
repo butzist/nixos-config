@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./rust-mold.nix
   ];
@@ -46,6 +43,7 @@
 
     # assistants
     opencode
+    goose-cli
 
     # analytics
     flamegraph
