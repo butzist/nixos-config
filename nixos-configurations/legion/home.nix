@@ -13,9 +13,9 @@
     for name in $(${pkgs.hyprland}/bin/hyprctl monitors | ${pkgs.gawk}/bin/awk '/^Monitor / {print $2}'); do
       case "$name" in
         DP-*)
-          hyprctl dispatch dpms off "$name"
+          ${pkgs.hyprland}/bin/hyprctl dispatch 'hl.dsp.dpms({ action = "off", monitor = "'"$name"'" })'
           sleep 1
-          hyprctl dispatch dpms on "$name"
+          ${pkgs.hyprland}/bin/hyprctl dispatch 'hl.dsp.dpms({ action = "on", monitor = "'"$name"'" })'
           ;;
       esac
     done

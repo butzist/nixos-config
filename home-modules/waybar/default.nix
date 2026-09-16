@@ -49,6 +49,14 @@
           "memory"
         ];
       };
+      "hyprland/workspaces" = {
+        "format" = "{name}";
+        "on-click" = "activate";
+        "on-scroll-up" = "hyprctl dispatch \"hl.dsp.focus({ workspace = \\\"e-1\\\" })\"";
+        "on-scroll-down" = "hyprctl dispatch \"hl.dsp.focus({ workspace = \\\"e+1\\\" })\"";
+        "all-outputs" = true;
+        "sortby" = "number";
+      };
       "sway/workspaces" = {
         "disable-scroll" = true;
         "all-outputs" = false;

@@ -71,6 +71,8 @@
   services.blueman.enable = true;
   # Power the adapter on at boot.
   hardware.bluetooth.powerOnBoot = true;
+  # Allow access to I2C bus for display configuration
+  hardware.i2c.enable = true;
 
   # Local LLM server for opencode, accelerated with the NVIDIA GPU.
   services.ollama = {
@@ -131,7 +133,7 @@
   users.users.work = {
     isNormalUser = true;
     description = "Work";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm"];
+    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "i2c"];
     uid = 1000;
     shell = pkgs.bash;
   };
