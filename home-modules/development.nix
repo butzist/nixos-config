@@ -42,7 +42,7 @@
     watchexec
 
     # assistants
-    opencode
+    _stable.opencode
     goose-cli
 
     # analytics
