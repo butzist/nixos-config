@@ -13,11 +13,11 @@ _: {
       background_blur = 5;
     };
     keybindings = {
-      "cmd+alt+h" = "previous_tab";
-      "cmd+alt+l" = "next_tab";
-      "cmd+alt+t" = "new_tab_with_cwd";
-      "cmd+c" = "copy_to_clipboard";
-      "cmd+v" = "paste_from_clipboard";
+      "alt+h" = "previous_tab";
+      "alt+l" = "next_tab";
+      "alt+t" = "new_tab_with_cwd";
+      "alt+c" = "copy_to_clipboard";
+      "alt+v" = "paste_from_clipboard";
     };
   };
 }
