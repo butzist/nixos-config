@@ -32,6 +32,7 @@
         ls = "eza";
         cat = "bat";
         gg = "lazygit";
+        zz = "zellij";
         chatgpt = "codex --sandbox read-only --ask-for-approval never";
       };
     };

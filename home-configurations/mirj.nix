@@ -10,6 +10,7 @@
     base
     kitty
     nushell
+    zellij
   ]) ++ [
     ../themes/ubuntu-catppuccin.nix
   ];

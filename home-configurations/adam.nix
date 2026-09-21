@@ -12,6 +12,7 @@
       base
       kitty
       nushell
+      zellij
       neovim
       hyprland
       wlogout
