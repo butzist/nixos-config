@@ -55,49 +55,39 @@ in {
     };
   };
 
-  # opencode: use the local ollama instance
+  # opencode: use the local llama.cpp instance
   xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";
-    model = "ollama/gemma4:e4b";
-    provider.ollama = {
+    model = "llama.cpp/qwen3.5-9b";
+    provider."llama.cpp" = {
       npm = "@ai-sdk/openai-compatible";
-      name = "Ollama (local)";
+      name = "llama.cpp (local)";
       options.baseURL = "http://localhost:11434/v1";
       models = {
-        "gemma4:12b" = {
-          name = "Gemma4 (slow)";
+        "qwen3.5-9b" = {
+          name = "Qwen3.5-9B (local)";
           tool_call = true;
+          # Keep the client budget well under llama-server's 64k window: opencode
+          # undercounts tokens and used to send prompts that exceeded the old 48k
+          # server window ("context exceeded" from llama.cpp). A smaller output
+          # leaves room for generation plus a tokenizer-overshoot margin.
+          limit = {
+            context = 40 * 1024;
+            output = 8 * 1024;
+          };
           options = {
-            reasoning_effort = "none";
             temperature = 1.0;
             top_p = 0.95;
             top_k = 64;
           };
-          maxTokens = 16384;
-        };
-        "gemma4:e4b" = {
-          name = "Gemma4 (medium)";
-          tool_call = true;
-          options = {
-            reasoning_effort = "none";
-            temperature = 1.0;
-            top_p = 0.95;
-            top_k = 64;
-          };
-          maxTokens = 16384;
-        };
-        "gemma4:e2b" = {
-          name = "Gemma4 (fast)";
-          tool_call = true;
-          options = {
-            reasoning_effort = "none";
-            temperature = 1.0;
-            top_p = 0.95;
-            top_k = 64;
-          };
-          maxTokens = 16384;
         };
       };
+    };
+
+    compaction = {
+      auto = true;
+      prune = true;
+      reserved = 10000;
     };
   };
 
