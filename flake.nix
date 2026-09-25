@@ -29,6 +29,9 @@
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
 
+    freetoken.url = "github:lcleveland/freetoken";
+    freetoken.inputs.nixpkgs.follows = "nixpkgs";
+
     ez-configs = {
       url = "github:ehllie/ez-configs";
       inputs = {
@@ -38,8 +41,12 @@
     };
   };
 
-  outputs = inputs @ { flake-parts, ez-configs, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs @ {
+    flake-parts,
+    ez-configs,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
       systems = [];
 
       imports = [
@@ -48,7 +55,7 @@
 
       ezConfigs = {
         root = ./.;
-        globalArgs = { inherit inputs; };
+        globalArgs = {inherit inputs;};
 
         nixos.hosts = {
           daddeln.userHomeModules = ["games" "adam"];

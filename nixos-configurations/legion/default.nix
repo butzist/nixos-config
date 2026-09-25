@@ -122,6 +122,11 @@ in {
     };
   };
 
+  services.freetoken = {
+    enable = true;
+    model = "nvidia/Qwen3.6-35B-A3B-NVFP4";
+  };
+
   # Browsers (Chrome/Brave) block public HTTPS pages from talking to
   # localhost unless the server answers the Private Network Access (PNA)
   # preflight with `Access-Control-Allow-Private-Network`. llama-server does

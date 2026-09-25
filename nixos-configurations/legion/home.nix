@@ -59,26 +59,52 @@ in {
   xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";
     model = "llama.cpp/qwen3.5-9b";
-    provider."llama.cpp" = {
-      npm = "@ai-sdk/openai-compatible";
-      name = "llama.cpp (local)";
-      options.baseURL = "http://localhost:11434/v1";
-      models = {
-        "qwen3.5-9b" = {
-          name = "Qwen3.5-9B (local)";
-          tool_call = true;
-          # Keep the client budget well under llama-server's 64k window: opencode
-          # undercounts tokens and used to send prompts that exceeded the old 48k
-          # server window ("context exceeded" from llama.cpp). A smaller output
-          # leaves room for generation plus a tokenizer-overshoot margin.
-          limit = {
-            context = 40 * 1024;
-            output = 8 * 1024;
+    provider = {
+      "llama.cpp" = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "llama.cpp (local)";
+        options.baseURL = "http://localhost:11434/v1";
+        models = {
+          "qwen3.5-9b" = {
+            name = "Qwen3.5-9B (local)";
+            tool_call = true;
+            # Keep the client budget well under llama-server's 64k window: opencode
+            # undercounts tokens and used to send prompts that exceeded the old 48k
+            # server window ("context exceeded" from llama.cpp). A smaller output
+            # leaves room for generation plus a tokenizer-overshoot margin.
+            limit = {
+              context = 40 * 1024;
+              output = 8 * 1024;
+            };
+            options = {
+              temperature = 1.0;
+              top_p = 0.95;
+              top_k = 64;
+            };
           };
-          options = {
-            temperature = 1.0;
-            top_p = 0.95;
-            top_k = 64;
+        };
+      };
+      "FreeToken" = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "llama.cpp (local)";
+        options.baseURL = "http://localhost:1919/v1";
+        models = {
+          "qwen3.6-35b" = {
+            name = "Qwen3.6-35B (local)";
+            tool_call = true;
+            # Keep the client budget well under llama-server's 64k window: opencode
+            # undercounts tokens and used to send prompts that exceeded the old 48k
+            # server window ("context exceeded" from llama.cpp). A smaller output
+            # leaves room for generation plus a tokenizer-overshoot margin.
+            limit = {
+              context = 40 * 1024;
+              output = 8 * 1024;
+            };
+            options = {
+              temperature = 1.0;
+              top_p = 0.95;
+              top_k = 64;
+            };
           };
         };
       };

@@ -304,6 +304,26 @@
         "type": "github"
       }
     },
+    "freetoken": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789776671,
+        "narHash": "sha256-+pXC5XLFyK+6iZF9Brovbj07nZYQOl4uUpEOdicBs48=",
+        "owner": "lcleveland",
+        "repo": "freetoken",
+        "rev": "2904e068d7cf02378f77fa19a387bfe16135fb04",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lcleveland",
+        "repo": "freetoken",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -636,6 +656,7 @@
         "determinate": "determinate",
         "ez-configs": "ez-configs",
         "flake-parts": "flake-parts_2",
+        "freetoken": "freetoken",
         "home-manager": "home-manager_2",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3",
