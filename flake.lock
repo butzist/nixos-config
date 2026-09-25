@@ -279,6 +279,27 @@
         "type": "github"
       }
     },
+    "freetoken": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790596112,
+        "narHash": "sha256-K6uHRwtslRUzwHbMPRsBmnvpJwIjC0ZS5QS1lRLVRik=",
+        "owner": "butzist",
+        "repo": "nix-freetoken",
+        "rev": "b33853316c3625b6f3bbb50a0f5f630f4391915f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "butzist",
+        "ref": "fix/noexec-jit-cache",
+        "repo": "nix-freetoken",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -590,6 +611,7 @@
         "determinate": "determinate",
         "ez-configs": "ez-configs",
         "flake-parts": "flake-parts_2",
+        "freetoken": "freetoken",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3",

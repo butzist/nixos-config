@@ -1,11 +1,9 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
     inputs.stylix.nixosModules.stylix
+    inputs.freetoken.nixosModules.freetoken
     ../overlays
     ../shared-modules/ssh-keys.nix
     ../shared-modules/tailscale.nix

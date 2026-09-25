@@ -2,6 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
+  lib,
   pkgs,
   ezModules,
   ...
@@ -14,6 +15,47 @@
     url = "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_K_M.gguf";
     hash = "sha256-A7dHJ6hgpWM44ELEQguz8Esv7Fc0F19MufqFPa9St+g=";
   };
+
+  # The freetoken checkpoint, same idea as qwenModel above but a whole
+  # safetensors snapshot rather than one file, so it needs assembling.
+  #
+  # Every file is a separate fetchurl, pinned by the sha256 Hugging Face
+  # reports for it (the git-lfs etag for the LFS-tracked ones), symlinked into
+  # one directory by linkFarm. Symlinks rather than copies: the shards are
+  # 21.8 GiB between them and the store already has them.
+  #
+  # `model` is given this path rather than the `nvidia/Qwen3.6-35B-A3B-NVFP4`
+  # repo id, so the unit serves a fixed set of weights instead of whatever the
+  # remote branch points at, and a first start does not have to download 21.8
+  # GiB under the service sandbox. Nothing here needs to be writable, so the
+  # read-only store is fine.
+  freetokenRepo = "nvidia/Qwen3.6-35B-A3B-NVFP4";
+  freetokenModel = pkgs.linkFarm "qwen3.6-35b-a3b-nvfp4" (
+    lib.mapAttrs
+    (
+      name: hash:
+        pkgs.fetchurl {
+          inherit name hash;
+          url = "https://huggingface.co/${freetokenRepo}/resolve/main/${name}";
+        }
+    )
+    {
+      "config.json" = "sha256-WK76HJ7/eYn0MddI8t3sOURssf0qaazEbihcajewzsw=";
+      "configuration.json" = "sha256-wbCdtBkRlRMkfpuLkSxLmJcQbJsgxsrafhB9mTxUNes=";
+      "generation_config.json" = "sha256-5wwTbBt43cH7CQW6yOczpNxEjU+FKl3XUUP//HC+VQ4=";
+      "hf_quant_config.json" = "sha256-df58yNWDa1hzTgXuZ0I6TOkdYCqq1FyBc6G3WXzVdmM=";
+      "model.safetensors.index.json" = "sha256-1nQDpOl5PAuooTa68Us7dux7MsgiJnl4CEiV4H69ij4=";
+      "preprocessor_config.json" = "sha256-JyJUUKycZSmHLuGST8sJYv9WNINPgXBA9EQRgRb05RY=";
+      "tokenizer.json" = "sha256-X55NSQGpK5l+RjwfRgVQiLbMpcphplItG59kxLuBy0I=";
+      "tokenizer_config.json" = "sha256-UYbw3vzX8jI4LH8K680iUtBzu5IaskDkB7euh0XSsps=";
+      "video_preprocessor_config.json" = "sha256-d2ivJ8H6+pzJARwdwgBn4D+JFeA7Y1BFUOEdUGaYbRM=";
+      "vocab.json" = "sha256-zpm0yymD0RiAbOCot3ejWwk+IAClA+veJYUyhMnfoAM=";
+      "chat_template.jinja" = "sha256-6E8yoj/donaJ+GiqShpWIfQRM+UaSNfz78vqKDlXQlk=";
+      "model-00001-of-00003.safetensors" = "sha256-BxQcLbkuR7wId3EyzRoDI/rzAOqzp9fBEbwr8HX9oFA=";
+      "model-00002-of-00003.safetensors" = "sha256-beqcdZoPlBz54cwVASFrDhB5ZqZskEJQUOIS770FPwI=";
+      "model-00003-of-00003.safetensors" = "sha256-l1iHX8VeSVYRZfSkQ0K2VMEjw+JcaBGzSruDVT+xoWQ=";
+    }
+  );
 in {
   imports =
     [
@@ -51,7 +93,10 @@ in {
     };
   };
 
-  services.xserver.videoDrivers = ["amdgpu" "nvidia"];
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
 
   hardware.nvidia = {
     open = true;
@@ -86,7 +131,7 @@ in {
   # Local LLM server for opencode, accelerated with the NVIDIA GPU.
   # Serves Qwen3.5-9B Q4_K_M via llama.cpp (llama-server).
   services.llama-cpp = {
-    enable = true;
+    enable = false;
     package = pkgs.llama-cpp-cuda;
     # Move llama-server off the default 8080; nginx listens on 11434 instead
     # (see below) and proxies to this backend port.
@@ -96,29 +141,58 @@ in {
       # Router mode only exposes models defined in a preset INI; a bare
       # --model-url/--alias would register zero models and `/v1/models`
       # returns an empty list (breaking opencode's model discovery).
-      models-preset =
-        (pkgs.formats.ini {}).generate
-        "llama-cpp-models.ini"
-        {
-          "qwen3.5-9b" = {
-            model = "${qwenModel}";
-            # Present the API model name as this so opencode's provider id matches.
-            alias = "qwen3.5-9b";
-            # 64k context window. opencode's tokenizer estimate routinely undercounts
-            # vs the model's real tokenizer, so it used to ship prompts of 55-69k
-            # real tokens that got rejected against a 48k window. The model
-            # natively supports 262k, but the 8GB VRAM cap (this hybrid
-            # Mamba/attention model has a cheap ~16kB/token KV cache at
-            # head_dim 64, GQA x4) keeps us conservative at 64k.
-            ctx-size = 64 * 1024;
-            # Offload all 28 layers to the GPU.
-            n-gpu-layers = 99;
-            # Model parameters recommended for Qwen3.5 family (agentic coding).
-            temp = 1.0;
-            top-p = 0.95;
-            top-k = 64;
-          };
+      models-preset = (pkgs.formats.ini {}).generate "llama-cpp-models.ini" {
+        "qwen3.5-9b" = {
+          model = "${qwenModel}";
+          # Present the API model name as this so opencode's provider id matches.
+          alias = "qwen3.5-9b";
+          # 64k context window. opencode's tokenizer estimate routinely undercounts
+          # vs the model's real tokenizer, so it used to ship prompts of 55-69k
+          # real tokens that got rejected against a 48k window. The model
+          # natively supports 262k, but the 8GB VRAM cap (this hybrid
+          # Mamba/attention model has a cheap ~16kB/token KV cache at
+          # head_dim 64, GQA x4) keeps us conservative at 64k.
+          ctx-size = 64 * 1024;
+          # Offload all 28 layers to the GPU.
+          n-gpu-layers = 99;
+          # Model parameters recommended for Qwen3.5 family (agentic coding).
+          temp = 1.0;
+          top-p = 0.95;
+          top-k = 64;
         };
+      };
+    };
+  };
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 53;
+    memoryMax = 16 * 1024 * 1024 * 1024;
+
+    # in compressed RAM first and only spill to disk under real pressure.
+    priority = 5;
+  };
+
+  services.freetoken = {
+    enable = true;
+    model = "${freetokenModel}";
+    settings = {
+      "served-model-name" = "qwen3.6-35b-a3b";
+      "text-model-only" = true;
+
+      # An 8 GiB card serving a 35B-A3B MoE leaves very little slack: the
+      # default 0.9 reserved under a GiB for CUDA graphs and activations. KV is
+      # cheap here (~20 KiB/token), so 64k costs ~1.25 GiB total.
+      "memory-ratio" = 0.80;
+      "kv-reserve-tokens" = 65536;
+
+      # One decode buffer, and only a batch-1 graph capture, instead of two.
+      # OpenCode never has more than one request in flight here.
+      "max-running-requests" = 1;
+
+      # Prints the real cache/weight breakdown, which is the only way to tell
+      # whether a given setting actually landed.
+      "enable-cache-report" = true;
     };
   };
 
@@ -161,7 +235,14 @@ in {
   users.users.work = {
     isNormalUser = true;
     description = "Work";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "i2c"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "video"
+      "kvm"
+      "i2c"
+    ];
     uid = 1000;
     shell = pkgs.bash;
   };
