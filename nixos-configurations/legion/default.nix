@@ -7,18 +7,6 @@
   ezModules,
   ...
 }: let
-  # Qwen3.5-9B Q4_K_M baked into the store, so llama-server never downloads
-  # at runtime (the on-demand fetch in router mode hangs silently under the
-  # service sandbox).
-  qwenModel = pkgs.fetchurl {
-    name = "Qwen3.5-9B-Q4_K_M.gguf";
-    url = "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_K_M.gguf";
-    hash = "sha256-A7dHJ6hgpWM44ELEQguz8Esv7Fc0F19MufqFPa9St+g=";
-  };
-
-  # The freetoken checkpoint, same idea as qwenModel above but a whole
-  # safetensors snapshot rather than one file, so it needs assembling.
-  #
   # Every file is a separate fetchurl, pinned by the sha256 Hugging Face
   # reports for it (the git-lfs etag for the LFS-tracked ones), symlinked into
   # one directory by linkFarm. Symlinks rather than copies: the shards are
@@ -128,42 +116,6 @@ in {
   # Allow access to I2C bus for display configuration
   hardware.i2c.enable = true;
 
-  # Local LLM server for opencode, accelerated with the NVIDIA GPU.
-  # Serves Qwen3.5-9B Q4_K_M via llama.cpp (llama-server).
-  services.llama-cpp = {
-    enable = false;
-    package = pkgs.llama-cpp-cuda;
-    # Move llama-server off the default 8080; nginx listens on 11434 instead
-    # (see below) and proxies to this backend port.
-    settings = {
-      host = "127.0.0.1";
-      port = 11435;
-      # Router mode only exposes models defined in a preset INI; a bare
-      # --model-url/--alias would register zero models and `/v1/models`
-      # returns an empty list (breaking opencode's model discovery).
-      models-preset = (pkgs.formats.ini {}).generate "llama-cpp-models.ini" {
-        "qwen3.5-9b" = {
-          model = "${qwenModel}";
-          # Present the API model name as this so opencode's provider id matches.
-          alias = "qwen3.5-9b";
-          # 64k context window. opencode's tokenizer estimate routinely undercounts
-          # vs the model's real tokenizer, so it used to ship prompts of 55-69k
-          # real tokens that got rejected against a 48k window. The model
-          # natively supports 262k, but the 8GB VRAM cap (this hybrid
-          # Mamba/attention model has a cheap ~16kB/token KV cache at
-          # head_dim 64, GQA x4) keeps us conservative at 64k.
-          ctx-size = 64 * 1024;
-          # Offload all 28 layers to the GPU.
-          n-gpu-layers = 99;
-          # Model parameters recommended for Qwen3.5 family (agentic coding).
-          temp = 1.0;
-          top-p = 0.95;
-          top-k = 64;
-        };
-      };
-    };
-  };
-
   zramSwap = {
     enable = true;
     memoryPercent = 53;
@@ -193,34 +145,6 @@ in {
       # Prints the real cache/weight breakdown, which is the only way to tell
       # whether a given setting actually landed.
       "enable-cache-report" = true;
-    };
-  };
-
-  # Browsers (Chrome/Brave) block public HTTPS pages from talking to
-  # localhost unless the server answers the Private Network Access (PNA)
-  # preflight with `Access-Control-Allow-Private-Network`. llama-server does
-  # not emit that header, so proxy it here on the port the OnlyOffice page
-  # uses and add the header ourselves.
-  services.nginx = {
-    enable = true;
-    virtualHosts."localhost" = {
-      listen = [
-        {
-          addr = "127.0.0.1";
-          port = 11434;
-        }
-      ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:11435";
-        proxyWebsockets = true;
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_buffering off;
-          proxy_read_timeout 600s;
-          add_header Access-Control-Allow-Private-Network true always;
-        '';
-      };
     };
   };
 
