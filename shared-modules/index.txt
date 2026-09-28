@@ -1,0 +1,5 @@
+Imported by both NixOS and darwin. Read from secrets/ - never read secrets/.
+
+ssh-keys.nix     users/<user>/id_ed25519.age -> ~/.ssh/id_ed25519 (0400). Skips absent keys.
+tailscale.nix    Self-enrolling tailscale from tailscale/oauth.age, tag:nix, trusts
+                 tailscale0, --ssh=false. mkIf on the secret existing.

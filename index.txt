@@ -1,0 +1,24 @@
+Personal NixOS / nix-darwin / home-manager flake. Read AGENTS.md first.
+
+flake.nix            Inputs + ez-configs wiring. ezConfigs.nixos.hosts maps host -> home-manager users.
+flake.lock           Locked input revisions.
+AGENTS.md            Agent rules: index.txt navigation, never read secrets/, keep index.txt updated.
+index.txt            This file.
+.gitmodules          secrets/ submodule declaration.
+.gitignore           Nix result symlinks, editor droppings, terraform state, .env files.
+
+nixos-configurations/  One dir per NixOS host (see index.txt).
+nixos-modules/         System-wide NixOS modules (see index.txt).
+darwin-modules/        nix-darwin modules (see index.txt).
+home-configurations/   One file per home-manager user (see index.txt).
+home-modules/          Shared home-manager modules (see index.txt).
+shared-modules/        Imported by both NixOS and darwin.
+overlays/              nixpkgs.overlays for NixOS + home-manager.
+themes/                stylix themes.
+wallpapers/            PNGs used by stylix.image in themes/.
+secrets/               Submodule. DO NOT READ - see AGENTS.md.
+
+rebuild-system.sh     nixos-rebuild switch --flake '.?submodules=1'
+rebuild-darwin.sh     darwin-rebuild --flake '.?submodules=1' switch
+rebuild-user.sh       home-manager switch --flake '.?submodules=1'
+collect-garbage.sh    home-manager expire-generations + nix-collect-garbage -d

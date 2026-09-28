@@ -1,0 +1,5 @@
+Waybar status bar.
+
+default.nix   Module layout, a ping-based internet module, and colors.css
+              generated from stylix colours. Stylix's waybar target is disabled.
+style.css     The stylesheet; imports the generated colors.css.

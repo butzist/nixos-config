@@ -1,0 +1,5 @@
+Neovim config via the nvf flake module.
+
+default.nix   nvf settings.vim block: options, LSP, diagnostics, formatting,
+              per-language enablement, treesitter, cmp, telescope, custom keymaps.
+pylint.nix    Adds pylint to nvim-lint for python. Template for more linters.

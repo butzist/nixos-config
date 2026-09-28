@@ -1,0 +1,21 @@
+Home-manager modules; basename = the name used in `with ezModules; [...]`.
+default.nix is the implicit module of every user.
+
+default.nix      Imports agenix, nvf, stylix, ../overlays. Adds config.sensitive
+                 from ../secrets/users/<user>/sensitive.nix.
+base.nix          User baseline: packages, bash aliases, yazi/lazygit, fzf/bat.
+nushell.nix       nushell, carapace, starship, zoxide.
+zellij.nix        Custom keymap, starts in `locked` mode with Alt+Super passthrough.
+kitty.nix         Terminal: blur, padding, alt-based keys.
+wezterm.nix       Terminal. Unused; kitty is the one in use.
+hyprland.nix      Desktop: lua config, scrolling layout, blur, keybinds, hyprlock,
+                  hyprpaper, hypridle, gnome-keyring, dunst.
+walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
+wlogout.nix       wlogout with inline stylix stylesheet.
+gaming.nix        steam.
+rofi.nix          Rofi. Unused; walker is the launcher in use.
+development.nix   Dev packages + opinionated git settings. Imports rust-mold.nix.
+rust-mold.nix     mold linker + ~/.cargo/config.toml. Linux only.
+waybar/           Status bar (see index.txt).
+neovim/           Neovim via nvf (see index.txt).
+work/             Work-only modules (see index.txt).

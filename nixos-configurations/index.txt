@@ -1,0 +1,8 @@
+One dir per NixOS host; flake.nix only assigns users, the system config is in
+each default.nix.
+
+daddeln/    Users games + adam. base, gnome, gaming. Auto-login as games.
+hp-laptop/  Users adam + games + mirj. base, gnome, gaming, laptop. One panel.
+legion/     User work. base, gnome, laptop, containers. AMD/NVIDIA hybrid, LUKS,
+            local llama.cpp + freetoken behind an nginx PNA proxy.
+nuc/        Users work + games + adam. base, gnome, gaming, containers. Two monitors.

@@ -1,0 +1,12 @@
+NixOS modules; basename = the name used in `with ezModules; [...]`.
+
+default.nix            Implicit host module: imports home-manager, agenix, stylix,
+                       freetoken, ../overlays, ../shared-modules/*.
+base.nix                Core baseline: GDM, X11, NetworkManager, bluetooth, pipewire,
+                       firewall, tailnet-only sshd, printers, system packages.
+gnome.nix               GNOME without core apps/dev tools/games.
+gaming.nix              gamescope + gamemode.
+laptop.nix              TLP power/charge thresholds.
+containers.nix          Container tooling; imports the linux + darwin split.
+containers-linux.nix    Linux: podman containers, docker, trusts docker0.
+containers-darwin.nix   macOS: colima + docker, DOCKER_CONTEXT=colima.

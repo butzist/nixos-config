@@ -1,0 +1,7 @@
+Wallpaper PNGs for stylix.image in ../themes/. Do not edit.
+
+ubuntu-catppuccin.png     Default catppuccin wallpaper.
+ubuntu-catppuccin-2.png  Alternate.
+everforest-1.png          Alternate.
+everforest-2.png          Default everforest wallpaper.
+everforest-3.png          Alternate.

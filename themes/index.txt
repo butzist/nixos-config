@@ -1,0 +1,4 @@
+stylix home-manager themes, imported by ../home-configurations/*.nix.
+
+everforest-kingdoms.nix  Everforest dark, everforest-2.png, Banana cursor, FiraCode Nerd Font.
+ubuntu-catppuccin.nix    Catppuccin Frappe dark, ubuntu-catppuccin.png, same cursor/fonts.
