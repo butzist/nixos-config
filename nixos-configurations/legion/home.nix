@@ -55,45 +55,6 @@ in {
     };
   };
 
-  # opencode: use the local llama.cpp instance
-  xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    model = "qwen3.6-35b-a3b";
-    provider = {
-      "FreeToken" = {
-        npm = "@ai-sdk/openai-compatible";
-        name = "FreeToken (local)";
-        options.baseURL = "http://localhost:1919/v1";
-        models = {
-          # Must match `served-model-name` in default.nix, which is the id
-          # FreeToken reports from /v1/models.
-          "qwen3.6-35b-a3b" = {
-            name = "Qwen3.6-35B-A3B (local)";
-            tool_call = true;
-            # Stay well under the server's window: opencode undercounts tokens,
-            # so a smaller output leaves room for generation plus a
-            # tokenizer-overshoot margin.
-            limit = {
-              context = 40 * 1024;
-              output = 8 * 1024;
-            };
-            options = {
-              temperature = 1.0;
-              top_p = 0.95;
-              top_k = 64;
-            };
-          };
-        };
-      };
-    };
-
-    compaction = {
-      auto = true;
-      prune = true;
-      reserved = 10000;
-    };
-  };
-
   programs.brave.commandLineArgs = [
     "--disable-features=VaapiVideoEncoder"
   ];

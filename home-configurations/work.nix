@@ -34,6 +34,16 @@
 
   age.secrets = {
     gpg-private = {file = ../secrets/users/work/gpg-private.asc.age;};
+    opencode-go-token = {
+      file = ../secrets/users/work/opencode-go-token.txt.age;
+      mode = "0400";
+      path = "${config.home.homeDirectory}/.config/opencode/opencode-go-token";
+    };
+    greenpt-token = {
+      file = ../secrets/users/work/greenpt-ai-token.txt.age;
+      mode = "0400";
+      path = "${config.home.homeDirectory}/.config/opencode/greenpt-ai-token";
+    };
   };
 
   programs = {
@@ -72,6 +82,51 @@
 
     bash = {
       enable = true;
+    };
+  };
+
+  xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
+    "$schema" = "https://opencode.ai/config.json";
+    lsp = true;
+    model = "qwen3.6-35b-a3b";
+    provider = {
+      "greenpt" = {
+        options.apiKey = "{file:${config.age.secrets.greenpt-token.path}}";
+      };
+      "opencode-go" = {
+        options.apiKey = "{file:${config.age.secrets.opencode-go-token.path}}";
+      };
+      "FreeToken" = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "FreeToken (local)";
+        options.baseURL = "http://localhost:1919/v1";
+        models = {
+          # Must match `served-model-name` in default.nix, which is the id
+          # FreeToken reports from /v1/models.
+          "qwen3.6-35b-a3b" = {
+            name = "Qwen3.6-35B-A3B (local)";
+            tool_call = true;
+            # Stay well under the server's window: opencode undercounts tokens,
+            # so a smaller output leaves room for generation plus a
+            # tokenizer-overshoot margin.
+            limit = {
+              context = 40 * 1024;
+              output = 8 * 1024;
+            };
+            options = {
+              temperature = 1.0;
+              top_p = 0.95;
+              top_k = 64;
+            };
+          };
+        };
+      };
+    };
+
+    compaction = {
+      auto = true;
+      prune = true;
+      reserved = 10000;
     };
   };
 
