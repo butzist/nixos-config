@@ -30,7 +30,6 @@
     nvf.inputs.nixpkgs.follows = "nixpkgs";
 
     freetoken.url = "github:butzist/nix-freetoken/fix/noexec-jit-cache";
-    freetoken.inputs.nixpkgs.follows = "nixpkgs";
 
     ez-configs = {
       url = "github:ehllie/ez-configs";

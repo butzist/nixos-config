@@ -3,19 +3,19 @@ _: {
     (_final: prev: {
       goose-cli = prev.goose-cli.overrideAttrs (
         _oldAttrs: (let
-          version = "1.50.0";
-          rev = "a23a8cd5b138954bc8962cba623c2d8ecd375512";
+          version = "1.52.0";
+          rev = "302b60806639ea9f0ae8f053f49f8bf0e88b26f4";
         in rec {
           inherit version;
           src = prev.fetchFromGitHub {
             inherit rev;
             owner = "aaif-goose";
             repo = "goose";
-            hash = "sha256-FyFULyaR3fcshPb19bT4oWdGLK9D6Oq0Z/8T72BceLU=";
+            hash = "sha256-JowCy5d/qvYW0a4Nx9DGw4uD2/CQZfCLE0qqoJlJZFA=";
           };
           cargoDeps = prev.rustPlatform.fetchCargoVendor {
             inherit src;
-            hash = "sha256-gveK0npiDiJUC3b+BPi2dO8TRgH5KwRCE6njZo3R1cg=";
+            hash = "sha256-t5TYJgVXQvAxAXE/EaTrogV3YexxmCV35VXncBzrTxk=";
           };
           doCheck = false;
         })

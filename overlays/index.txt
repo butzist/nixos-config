@@ -2,4 +2,4 @@ Overlays shared by NixOS + home-manager.
 
 default.nix      _bleeding/_security/_stable package-set aliases, agenix overlay,
                  nixpkgs.config.allowUnfree.
-build-fixes.nix  Pins goose-cli to 1.50.0 (fixed rev + vendored cargoDeps).
+build-fixes.nix  Pins goose-cli to 1.52.0 (fixed rev + vendored cargoDeps).

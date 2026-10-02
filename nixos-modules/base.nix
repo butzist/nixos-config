@@ -195,7 +195,7 @@
 
     # system call monitoring
     strace
-    ltrace
+    _stable.ltrace
     lsof
 
     # system tools
