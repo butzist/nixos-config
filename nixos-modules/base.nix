@@ -79,6 +79,12 @@
     pulse.enable = true;
   };
 
+  # PipeWire does not restore a card's hardware mixer controls (e.g. a USB
+  # DAC's Master switch), which some devices default to muted on power-up.
+  # enablePersistence installs alsa-store + the udev restore rule; it does not
+  # enable hardware.alsa, which would disable PipeWire.
+  hardware.alsa.enablePersistence = true;
+
   services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
     "monitor.bluez.properties" = {
       "bluez5.enable-sbc-xq" = true;
