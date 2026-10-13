@@ -199,6 +199,7 @@
     lsof
 
     # system tools
+    alsa-utils
     brightnessctl
     ethtool
     lm_sensors
