@@ -4,6 +4,7 @@
 }: {
   imports = [
     ./build-fixes.nix
+    ./my-packages.nix
   ];
 
   # shared nixpkgs setup, applied to both NixOS and home-manager configs
