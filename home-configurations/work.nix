@@ -85,51 +85,6 @@
     };
   };
 
-  xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    lsp = true;
-    model = "qwen3.6-35b-a3b";
-    provider = {
-      "greenpt" = {
-        options.apiKey = "{file:${config.age.secrets.greenpt-token.path}}";
-      };
-      "opencode-go" = {
-        options.apiKey = "{file:${config.age.secrets.opencode-go-token.path}}";
-      };
-      "FreeToken" = {
-        npm = "@ai-sdk/openai-compatible";
-        name = "FreeToken (local)";
-        options.baseURL = "http://localhost:1919/v1";
-        models = {
-          # Must match `served-model-name` in default.nix, which is the id
-          # FreeToken reports from /v1/models.
-          "qwen3.6-35b-a3b" = {
-            name = "Qwen3.6-35B-A3B (local)";
-            tool_call = true;
-            # Stay well under the server's window: opencode undercounts tokens,
-            # so a smaller output leaves room for generation plus a
-            # tokenizer-overshoot margin.
-            limit = {
-              context = 40 * 1024;
-              output = 8 * 1024;
-            };
-            options = {
-              temperature = 1.0;
-              top_p = 0.95;
-              top_k = 64;
-            };
-          };
-        };
-      };
-    };
-
-    compaction = {
-      auto = true;
-      prune = true;
-      reserved = 10000;
-    };
-  };
-
   systemd.user.services.import-gpg-key = {
     Unit = {
       Description = "Import GPG private key from agenix secret";

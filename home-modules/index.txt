@@ -14,7 +14,10 @@ walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
 wlogout.nix       wlogout with inline stylix stylesheet.
 gaming.nix        steam.
 rofi.nix          Rofi. Unused; walker is the launcher in use.
-development.nix   Dev packages + opinionated git settings. Imports rust-mold.nix.
+development.nix   Dev packages + opinionated git settings. Provides jailed
+                  opencode/goose (via agent-toolbox) plus -free variants, with
+                  serena/mcpls/rtk config; agenix secrets are read on the host and
+                  forwarded as env vars. Imports rust-mold.nix.
 rust-mold.nix     mold linker + ~/.cargo/config.toml. Linux only.
 waybar/           Status bar (see index.txt).
 neovim/           Neovim via nvf (see index.txt).

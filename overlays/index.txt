@@ -1,6 +1,6 @@
 Overlays shared by NixOS + home-manager.
 
-default.nix      _bleeding/_security/_stable package-set aliases, agenix overlay,
+default.nix      _bleeding/_security/_stable package-set aliases, agenix +
+                 agent-toolbox overlays (goose-cli/mcpls/serena),
                  nixpkgs.config.allowUnfree.
 build-fixes.nix nixpkgs build workarounds.
-my-packages.nix custom derivations for outdated/unpackaged stuff. 

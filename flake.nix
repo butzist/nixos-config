@@ -31,6 +31,10 @@
 
     freetoken.url = "github:butzist/nix-freetoken/fix/noexec-jit-cache";
 
+    # Jailed goose/opencode + the serena/mcpls/rtk toolchain live in their own
+    # flake: https://github.com/butzist/agent-toolbox
+    agent-toolbox.url = "github:butzist/agent-toolbox";
+
     ez-configs = {
       url = "github:ehllie/ez-configs";
       inputs = {
