@@ -14,6 +14,7 @@
       nushell
       zellij
       neovim
+      agents
       development
       work
       hyprland
@@ -43,6 +44,29 @@
       file = ../secrets/users/work/greenpt-ai-token.txt.age;
       mode = "0400";
       path = "${config.home.homeDirectory}/.config/opencode/greenpt-ai-token";
+    };
+  };
+
+  agents = {
+    opencode = {
+      envFromFile = {
+        GREENPT_API_KEY = config.age.secrets.greenpt-token.path;
+        OPENCODE_GO_API_KEY = config.age.secrets.opencode-go-token.path;
+      };
+
+      config.provider = {
+        greenpt.options.apiKey = "{env:GREENPT_API_KEY}";
+        "opencode-go".options.apiKey = "{env:OPENCODE_GO_API_KEY}";
+      };
+    };
+
+    goose = {
+      envFromFile.OPENCODE_API_KEY = config.age.secrets.opencode-go-token.path;
+
+      sessionVariables = {
+        GOOSE_PROVIDER = "opencode_go";
+        GOOSE_MODEL = "deepseek-v4.1-flash";
+      };
     };
   };
 

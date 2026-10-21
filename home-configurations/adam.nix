@@ -18,6 +18,7 @@
       wlogout
       walker
       waybar
+      agents
       development
     ])
     ++ [
