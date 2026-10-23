@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./rust-mold.nix
   ];
@@ -47,6 +44,7 @@
     just
     pre-commit
     watchexec
+    direnv
 
     # analytics
     flamegraph
