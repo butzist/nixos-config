@@ -14,7 +14,6 @@
       nushell
       zellij
       neovim
-      agents
       development
       work
       hyprland
@@ -28,7 +27,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    libreoffice
+    _stable.libreoffice
     kicad
     easyeda2kicad
   ];

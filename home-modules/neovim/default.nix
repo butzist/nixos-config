@@ -100,7 +100,14 @@
         };
         css.enable = true;
         html.enable = true;
-        sql.enable = true;
+        sql = {
+          enable = true;
+          # nvf defaults to sqlfluff, whose test deps pull diff-cover, which
+          # fails its HTML golden tests against pygments 2.21. sqruff is the
+          # Rust implementation and builds cleanly.
+          format.type = ["sqruff"];
+          extraDiagnostics.types = ["sqruff"];
+        };
         java.enable = true;
         kotlin.enable = true;
         typescript.enable = true;
