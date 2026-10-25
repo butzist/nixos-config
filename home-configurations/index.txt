@@ -3,11 +3,10 @@ get it is set in ../flake.nix and nixos-configurations/<host>/home.nix. Git
 identity comes from config.sensitive (secrets/ - never read).
 
 adam.nix    base, kitty, nushell, zellij, neovim, hyprland, wlogout, walker,
-            waybar, agents, development. Everforest theme. CAD/media/EDA
-            packages.
+            waybar, development. Everforest theme. CAD/media/EDA packages.
 mirj.nix    base, kitty, nushell, zellij. Catppuccin theme. Office/graphics.
 games.nix   base, kitty, waybar, gaming. Catppuccin theme. steam autostart.
-work.nix    base, kitty, nushell, zellij, neovim, agents, development, work,
-            hyprland, wlogout, walker, waybar. Everforest theme. GPG-signed git,
-            Brave LNA flag for OnlyOffice. Declares the opencode-go/greenpt/gpg
-            agenix secrets and wires them into agents.nix's jailed agents.
+work.nix    base, kitty, nushell, zellij, neovim, development, work, hyprland,
+            wlogout, walker, waybar. Everforest theme. GPG-signed git, Brave LNA
+            flag for OnlyOffice. Declares the opencode-go/greenpt/gpg agenix
+            secrets and wires them into the jailed agents in development/agents.

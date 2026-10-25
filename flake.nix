@@ -50,11 +50,37 @@
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [];
+      systems = ["x86_64-linux"];
 
       imports = [
         ez-configs.flakeModule
       ];
+
+      perSystem = {
+        pkgs,
+        system,
+        ...
+      }: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs;
+            [
+              alejandra
+              deadnix
+              jq
+              nix-diff
+              nix-output-monitor
+              nix-tree
+              nix-update
+              nixd
+              statix
+            ]
+            ++ [
+              inputs.agenix.packages.${system}.default
+            ];
+        };
+
+        formatter = pkgs.alejandra;
+      };
 
       ezConfigs = {
         root = ./.;

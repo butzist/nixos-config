@@ -50,7 +50,7 @@ wiring lives in `flake.nix` under `ezConfigs.nixos.hosts`.
 | `nixos-modules/` | System-wide NixOS modules: `base`, `gnome`, `gaming`, `laptop`, `containers` (+ `containers-linux`/`containers-darwin` split by `mkIf` on the platform). |
 | `darwin-modules/` | nix-darwin modules (`base`, `aerospace`). macOS, Hyprland-free. |
 | `home-configurations/` | One file per home-manager user (`adam`, `mirj`, `games`, `work`). Selects which `ezModules` that user gets, adds user-specific packages, git identity (from `config.sensitive`), `home.stateVersion`. |
-| `home-modules/` | Shared home-manager modules: `base`, terminal/shell, desktop, editors, dev tooling, and the `neovim/`, `waybar/`, `work/` subdirectories. |
+| `home-modules/` | Shared home-manager modules: `base`, terminal/shell, desktop, editors, the `development/` tree (dev packages, jailed agents, Herdr, rust-mold), and the `neovim/`, `waybar/`, `work/` subdirectories. |
 | `shared-modules/` | Imported by both NixOS and darwin (`ssh-keys.nix`, `tailscale.nix`). Secret-consuming; see `secrets/`. |
 | `overlays/` | `nixpkgs.overlays` shared by NixOS + home-manager. `default.nix` adds the `_bleeding`/`_security`/`_stable` package-set aliases; `build-fixes.nix` pins/patches packages. |
 | `themes/` | stylix home-manager themes (`everforest-kingdoms`, `ubuntu-catppuccin`): colours, fonts, cursor, wallpaper, GTK. Imported directly by each `home-configurations/*.nix`. |
@@ -65,6 +65,8 @@ wiring lives in `flake.nix` under `ezConfigs.nixos.hosts`.
   `nixos-modules/base.nix`). Keep that style when editing.
 - Validate with `nix flake check` or a `nixos-rebuild --flake .?submodules=1`
   dry run when the toolchain is available; the repo has no test suite.
+- `nix develop` provides `nixd`, `alejandra`, `statix`, `deadnix`, `agenix`,
+  `nix-tree`, `nom`, `nix-diff`, and `nix-update`; `nix fmt` uses `alejandra`.
 - Helper scripts in the root (`rebuild-system.sh`, `rebuild-darwin.sh`,
   `rebuild-user.sh`, `collect-garbage.sh`) all pass `?submodules=1`, so the
   `secrets/` submodule is expected to be populated locally.

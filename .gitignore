@@ -20,4 +20,7 @@ result-*
 # Scratch
 *.log
 .env
-.envrc.local
+.envrc
+
+# Per-project jailed-agent home (FLAKE_ROOT/.home)
+.home/

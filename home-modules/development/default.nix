@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   imports = [
+    ./agents
+    ./herdr.nix
     ./rust-mold.nix
   ];
 
@@ -44,7 +46,6 @@
     just
     pre-commit
     watchexec
-    direnv
 
     # analytics
     flamegraph
@@ -54,6 +55,7 @@
   ];
 
   programs = {
+    direnv.enable = true;
     git = {
       enable = true;
 

@@ -14,11 +14,8 @@ walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
 wlogout.nix       wlogout with inline stylix stylesheet.
 gaming.nix        steam.
 rofi.nix          Rofi. Unused; walker is the launcher in use.
-agents.nix        Configurable jailed opencode/goose (via agent-toolbox) plus
-                  -free variants; per-agent config, jail permissions, extra
-                  packages, env-from-file injection, and goose session vars.
-development.nix   Dev packages + opinionated git settings. Imports rust-mold.nix.
-rust-mold.nix     mold linker + ~/.cargo/config.toml. Linux only.
+development/      Dev packages + opinionated git settings, jailed opencode/goose
+                  agents, Herdr setup, and rust-mold (see index.txt).
 waybar/           Status bar (see index.txt).
 neovim/           Neovim via nvf (see index.txt).
 work/             Work-only modules (see index.txt).

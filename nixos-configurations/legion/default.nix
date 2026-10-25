@@ -126,7 +126,7 @@ in {
   };
 
   services.freetoken = {
-    enable = true;
+    enable = false;
     model = "${freetokenModel}";
     settings = {
       "served-model-name" = "qwen3.6-35b-a3b";

@@ -1,0 +1,13 @@
+Jailed/free opencode+goose agent setup.
+
+default.nix   Home-manager options and wrappers for opencode/goose plus -free
+              variants. Imports policy.nix, defaults.nix and launcher.nix.
+policy.nix    System policy layer: FreeToken defaults, CUDA, gh token, Nix
+              daemon socket/env, CA bundle, gh/cargo mounts, and jail
+              permissions. Uses agent-toolbox lib.extras for FLAKE_ROOT,
+              devshell env, FLAKE_ROOT/.home persistence, Herdr, the git
+              mount, and jail-level read auto-approval.
+defaults.nix  System-wide FreeToken provider/model configuration.
+launcher.nix  Wrapper that runs the agent through the project's direnv/dev
+              shell when a .envrc is present, then execs the prebuilt jailed
+              package. No runtime Nix evaluation.
