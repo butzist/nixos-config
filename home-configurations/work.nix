@@ -59,13 +59,12 @@
       };
     };
 
-    goose = {
+    crush = {
       envFromFile.OPENCODE_API_KEY = config.age.secrets.opencode-go-token.path;
+    };
 
-      sessionVariables = {
-        GOOSE_PROVIDER = "opencode_go";
-        GOOSE_MODEL = "deepseek-v4.1-flash";
-      };
+    pi = {
+      envFromFile.OPENCODE_API_KEY = config.age.secrets.opencode-go-token.path;
     };
   };
 

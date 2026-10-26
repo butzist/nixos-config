@@ -1,6 +1,8 @@
 {
   pkgs,
   agent-toolbox,
+  herdrPackage,
+  rtkShell,
   extraPackages ? [],
   env ? {},
   fwdEnv ? [],
@@ -12,10 +14,15 @@
   direnv ? true,
   persistHome ? true,
   opencode ? {},
-  goose ? {},
+  crush ? {},
+  pi ? {},
 }: let
   inherit (pkgs) lib;
   atb = agent-toolbox;
+
+  opencodeFile = import ./opencode.nix {inherit pkgs rtkShell;};
+  crushFile = import ./crush.nix {inherit pkgs;};
+  piFile = import ./pi.nix {inherit pkgs rtkShell;};
 
   resolvePermissions = value: c:
     if lib.isFunction value
@@ -34,10 +41,30 @@
     "/dev/nvidia-caps"
   ];
 
-  herdrHelper = atb.lib.extras.herdr {
-    enable = herdr;
-    package = pkgs.herdr;
-  };
+  herdrEnv = atb.lib.extras.herdrEnv {enable = herdr;};
+
+  # Herdr's OpenCode plugin is agent-specific, so it is prepared here rather
+  # than in the toolbox (which only forwards the generic Herdr environment).
+  herdrOpencodePlugin =
+    pkgs.runCommand "herdr-opencode-plugins" {
+      nativeBuildInputs = [herdrPackage];
+    } ''
+      mkdir -p home/.config/opencode
+      HOME=$TMPDIR/home XDG_CONFIG_HOME=$TMPDIR/home/.config \
+        ${lib.getExe herdrPackage} integration install opencode >/dev/null
+      mkdir -p $out
+      cp -a home/.config/opencode/. $out/
+    '';
+
+  opencodeHerdrPermissions = c:
+    lib.optionals herdr [
+      (c.wrap-entry (entry: ''
+        mkdir -p "$HOME/.config/opencode"
+        cp -r --no-preserve=mode,ownership ${herdrOpencodePlugin}/. "$HOME/.config/opencode/"
+        chmod -R u+w "$HOME/.config/opencode"
+        ${entry}
+      ''))
+    ];
 
   defaultSharedPermissions = c:
     lib.optionals persistHome (atb.lib.extras.persistHomePermissions c)
@@ -59,8 +86,12 @@
       (c.set-env "NIX_REMOTE" "daemon")
       (c.set-env "NIX_SSL_CERT_FILE" "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt")
       (c.set-env "SSL_CERT_FILE" "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt")
+      # Generic fallback: agents that spawn `$SHELL -c` (but have no explicit
+      # shell setting) still get rtk. Agents with their own shell config use
+      # that instead; crush ignores SHELL and uses its embedded bash.
+      (c.set-env "SHELL" "${rtkShell}/bin/rtk-shell")
     ]
-    ++ herdrHelper.permissions c
+    ++ herdrEnv.permissions c
     ++ lib.optionals ghToken [
       (c.try-fwd-env "GH_TOKEN")
     ]
@@ -78,39 +109,56 @@
     ++ map (name: c.set-env name env.${name}) (builtins.attrNames env)
     ++ resolvePermissions sharedPermissions c;
 
-  opencodeConfig = lib.recursiveUpdate atb.lib.defaultOpencodeConfig (opencode.config or {});
+  # Base for the agents that need browser/clipboard helpers in the jail.
+  defaultInteractivePermissions = c:
+    atb.lib.defaultPermissions c
+    ++ [(c.add-pkg-deps [pkgs.xdg-utils])];
+
+  # opencode-specific: auto-approve reads of everything visible inside the jail.
+  allowAllReads = config:
+    lib.recursiveUpdate config {
+      permission = {
+        external_directory = {"*" = "allow";};
+        read = {"*" = "allow";};
+      };
+    };
+
+  opencodeConfig = opencode.config or {};
   opencodeAllowAllReads = opencode.allowAllReads or true;
 
   jailedOpencodeConfig =
     if opencodeAllowAllReads
-    then atb.lib.extras.allowAllReads opencodeConfig
+    then allowAllReads opencodeConfig
     else opencodeConfig;
 
   opencodeExtraPackages = extraPackages ++ (opencode.extraPackages or []);
-  gooseExtraPackages = extraPackages ++ (goose.extraPackages or []);
+  crushExtraPackages = extraPackages ++ (crush.extraPackages or []);
+  piExtraPackages = extraPackages ++ (pi.extraPackages or []);
 
-  mkOpencodePackage = config: let
-    package = opencode.package or null;
-  in
-    atb.lib.mkOpencode {
+  mkOpencodePackage = config:
+    opencodeFile.mkPackage {
       inherit config;
-      package =
-        if package == null
-        then pkgs.opencode
-        else package;
+      package = opencode.package or pkgs.opencode;
       extraPackages = opencodeExtraPackages;
     };
 
-  mkGoosePackage = config:
-    atb.lib.mkGoose (
-      {
-        inherit config;
-        extraPackages = gooseExtraPackages;
-      }
-      // lib.optionalAttrs ((goose.package or null) != null) {
-        package = goose.package;
-      }
-    );
+  mkCrushPackage = config:
+    crushFile.mkPackage {
+      inherit config;
+      colors = crush.colors or null;
+      package = crush.package or pkgs.crush;
+      extraPackages = crushExtraPackages;
+    };
+
+  mkPiPackage = piFile.mkPackage {
+    settings = pi.settings or {};
+    models = pi.models or {};
+    colors = pi.colors or null;
+    polarity = pi.polarity or "dark";
+    extraPackages = piExtraPackages;
+    package = pi.package or pkgs.pi-coding-agent;
+    inherit herdr herdrPackage;
+  };
 
   mkOpencodeAgent = config:
     atb.lib.mkAgent {
@@ -119,27 +167,37 @@
       envFromFile = opencode.envFromFile or {};
     };
 
-  mkGooseAgent = config:
+  mkCrushAgent = config:
     atb.lib.mkAgent {
-      name = "goose";
-      package = mkGoosePackage config;
-      envFromFile = goose.envFromFile or {};
+      name = "crush";
+      package = mkCrushPackage config;
+      envFromFile = crush.envFromFile or {};
     };
 
+  piAgent = atb.lib.mkAgent {
+    name = "pi";
+    package = mkPiPackage;
+    envFromFile = pi.envFromFile or {};
+  };
+
   opencodePermissions = c:
-    atb.lib.defaultOpencodePermissions c
+    defaultInteractivePermissions c
     ++ defaultSharedPermissions c
-    ++ herdrHelper.opencodePermissions c
+    ++ opencodeHerdrPermissions c
     ++ resolvePermissions (opencode.permissions or []) c;
 
-  goosePermissions = c:
-    atb.lib.defaultGoosePermissions c
+  # Crush reports its state to Herdr natively; only the shared Herdr env is
+  # needed. It runs commands through its embedded bash, so no rtk shell.
+  crushPermissions = c:
+    defaultInteractivePermissions c
     ++ defaultSharedPermissions c
-    ++ [
-      (c.try-fwd-env "GOOSE_PROVIDER")
-      (c.try-fwd-env "GOOSE_MODEL")
-    ]
-    ++ resolvePermissions (goose.permissions or []) c;
+    ++ resolvePermissions (crush.permissions or []) c;
+
+  # Pi reports through the integration extension baked into the package.
+  piPermissions = c:
+    defaultInteractivePermissions c
+    ++ defaultSharedPermissions c
+    ++ resolvePermissions (pi.permissions or []) c;
 
   # `gh auth token` runs on the host (outside the jail) and the value is
   # forwarded with try-fwd-env, so it never enters the store.
@@ -179,28 +237,45 @@
     exe = "opencode-free";
   };
 
-  gooseConfig = lib.recursiveUpdate atb.lib.defaultGooseConfig (goose.config or {});
-  gooseAgent = mkGooseAgent gooseConfig;
+  crushConfig = crush.config or {};
+  crushAgent = mkCrushAgent crushConfig;
 
-  jailedGoose = withGhToken {
-    name = "goose";
-    package = gooseAgent.makeJailedWith {
-      name = "goose";
-      permissions = goosePermissions;
+  jailedCrush = withGhToken {
+    name = "crush";
+    package = crushAgent.makeJailedWith {
+      name = "crush";
+      permissions = crushPermissions;
     };
-    exe = "goose";
+    exe = "crush";
   };
 
-  freeGoose = withGhToken {
-    name = "goose-free";
-    package = gooseAgent.free;
-    exe = "goose-free";
+  freeCrush = withGhToken {
+    name = "crush-free";
+    package = crushAgent.free;
+    exe = "crush-free";
+  };
+
+  jailedPi = withGhToken {
+    name = "pi";
+    package = piAgent.makeJailedWith {
+      name = "pi";
+      permissions = piPermissions;
+    };
+    exe = "pi";
+  };
+
+  freePi = withGhToken {
+    name = "pi-free";
+    package = piAgent.free;
+    exe = "pi-free";
   };
 in {
-  inherit jailedOpencode freeOpencode jailedGoose freeGoose;
+  inherit jailedOpencode freeOpencode jailedCrush freeCrush jailedPi freePi;
   opencode = jailedOpencode;
-  goose = jailedGoose;
+  crush = jailedCrush;
+  pi = jailedPi;
   "opencode-free" = freeOpencode;
-  "goose-free" = freeGoose;
-  packages = [jailedOpencode jailedGoose freeOpencode freeGoose];
+  "crush-free" = freeCrush;
+  "pi-free" = freePi;
+  packages = [jailedOpencode freeOpencode jailedCrush freeCrush jailedPi freePi];
 }

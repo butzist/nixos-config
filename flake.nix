@@ -1,6 +1,11 @@
 {
   description = "NixOS configuration";
 
+  nixConfig = {
+    extra-substituters = ["https://cache.numtide.com"];
+    extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];
+  };
+
   inputs = {
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -31,9 +36,12 @@
 
     freetoken.url = "github:butzist/nix-freetoken/fix/noexec-jit-cache";
 
-    # Jailed goose/opencode + the serena/mcpls/rtk toolchain live in their own
-    # flake: https://github.com/butzist/agent-toolbox
+    # Generic jail/env/Herdr plumbing for preconfigured agents (no agent
+    # wrappers or defaults): https://github.com/butzist/agent-toolbox
     agent-toolbox.url = "github:butzist/agent-toolbox";
+
+    # Agent CLIs (rtk, herdr, crush, pi, ...) and their binary cache.
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
 
     ez-configs = {
       url = "github:ehllie/ez-configs";

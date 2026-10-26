@@ -151,8 +151,8 @@ in {
   # Binary cache for CUDA packages so ollama-cuda (and friends) don't have
   # to be built from source. See https://cache.nixos-cuda.org/
   nix.settings = {
-    substituters = ["https://cache.nixos-cuda.org"];
-    trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="];
+    extra-substituters = ["https://cache.nixos-cuda.org"];
+    extra-trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

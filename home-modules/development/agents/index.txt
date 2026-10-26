@@ -1,13 +1,20 @@
-Jailed/free opencode+goose agent setup.
+Jailed/free opencode, crush and pi agent setup.
 
-default.nix   Home-manager options and wrappers for opencode/goose plus -free
-              variants. Imports policy.nix, defaults.nix and launcher.nix.
-policy.nix    System policy layer: FreeToken defaults, CUDA, gh token, Nix
-              daemon socket/env, CA bundle, gh/cargo mounts, and jail
-              permissions. Uses agent-toolbox lib.extras for FLAKE_ROOT,
-              devshell env, FLAKE_ROOT/.home persistence, Herdr, the git
-              mount, and jail-level read auto-approval.
-defaults.nix  System-wide FreeToken provider/model configuration.
+default.nix   Home-manager options, nix-ai-tools packages (rtk, herdr, crush,
+              pi), the shared agent package list and the rtk shell.
+policy.nix    Local policy: secrets/gh token, CUDA, Nix daemon, jail
+              permissions, opencode allowAllReads, Herdr plugin/extension and
+              the per-agent variants. Uses agent-toolbox for generic jail,
+              env-forwarding and Herdr-env plumbing.
+opencode.nix  opencode defaults + wrapper: FreeToken provider, rtk shell and
+              serena MCP; bakes OPENCODE_CONFIG and keeps the server private
+              to the jail run.
+crush.nix     Crush defaults + wrapper + base16 theme: opencode-go model,
+              serena MCP; bakes crush.json and themes/stylix.json into a store
+              config dir and points CRUSH_GLOBAL_CONFIG at it.
+pi.nix        Pi defaults + wrapper + base16 theme: opencode-go settings and
+              model, rtk shell; syncs the managed files into the Pi agent dir
+              and bakes the Herdr lifecycle extension.
 launcher.nix  Wrapper that runs the agent through the project's direnv/dev
               shell when a .envrc is present, then execs the prebuilt jailed
               package. No runtime Nix evaluation.

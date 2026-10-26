@@ -1,11 +1,14 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
 }: let
   colors = config.lib.stylix.colors;
   hex = name: "#${colors.${name}}";
+
+  herdr = inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
 
   # Herdr's "terminal" base theme already follows the terminal palette; the
   # custom tokens pin the remaining UI surfaces to Stylix's base16 scheme.
@@ -46,7 +49,7 @@
 in {
   # notify-send is what `delivery = "system"` executes on Linux.
   home.packages =
-    [pkgs.herdr]
+    [herdr]
     ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [pkgs.libnotify];
 
   xdg.configFile."herdr/config.toml".source =
@@ -55,9 +58,9 @@ in {
   # Herdr writes its bundled plugins itself; let the binary install the one
   # matching its version instead of vendoring the JS in this repo.
   home.activation.herdr-opencode-integration = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ -x ${pkgs.herdr}/bin/herdr ]; then
+    if [ -x ${herdr}/bin/herdr ]; then
       run mkdir -p "$HOME/.config/opencode"
-      run ${pkgs.herdr}/bin/herdr integration install opencode
+      run ${herdr}/bin/herdr integration install opencode
     fi
   '';
 }

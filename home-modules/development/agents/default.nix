@@ -10,20 +10,29 @@
     (lib.types.listOf lib.types.anything)
     (lib.types.functionTo (lib.types.listOf lib.types.anything));
 
-  defaults = import ./defaults.nix;
+  atb = inputs.agent-toolbox;
+  system = pkgs.stdenv.hostPlatform.system;
+  aiTools = inputs.nix-ai-tools.packages.${system};
+
+  # One rtk shell for every agent that can be pointed at it (opencode via
+  # `shell`, pi via `shellPath`). Crush uses its embedded bash.
+  rtkShell = atb.lib.mkRtkShell {rtk = aiTools.rtk;};
+
+  opencodeFile = import ./opencode.nix {inherit pkgs rtkShell;};
+  crushFile = import ./crush.nix {inherit pkgs;};
+  piFile = import ./pi.nix {inherit pkgs rtkShell;};
+
+  # Base16 palettes for the agents that Stylix has no target for.
+  stylixColors = config.lib.stylix.colors;
 
   agents = import ./policy.nix {
-    inherit pkgs;
-    agent-toolbox = inputs.agent-toolbox;
+    inherit pkgs rtkShell;
+    inherit (inputs) agent-toolbox;
+    herdrPackage = aiTools.herdr;
 
     extraPackages = config.agents.extraPackages;
     env = config.agents.env;
-    fwdEnv =
-      config.agents.fwdEnv
-      ++ lib.optionals (config.agents.goose.sessionVariables != {}) [
-        "GOOSE_PROVIDER"
-        "GOOSE_MODEL"
-      ];
+    fwdEnv = config.agents.fwdEnv;
     sharedPermissions = config.agents.sharedPermissions;
     nvidia = config.agents.nvidia.enable;
     ghToken = config.agents.ghToken.enable;
@@ -34,19 +43,31 @@
 
     opencode = {
       package = config.agents.opencode.package;
-      config = lib.recursiveUpdate defaults.opencodeConfig config.agents.opencode.config;
+      config = lib.recursiveUpdate opencodeFile.defaultConfig config.agents.opencode.config;
       envFromFile = config.agents.opencode.envFromFile;
       extraPackages = config.agents.opencode.extraPackages;
       permissions = config.agents.opencode.permissions;
       allowAllReads = config.agents.opencode.allowAllReads;
     };
 
-    goose = {
-      package = config.agents.goose.package;
-      config = config.agents.goose.config;
-      envFromFile = config.agents.goose.envFromFile;
-      extraPackages = config.agents.goose.extraPackages;
-      permissions = config.agents.goose.permissions;
+    crush = {
+      package = config.agents.crush.package;
+      config = lib.recursiveUpdate crushFile.defaultConfig config.agents.crush.config;
+      colors = stylixColors;
+      envFromFile = config.agents.crush.envFromFile;
+      extraPackages = config.agents.crush.extraPackages;
+      permissions = config.agents.crush.permissions;
+    };
+
+    pi = {
+      package = config.agents.pi.package;
+      settings = lib.recursiveUpdate piFile.defaultSettings config.agents.pi.settings;
+      models = lib.recursiveUpdate piFile.defaultModels config.agents.pi.models;
+      colors = stylixColors;
+      polarity = config.stylix.polarity;
+      envFromFile = config.agents.pi.envFromFile;
+      extraPackages = config.agents.pi.extraPackages;
+      permissions = config.agents.pi.permissions;
     };
   };
 
@@ -62,15 +83,31 @@
   packages = [
     (launcher "opencode" agents.opencode)
     (launcher "opencode-free" agents."opencode-free")
-    (launcher "goose" agents.goose)
-    (launcher "goose-free" agents."goose-free")
+    (launcher "crush" agents.crush)
+    (launcher "crush-free" agents."crush-free")
+    (launcher "pi" agents.pi)
+    (launcher "pi-free" agents."pi-free")
   ];
 in {
   options.agents = {
     extraPackages = lib.mkOption {
-      description = "Extra packages made available to both agents and their jails.";
+      description = "Packages made available to all agents (prepended to PATH) and their jails.";
       type = lib.types.listOf lib.types.package;
-      default = [pkgs.nixd pkgs.gh];
+      default = with pkgs;
+        [
+          gh
+          nixd
+          fd
+          jq
+          python3
+          ripgrep
+          mcpls
+          serena
+        ]
+        ++ [
+          aiTools.rtk
+          aiTools.herdr
+        ];
     };
 
     env = lib.mkOption {
@@ -86,7 +123,7 @@ in {
     };
 
     sharedPermissions = lib.mkOption {
-      description = "Extra jail.nix permissions appended to the defaults shared by both agents.";
+      description = "Extra jail.nix permissions appended to the defaults shared by all agents.";
       type = permissionType;
       default = [];
     };
@@ -117,7 +154,7 @@ in {
 
     herdr = {
       enable = lib.mkOption {
-        description = "Bind the Herdr socket and OpenCode plugin into the agent jails.";
+        description = "Herdr socket/env plus the OpenCode plugin and Pi extension used by the agent jails.";
         type = lib.types.bool;
         default = true;
       };
@@ -177,21 +214,21 @@ in {
       };
     };
 
-    goose = {
+    crush = {
       package = lib.mkOption {
-        description = "goose package to wrap (null keeps agent-toolbox's default).";
-        type = lib.types.nullOr lib.types.package;
-        default = null;
+        description = "Crush package to wrap.";
+        type = lib.types.package;
+        default = aiTools.crush;
       };
 
       config = lib.mkOption {
-        description = "goose config recursively merged over the default configuration.";
+        description = "Crush config (crush.json) recursively merged over the default configuration.";
         type = lib.types.attrs;
         default = {};
       };
 
       permissions = lib.mkOption {
-        description = "Extra jail permissions appended to the jailed goose defaults.";
+        description = "Extra jail permissions appended to the jailed crush defaults.";
         type = permissionType;
         default = [];
       };
@@ -203,21 +240,52 @@ in {
       };
 
       extraPackages = lib.mkOption {
-        description = "Extra packages made available to goose only.";
+        description = "Extra packages made available to crush only.";
         type = lib.types.listOf lib.types.package;
         default = [];
       };
+    };
 
-      sessionVariables = lib.mkOption {
-        description = "Non-secret session variables for goose, e.g. its provider and model.";
-        type = lib.types.attrsOf lib.types.str;
+    pi = {
+      package = lib.mkOption {
+        description = "Pi coding agent package to wrap.";
+        type = lib.types.package;
+        default = aiTools.pi;
+      };
+
+      settings = lib.mkOption {
+        description = "Pi settings.json recursively merged over the default settings.";
+        type = lib.types.attrs;
         default = {};
+      };
+
+      models = lib.mkOption {
+        description = "Pi models.json recursively merged over the default provider/model.";
+        type = lib.types.attrs;
+        default = {};
+      };
+
+      permissions = lib.mkOption {
+        description = "Extra jail permissions appended to the jailed pi defaults.";
+        type = permissionType;
+        default = [];
+      };
+
+      envFromFile = lib.mkOption {
+        description = "Environment variables exported on the host from files, then forwarded into the jail.";
+        type = lib.types.attrsOf (lib.types.either lib.types.path lib.types.str);
+        default = {};
+      };
+
+      extraPackages = lib.mkOption {
+        description = "Extra packages made available to pi only.";
+        type = lib.types.listOf lib.types.package;
+        default = [];
       };
     };
   };
 
   config = {
     home.packages = packages;
-    home.sessionVariables = config.agents.goose.sessionVariables;
   };
 }

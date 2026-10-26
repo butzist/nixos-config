@@ -14,7 +14,7 @@ walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
 wlogout.nix       wlogout with inline stylix stylesheet.
 gaming.nix        steam.
 rofi.nix          Rofi. Unused; walker is the launcher in use.
-development/      Dev packages + opinionated git settings, jailed opencode/goose
+development/      Dev packages + opinionated git settings, jailed opencode/crush/pi
                   agents, Herdr setup, and rust-mold (see index.txt).
 waybar/           Status bar (see index.txt).
 neovim/           Neovim via nvf (see index.txt).
