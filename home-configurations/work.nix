@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   ezModules,
   ...
@@ -22,6 +23,7 @@
       waybar
     ])
     ++ [
+      inputs.lassies-doghouse.homeManagerModules.default
       ../themes/everforest-kingdoms.nix
     ];
 
@@ -31,6 +33,22 @@
     kicad
     easyeda2kicad
   ];
+
+  # ColliePWA: HTTP only, loopback only, no outbound network, no self-update.
+  # The package and both modules live in the lassies-doghouse flake; this file
+  # only selects them and sets the site-specific host. Pair from this shell with
+  # `collie pair` after the service is up. The NixOS collie-serve module fronts
+  # it with HTTPS on the tailnet via tailscale serve; the Host header it
+  # forwards must be allowed explicitly.
+  #
+  # Web Push is the one exception to "no outbound": the bridge hands sends to
+  # a host-side CONNECT proxy over a Unix socket, and that proxy only reaches
+  # the push-service hosts in services.collie.pushProxy.allowHosts.
+  services.collie = {
+    enable = true;
+    publicHosts = ["legion.baboon-macaroni.ts.net"];
+    pushProxy.enable = true;
+  };
 
   age.secrets = {
     gpg-private = {file = ../secrets/users/work/gpg-private.asc.age;};

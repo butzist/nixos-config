@@ -18,6 +18,10 @@ themes/                stylix themes.
 wallpapers/            PNGs used by stylix.image in themes/.
 secrets/               Submodule. DO NOT READ - see AGENTS.md.
 
+Related flake: lassies-doghouse (github:butzist/lassies-doghouse) owns the
+source-built ColliePWA package and the services.collie / services.collie-serve
+modules.
+
 rebuild-system.sh     nixos-rebuild switch --flake '.?submodules=1'
 rebuild-darwin.sh     darwin-rebuild --flake '.?submodules=1' switch
 rebuild-user.sh       home-manager switch --flake '.?submodules=1'

@@ -4,6 +4,7 @@
 {
   lib,
   pkgs,
+  inputs,
   ezModules,
   ...
 }: let
@@ -55,7 +56,10 @@ in {
       gnome
       laptop
       containers
-    ]);
+    ])
+    ++ [
+      inputs.lassies-doghouse.nixosModules.collie-serve
+    ];
 
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
@@ -67,6 +71,18 @@ in {
   boot.initrd.luks.devices."luks-badc0975-bd8f-4323-a781-203aa39328fa".device = "/dev/disk/by-uuid/badc0975-bd8f-4323-a781-203aa39328fa";
 
   networking.hostName = "legion"; # Define your hostname.
+
+  # Publish the jailed ColliePWA front door on the tailnet. The user service
+  # imported from the lassies-doghouse flake serves plain HTTP on 127.0.0.1:8787;
+  # this terminates HTTPS on the MagicDNS name and forwards to it. Access:
+  # https://legion.baboon-macaroni.ts.net/
+  services.collie-serve.enable = true;
+
+  # Let the operator (not only root) talk to tailscaled, so `collie pair` can
+  # resolve the MagicDNS URL and draw a scannable QR instead of falling back to
+  # a localhost link. This is the same user that already has wheel. List options
+  # replace rather than append, so repeat --ssh=false from shared-modules.
+  services.tailscale.extraSetFlags = ["--ssh=false" "--operator=work"];
 
   programs.hyprland = {
     enable = true;

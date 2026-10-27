@@ -22,5 +22,9 @@ result-*
 .env
 .envrc
 
+# Python bytecode from helper scripts
+__pycache__/
+*.pyc
+
 # Per-project jailed-agent home (FLAKE_ROOT/.home)
 .home/
