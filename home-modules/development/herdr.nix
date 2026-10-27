@@ -41,6 +41,22 @@
       };
     };
 
+    # Mirror the zellij keymap (home-modules/zellij.nix): Super+Alt is the Herdr
+    # layer, j/k step through workspaces, h/l through tabs, t/w open a new
+    # tab/workspace. Super+Alt+g takes over from ctrl+b as the prefix.
+    keys = {
+      prefix = "super+alt+g";
+
+      previous_workspace = "super+alt+k";
+      next_workspace = "super+alt+j";
+
+      previous_tab = ["prefix+p" "super+alt+h"];
+      next_tab = ["prefix+n" "super+alt+l"];
+
+      new_tab = ["prefix+c" "super+alt+t"];
+      new_workspace = ["prefix+shift+n" "super+alt+w"];
+    };
+
     # Background agents report through the desktop notification service
     # (dunst here; Herdr shells out to notify-send on Linux) instead of
     # covering pane output with in-app toasts.
