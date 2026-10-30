@@ -44,10 +44,17 @@
   # Web Push is the one exception to "no outbound": the bridge hands sends to
   # a host-side CONNECT proxy over a Unix socket, and that proxy only reaches
   # the push-service hosts in services.collie.pushProxy.allowHosts.
+  #
+  # OpenCode reports its live sessions to Collie through a plugin that talks to
+  # a Unix socket in the Collie state dir. The plugin is installed for the host
+  # OpenCode here; the agents module copies it into the jailed OpenCode, binds
+  # the state dir read-only at the jail's ~/.local/state/collie and sets
+  # COLLIE_STATE_DIR to that path.
   services.collie = {
     enable = true;
     publicHosts = ["legion.baboon-macaroni.ts.net"];
     pushProxy.enable = true;
+    opencodePlugin.enable = true;
   };
 
   age.secrets = {

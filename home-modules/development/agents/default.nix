@@ -22,6 +22,13 @@
   crushFile = import ./crush.nix {inherit pkgs;};
   piFile = import ./pi.nix {inherit pkgs rtkShell;};
 
+  # The jail binds /nix read-only, so the plugin can be copied straight from
+  # the Collie package the service runs. Copy (rather than symlink) because the
+  # jail home is a tmpfs/persisted dir: Herdr's `chmod -R u+w` on
+  # ~/.config/opencode follows symlinks, and a link into the read-only store
+  # would make it fail.
+  colliePlugin = "${config.services.collie.package or inputs.lassies-doghouse.packages.${system}.collie}/lib/collie/plugins/opencode/collie-opencode-bridge.js";
+
   # Base16 palettes for the agents that Stylix has no target for.
   stylixColors = config.lib.stylix.colors;
 
@@ -38,8 +45,10 @@
     ghToken = config.agents.ghToken.enable;
     flakeRoot = config.agents.flakeRoot.enable;
     herdr = config.agents.herdr.enable;
+    collie = config.agents.collie.enable;
     direnv = config.agents.direnv.enable;
     persistHome = config.agents.persistHome.enable;
+    inherit colliePlugin;
 
     opencode = {
       package = config.agents.opencode.package;
@@ -157,6 +166,15 @@ in {
         description = "Herdr socket/env plus the OpenCode plugin and Pi extension used by the agent jails.";
         type = lib.types.bool;
         default = true;
+      };
+    };
+
+    collie = {
+      enable = lib.mkOption {
+        description = "Install the Collie OpenCode plugin into the jail, expose the Collie socket directory at the jail's ~/.local/state/collie and set COLLIE_STATE_DIR to it.";
+        type = lib.types.bool;
+        # Follows the Collie service when lassies-doghouse is imported.
+        default = config.services.collie.enable or false;
       };
     };
 

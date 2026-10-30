@@ -43,8 +43,9 @@
     # Agent CLIs (rtk, herdr, crush, pi, ...) and their binary cache.
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
 
-    # Lassie's Doghouse: the source-built ColliePWA package, the home-manager
-    # service module, and the tailscale-serve NixOS module.
+    # Lassie's Doghouse: the source-built ColliePWA package (including the
+    # OpenCode session plugin), the home-manager service module, and the
+    # tailscale-serve NixOS module.
     lassies-doghouse = {
       url = "github:butzist/lassies-doghouse";
       inputs.nixpkgs.follows = "nixpkgs";

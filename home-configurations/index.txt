@@ -10,5 +10,6 @@ work.nix    base, kitty, nushell, zellij, neovim, development, work, hyprland,
             wlogout, walker, waybar. Everforest theme. GPG-signed git, Brave LNA
             flag for OnlyOffice. Declares the opencode-go/greenpt/gpg agenix
             secrets and wires them into the jailed opencode/crush/pi agents.
-            Imports the lassies-doghouse flake and enables its bridge plus the
-            allowlisted Web Push egress proxy.
+            Imports the lassies-doghouse flake and enables its bridge, the
+            allowlisted Web Push egress proxy and the OpenCode plugin that feeds
+            live sessions back through the shared Unix socket.

@@ -11,6 +11,8 @@
   ghToken ? true,
   flakeRoot ? true,
   herdr ? true,
+  collie ? false,
+  colliePlugin ? null,
   direnv ? true,
   persistHome ? true,
   opencode ? {},
@@ -62,6 +64,33 @@
         mkdir -p "$HOME/.config/opencode"
         cp -r --no-preserve=mode,ownership ${herdrOpencodePlugin}/. "$HOME/.config/opencode/"
         chmod -R u+w "$HOME/.config/opencode"
+        ${entry}
+      ''))
+    ];
+
+  # Collie keeps its persistent state in ~/.local/state/collie (pairing tokens,
+  # push subscriptions, audit log). The plugin looks for its Unix socket in
+  # ~/.local/state/collie by default (XDG_STATE_HOME is cleared inside the
+  # jail), and jails read-only-bind that directory over the tmpfs home. HOME
+  # may be the persisted $FLAKE_ROOT/.home, so the destination follows
+  # JAIL_HOME rather than the host's HOME. Set COLLIE_STATE_DIR to the same
+  # absolute path explicitly so the plugin does not rely on the fallback.
+  opencodeColliePermissions = c:
+    lib.optionals collie [
+      # StateDirectory creates this on the host, but only once Collie starts;
+      # make it now so the bind mount below succeeds even before then.
+      (c.add-runtime ''
+        install -d -m 700 "$HOME/.local/state/collie"
+      '')
+      (c.try-ro-bind
+        (c.noescape "\"$HOME/.local/state/collie\"")
+        (c.noescape "\"$JAIL_HOME/.local/state/collie\""))
+      (c.set-env "COLLIE_STATE_DIR" (c.noescape "\"$JAIL_HOME/.local/state/collie\""))
+      # The store is already bound read-only; copying leaves a real file that
+      # Herdr's later `chmod -R u+w` can safely make writable in the jail home.
+      (c.wrap-entry (entry: ''
+        mkdir -p "$HOME/.config/opencode/plugins"
+        cp -f ${colliePlugin} "$HOME/.config/opencode/plugins/collie-opencode-bridge.js"
         ${entry}
       ''))
     ];
@@ -184,6 +213,7 @@
     defaultInteractivePermissions c
     ++ defaultSharedPermissions c
     ++ opencodeHerdrPermissions c
+    ++ opencodeColliePermissions c
     ++ resolvePermissions (opencode.permissions or []) c;
 
   # Crush reports its state to Herdr natively; only the shared Herdr env is
