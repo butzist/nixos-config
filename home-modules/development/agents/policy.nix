@@ -2,6 +2,7 @@
   pkgs,
   agent-toolbox,
   herdrPackage,
+  herdrAuthProxy,
   rtkShell,
   extraPackages ? [],
   env ? {},
@@ -43,7 +44,115 @@
     "/dev/nvidia-caps"
   ];
 
-  herdrEnv = atb.lib.extras.herdrEnv {enable = herdr;};
+  # Herdr's socket API has no authentication. Jailed agents get only the
+  # proxy's JWT-gated auth socket; the real socket (and ~/.config/herdr) never
+  # enters the jail. A pane created by `herdr-auth agent spawn` already carries
+  # an agent JWT in its environment; that token is kept. Any other inherited
+  # token is the proxy's bootstrap token (or another operator token): it is
+  # replaced with a fresh orchestrator token scoped to the current directory and
+  # workspace, and never forwarded into the jail.
+  herdrAuthPermissions = c:
+    lib.optionals herdr [
+      (c.add-runtime ''
+        HERDR_AUTH_SOCKET="''${HERDR_AUTH_SOCKET:-}"
+        if [ -z "$HERDR_AUTH_SOCKET" ]; then
+          if [ -n "''${XDG_RUNTIME_DIR:-}" ]; then
+            HERDR_AUTH_SOCKET="$XDG_RUNTIME_DIR/herdr-auth-proxy/auth.sock"
+          else
+            HERDR_AUTH_SOCKET="''${XDG_STATE_HOME:-$HOME/.local/state}/herdr-auth-proxy/auth.sock"
+          fi
+        fi
+
+        # FLAKE_ROOT can be the home directory, so herdr's real sockets may be
+        # visible in the jail through that bind. Always mask every known real
+        # socket with /dev/null (a bind-mount is not a socket, so connect()
+        # still fails); only the proxy's auth socket below is left reachable.
+        herdr_config_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/herdr"
+        herdr_sockets=(
+          "$herdr_config_dir/herdr.sock"
+          "$herdr_config_dir/herdr-client.sock"
+        )
+        if [ -n "''${HERDR_SESSION:-}" ]; then
+          herdr_sockets+=(
+            "$herdr_config_dir/sessions/$HERDR_SESSION/herdr.sock"
+            "$herdr_config_dir/sessions/$HERDR_SESSION/herdr-client.sock"
+          )
+        fi
+        if [ -n "''${HERDR_SOCKET_PATH:-}" ]; then
+          herdr_sockets+=("$HERDR_SOCKET_PATH")
+          case "$HERDR_SOCKET_PATH" in
+            *.sock) herdr_sockets+=("''${HERDR_SOCKET_PATH%.sock}-client.sock") ;;
+          esac
+        fi
+        if [ -n "''${HERDR_CLIENT_SOCKET_PATH:-}" ]; then
+          herdr_sockets+=("$HERDR_CLIENT_SOCKET_PATH")
+        fi
+        declare -A masked_herdr_sockets=()
+        for socket in "''${herdr_sockets[@]}"; do
+          if [ -z "$socket" ] || [ "$socket" = "$HERDR_AUTH_SOCKET" ] || [ -n "''${masked_herdr_sockets[$socket]:-}" ]; then
+            continue
+          fi
+          masked_herdr_sockets[$socket]=1
+          RUNTIME_ARGS+=(--ro-bind-try /dev/null "$socket")
+        done
+
+        if [ -S "$HERDR_AUTH_SOCKET" ]; then
+          # Reuse only a pane-bound agent token. Decode without trusting the
+          # payload: it still has to pass the proxy's signature check.
+          jwt_role=""
+          if [ -n "''${HERDR_AUTH_JWT:-}" ]; then
+            jwt_role="$(printf '%s' "$HERDR_AUTH_JWT" | ${pkgs.jq}/bin/jq -Rr 'split(".")[1] | @base64d | fromjson | .role // empty' 2>/dev/null || true)"
+            export HERDR_AUTH_JWT
+          fi
+          if [ "$jwt_role" != "agent" ]; then
+            # The bootstrap token has no cwd/workspace of its own; an
+            # orchestrator minted from it must name both. Use the agent's
+            # current directory (mount-cwd binds it into the jail) and the
+            # workspace the pane belongs to.
+            #
+            # Orchestrator tokens default to agent_grants=["report_status"], so
+            # without this perm the jailed orchestrator can only spawn agents
+            # that report status: an agent could not read its own pane or wait
+            # for its own output. Raise the cap explicitly; child spawns still
+            # have to request the grants they want (and are intersected with
+            # this list). `wait_own_status` does not exist — the grantable name
+            # is `wait_own_output`.
+            herdr_cwd="$PWD"
+            if [ -d "$herdr_cwd" ]; then
+              herdr_cwd="$(cd "$herdr_cwd" && pwd -P)" || herdr_cwd=""
+            else
+              herdr_cwd=""
+            fi
+            if [ -n "$herdr_cwd" ] && [ -n "''${HERDR_WORKSPACE_ID:-}" ]; then
+              HERDR_AUTH_JWT="$(${herdrAuthProxy}/bin/herdr-auth --socket "$HERDR_AUTH_SOCKET" token mint \
+                --role orchestrator \
+                --sub "''${HERDR_PANE_ID:-''${USER:-orchestrator}}" \
+                --cwd "$herdr_cwd" \
+                --workspace "$HERDR_WORKSPACE_ID" \
+                --perm '{"agent_grants":["report_status","read_own_pane","wait_own_output"],"agent_kinds":["opencode"]}' \
+                2>/dev/null | ${pkgs.jq}/bin/jq -r '.token // empty' 2>/dev/null || true)"
+            fi
+            if [ -z "''${HERDR_AUTH_JWT:-}" ]; then
+              unset HERDR_AUTH_JWT
+            fi
+          fi
+          install -d "$JAIL_HOME/.local/state/herdr-auth-proxy"
+          RUNTIME_ARGS+=(
+            --bind "$HERDR_AUTH_SOCKET" "$JAIL_HOME/.local/state/herdr-auth-proxy/auth.sock"
+            --setenv HERDR_SOCKET_PATH "$JAIL_HOME/.local/state/herdr-auth-proxy/auth.sock"
+            --setenv HERDR_AUTH_SOCKET "$JAIL_HOME/.local/state/herdr-auth-proxy/auth.sock"
+          )
+          if [ -n "''${HERDR_AUTH_JWT:-}" ]; then
+            RUNTIME_ARGS+=(--setenv HERDR_AUTH_JWT "$HERDR_AUTH_JWT")
+          fi
+        fi
+      '')
+      (c.try-fwd-env "HERDR_ENV")
+      (c.try-fwd-env "HERDR_PANE_ID")
+      (c.try-fwd-env "HERDR_WORKSPACE_ID")
+      (c.try-fwd-env "HERDR_TAB_ID")
+      (c.try-fwd-env "HERDR_BIN_PATH")
+    ];
 
   # Herdr's OpenCode plugin is agent-specific, so it is prepared here rather
   # than in the toolbox (which only forwards the generic Herdr environment).
@@ -120,7 +229,7 @@
       # that instead; crush ignores SHELL and uses its embedded bash.
       (c.set-env "SHELL" "${rtkShell}/bin/rtk-shell")
     ]
-    ++ herdrEnv.permissions c
+    ++ herdrAuthPermissions c
     ++ lib.optionals ghToken [
       (c.try-fwd-env "GH_TOKEN")
     ]

@@ -1,16 +1,19 @@
 Jailed/free opencode, crush and pi agent setup.
 
 default.nix   Home-manager options, nix-ai-tools packages (rtk, herdr, crush,
-              pi), the shared agent package list, the Collie plugin path and
-              the rtk shell.
+              pi), herdr-auth-proxy/herdr-auth, the shared agent package list,
+              the Collie plugin path and the rtk shell.
 policy.nix    Local policy: secrets/gh token, CUDA, Nix daemon, jail
-              permissions, opencode allowAllReads, Herdr plugin/extension, the
-              Collie plugin and shared Collie socket, and the per-agent
-              variants. Uses agent-toolbox for generic jail, env-forwarding and
-              Herdr-env plumbing.
+              permissions, opencode allowAllReads, Herdr plugin/extension,
+              auth-socket-only Herdr access with a directory/workspace-scoped
+              orchestrator token that replaces the inherited bootstrap token
+              and raises its agent_grants to report_status, read_own_pane and
+              wait_own_output, the Collie plugin and shared Collie socket, and
+              the per-agent variants. Uses agent-toolbox for generic jail and
+              env forwarding.
 opencode.nix  opencode defaults + wrapper: FreeToken provider, rtk shell and
-              serena MCP; bakes OPENCODE_CONFIG and keeps the server private
-              to the jail run.
+              serena MCP; bakes OPENCODE_CONFIG, keeps the server private to the
+              jail run, and maps TUI --agent to OPENCODE_CONFIG_CONTENT.
 crush.nix     Crush defaults + wrapper + base16 theme: opencode-go model,
               serena MCP; bakes crush.json and themes/stylix.json into a store
               config dir and points CRUSH_GLOBAL_CONFIG at it.

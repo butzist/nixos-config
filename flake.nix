@@ -40,6 +40,14 @@
     # wrappers or defaults): https://github.com/butzist/agent-toolbox
     agent-toolbox.url = "github:butzist/agent-toolbox";
 
+    # JWT-gating proxy in front of herdr's unauthenticated socket API.
+    # `herdr` is wrapped so the proxy starts with the server.
+    herdr-auth-proxy = {
+      url = "github:butzist/herdr-auth-proxy";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
     # Agent CLIs (rtk, herdr, crush, pi, ...) and their binary cache.
     nix-ai-tools.url = "github:numtide/nix-ai-tools";
 

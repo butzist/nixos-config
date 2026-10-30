@@ -13,6 +13,7 @@
   atb = inputs.agent-toolbox;
   system = pkgs.stdenv.hostPlatform.system;
   aiTools = inputs.nix-ai-tools.packages.${system};
+  herdrAuthProxy = inputs.herdr-auth-proxy.packages.${system}.default;
 
   # One rtk shell for every agent that can be pointed at it (opencode via
   # `shell`, pi via `shellPath`). Crush uses its embedded bash.
@@ -36,6 +37,7 @@
     inherit pkgs rtkShell;
     inherit (inputs) agent-toolbox;
     herdrPackage = aiTools.herdr;
+    inherit herdrAuthProxy;
 
     extraPackages = config.agents.extraPackages;
     env = config.agents.env;
@@ -116,6 +118,7 @@ in {
         ++ [
           aiTools.rtk
           aiTools.herdr
+          herdrAuthProxy
         ];
     };
 
@@ -163,7 +166,7 @@ in {
 
     herdr = {
       enable = lib.mkOption {
-        description = "Herdr socket/env plus the OpenCode plugin and Pi extension used by the agent jails.";
+        description = "Herdr auth socket/env (with a default orchestrator token), plus the OpenCode plugin and Pi extension used by the agent jails.";
         type = lib.types.bool;
         default = true;
       };

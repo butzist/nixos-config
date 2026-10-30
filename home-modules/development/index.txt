@@ -4,8 +4,11 @@ default.nix   Dev packages + opinionated git settings. Imports agents/,
               herdr.nix and rust-mold.nix.
 agents/       Jailed/free opencode, crush and pi agents, policy, defaults,
               launcher (see index.txt).
-herdr.nix     Herdr install + Stylix/base16 config.toml (onboarding skipped,
-              background notifications via the system notifier, zellij-style
-              Super+Alt keymap with Super+Alt+g as prefix), and activation that
-              installs the matching OpenCode integration plugin.
+herdr.nix     Herdr install wrapped with herdr-auth-proxy, whose `wrap` exports
+              HERDR_AUTH_JWT (or fails closed when a running server has no
+              usable token), plus Stylix/base16 config.toml (onboarding
+              skipped, background notifications via the system notifier,
+              zellij-style Super+Alt keymap with Super+Alt+g as prefix and
+              Super+Alt+q to detach), and activation that installs the matching
+              OpenCode integration plugin.
 rust-mold.nix mold linker + ~/.cargo/config.toml. Linux only.

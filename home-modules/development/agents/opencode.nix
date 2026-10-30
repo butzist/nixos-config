@@ -55,6 +55,44 @@
         export PATH=${lib.makeBinPath extraPackages}''${PATH:+:$PATH}
       ''}
       export OPENCODE_CONFIG=${configFile}
+      # The default TUI command has no --agent flag (run/mini do). Translate it
+      # into OPENCODE_CONFIG_CONTENT (merged over any existing content) so
+      # `opencode --agent build` works for the TUI too.
+      case "''${1:-}" in
+        run|mini) ;;
+        upgrade|update|acp|debug|auth|mcp|plugin|session|service|pair|serve|api|models|stats|reload|uninstall) ;;
+        *)
+          agent=""
+          args=()
+          while [ "$#" -gt 0 ]; do
+            case "$1" in
+              --agent)
+                if [ "$#" -lt 2 ]; then
+                  echo "opencode: --agent requires a value" >&2
+                  exit 2
+                fi
+                agent="$2"
+                shift 2
+                ;;
+              --agent=*)
+                agent="''${1#--agent=}"
+                shift
+                ;;
+              *)
+                args+=("$1")
+                shift
+                ;;
+            esac
+          done
+          set -- "''${args[@]}"
+          if [ -n "$agent" ]; then
+            base="''${OPENCODE_CONFIG_CONTENT:-}"
+            if [ -z "$base" ]; then base='{}'; fi
+            OPENCODE_CONFIG_CONTENT="$(${pkgs.jq}/bin/jq -cn --argjson base "$base" --arg agent "$agent" '$base + {default_agent: $agent}')"
+            export OPENCODE_CONFIG_CONTENT
+          fi
+          ;;
+      esac
       # A background server would escape the jail's lifecycle and could be
       # shared across projects; keep opencode's server private to this run.
       # Utility subcommands reject --standalone, so only add it to the TUI,
