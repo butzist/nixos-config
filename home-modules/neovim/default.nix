@@ -108,7 +108,7 @@
           format.type = ["sqruff"];
           extraDiagnostics.types = ["sqruff"];
         };
-        java.enable = true;
+        java.enable = false;
         kotlin.enable = true;
         typescript.enable = true;
         go.enable = true;

@@ -6,20 +6,22 @@
   home.username = "mirj";
   home.homeDirectory = "/home/mirj";
 
-  imports = (with ezModules; [
-    base
-    kitty
-    nushell
-    zellij
-  ]) ++ [
-    ../themes/ubuntu-catppuccin.nix
-  ];
+  imports =
+    (with ezModules; [
+      base
+      kitty
+      nushell
+      zellij
+    ])
+    ++ [
+      ../themes/ubuntu-catppuccin.nix
+    ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     _security.brave
     _security.firefox
-    freecad
+    _stable.freecad
     orca-slicer
     _stable.inkscape
     gimp3-with-plugins

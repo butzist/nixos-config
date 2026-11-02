@@ -5,7 +5,7 @@
   ...
 }: {
   home.packages = with pkgs; [
-    hyprland-qtutils
+    hyprland-guiutils
     pix
   ];
 

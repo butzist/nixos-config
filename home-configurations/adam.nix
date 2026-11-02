@@ -31,7 +31,7 @@
     _security.brave
     _security.firefox
     blender
-    freecad
+    _stable.freecad
     kicad
     easyeda2kicad
     _stable.inkscape
