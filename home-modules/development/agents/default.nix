@@ -10,18 +10,18 @@
     (lib.types.listOf lib.types.anything)
     (lib.types.functionTo (lib.types.listOf lib.types.anything));
 
-  atb = inputs.agent-toolbox;
+  # agent-toolbox takes the consumer's package set so its jail scaffolding is
+  # built from the same nixpkgs as the agent package.
+  atb = inputs.agent-toolbox.lib pkgs;
+
   system = pkgs.stdenv.hostPlatform.system;
-  aiTools = inputs.nix-ai-tools.packages.${system};
+  aiTools = inputs.llm-agents.packages.${system};
   herdrAuthProxy = inputs.herdr-auth-proxy.packages.${system}.default;
 
-  # One rtk shell for every agent that can be pointed at it (opencode via
-  # `shell`, pi via `shellPath`). Crush uses its embedded bash.
-  rtkShell = atb.lib.mkRtkShell {rtk = aiTools.rtk;};
+  # opencode lets its shell tool be overridden, so route it through rtk.
+  rtkShell = atb.mkRtkShell {rtk = aiTools.rtk;};
 
   opencodeFile = import ./opencode.nix {inherit pkgs rtkShell;};
-  crushFile = import ./crush.nix {inherit pkgs;};
-  piFile = import ./pi.nix {inherit pkgs rtkShell;};
 
   # The jail binds /nix read-only, so the plugin can be copied straight from
   # the Collie package the service runs. Copy (rather than symlink) because the
@@ -30,12 +30,8 @@
   # would make it fail.
   colliePlugin = "${config.services.collie.package or inputs.lassies-doghouse.packages.${system}.collie}/lib/collie/plugins/opencode/collie-opencode-bridge.js";
 
-  # Base16 palettes for the agents that Stylix has no target for.
-  stylixColors = config.lib.stylix.colors;
-
   agents = import ./policy.nix {
-    inherit pkgs rtkShell;
-    inherit (inputs) agent-toolbox;
+    inherit pkgs rtkShell atb;
     herdrPackage = aiTools.herdr;
     inherit herdrAuthProxy;
 
@@ -60,26 +56,6 @@
       permissions = config.agents.opencode.permissions;
       allowAllReads = config.agents.opencode.allowAllReads;
     };
-
-    crush = {
-      package = config.agents.crush.package;
-      config = lib.recursiveUpdate crushFile.defaultConfig config.agents.crush.config;
-      colors = stylixColors;
-      envFromFile = config.agents.crush.envFromFile;
-      extraPackages = config.agents.crush.extraPackages;
-      permissions = config.agents.crush.permissions;
-    };
-
-    pi = {
-      package = config.agents.pi.package;
-      settings = lib.recursiveUpdate piFile.defaultSettings config.agents.pi.settings;
-      models = lib.recursiveUpdate piFile.defaultModels config.agents.pi.models;
-      colors = stylixColors;
-      polarity = config.stylix.polarity;
-      envFromFile = config.agents.pi.envFromFile;
-      extraPackages = config.agents.pi.extraPackages;
-      permissions = config.agents.pi.permissions;
-    };
   };
 
   # Run through the project's direnv/dev shell when ${FLAKE_ROOT:-$PWD}/.envrc
@@ -94,10 +70,6 @@
   packages = [
     (launcher "opencode" agents.opencode)
     (launcher "opencode-free" agents."opencode-free")
-    (launcher "crush" agents.crush)
-    (launcher "crush-free" agents."crush-free")
-    (launcher "pi" agents.pi)
-    (launcher "pi-free" agents."pi-free")
   ];
 in {
   options.agents = {
@@ -166,7 +138,7 @@ in {
 
     herdr = {
       enable = lib.mkOption {
-        description = "Herdr auth socket/env (with a default orchestrator token), plus the OpenCode plugin and Pi extension used by the agent jails.";
+        description = "Herdr auth socket/env (with a default orchestrator token) and the OpenCode plugin used by the agent jails.";
         type = lib.types.bool;
         default = true;
       };
@@ -199,9 +171,9 @@ in {
 
     opencode = {
       package = lib.mkOption {
-        description = "opencode package to wrap. Defaults to the system opencode.";
+        description = "opencode package to wrap. Defaults to the llm-agents prebuilt binary.";
         type = lib.types.package;
-        default = pkgs.opencode;
+        default = aiTools.opencode2;
       };
 
       config = lib.mkOption {
@@ -230,76 +202,6 @@ in {
 
       extraPackages = lib.mkOption {
         description = "Extra packages made available to opencode only.";
-        type = lib.types.listOf lib.types.package;
-        default = [];
-      };
-    };
-
-    crush = {
-      package = lib.mkOption {
-        description = "Crush package to wrap.";
-        type = lib.types.package;
-        default = aiTools.crush;
-      };
-
-      config = lib.mkOption {
-        description = "Crush config (crush.json) recursively merged over the default configuration.";
-        type = lib.types.attrs;
-        default = {};
-      };
-
-      permissions = lib.mkOption {
-        description = "Extra jail permissions appended to the jailed crush defaults.";
-        type = permissionType;
-        default = [];
-      };
-
-      envFromFile = lib.mkOption {
-        description = "Environment variables exported on the host from files, then forwarded into the jail.";
-        type = lib.types.attrsOf (lib.types.either lib.types.path lib.types.str);
-        default = {};
-      };
-
-      extraPackages = lib.mkOption {
-        description = "Extra packages made available to crush only.";
-        type = lib.types.listOf lib.types.package;
-        default = [];
-      };
-    };
-
-    pi = {
-      package = lib.mkOption {
-        description = "Pi coding agent package to wrap.";
-        type = lib.types.package;
-        default = aiTools.pi;
-      };
-
-      settings = lib.mkOption {
-        description = "Pi settings.json recursively merged over the default settings.";
-        type = lib.types.attrs;
-        default = {};
-      };
-
-      models = lib.mkOption {
-        description = "Pi models.json recursively merged over the default provider/model.";
-        type = lib.types.attrs;
-        default = {};
-      };
-
-      permissions = lib.mkOption {
-        description = "Extra jail permissions appended to the jailed pi defaults.";
-        type = permissionType;
-        default = [];
-      };
-
-      envFromFile = lib.mkOption {
-        description = "Environment variables exported on the host from files, then forwarded into the jail.";
-        type = lib.types.attrsOf (lib.types.either lib.types.path lib.types.str);
-        default = {};
-      };
-
-      extraPackages = lib.mkOption {
-        description = "Extra packages made available to pi only.";
         type = lib.types.listOf lib.types.package;
         default = [];
       };

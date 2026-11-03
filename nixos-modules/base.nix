@@ -2,7 +2,7 @@
   # Login
   services.displayManager.gdm.enable = true;
 
-  # Binary cache for the nix-ai-tools packages (rtk, herdr, crush, pi, ...).
+  # Binary cache for the llm-agents packages (rtk, herdr, opencode, ...).
   nix.settings = {
     extra-substituters = ["https://cache.numtide.com"];
     extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];

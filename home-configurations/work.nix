@@ -78,18 +78,11 @@
         OPENCODE_GO_API_KEY = config.age.secrets.opencode-go-token.path;
       };
 
-      config.provider = {
-        greenpt.options.apiKey = "{env:GREENPT_API_KEY}";
-        "opencode-go".options.apiKey = "{env:OPENCODE_GO_API_KEY}";
+      # OpenCode 2 renamed `provider.<id>.options` to `providers.<id>.settings`.
+      config.providers = {
+        greenpt.settings.apiKey = "{env:GREENPT_API_KEY}";
+        "opencode-go".settings.apiKey = "{env:OPENCODE_GO_API_KEY}";
       };
-    };
-
-    crush = {
-      envFromFile.OPENCODE_API_KEY = config.age.secrets.opencode-go-token.path;
-    };
-
-    pi = {
-      envFromFile.OPENCODE_API_KEY = config.age.secrets.opencode-go-token.path;
     };
   };
 

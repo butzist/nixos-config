@@ -2,36 +2,40 @@
   pkgs,
   rtkShell,
 }: {
-  # System-wide defaults layered under per-user and explicit agent config.
+  # OpenCode 2 defaults layered under per-user and explicit agent config. The
+  # v2 schema differs from v1: providers/*permissions* use the new names, MCP
+  # servers live under `mcp.servers`, and model references are `provider/model`.
   defaultConfig = {
     "$schema" = "https://opencode.ai/config.json";
     lsp = true;
     # Route agent shell calls through rtk.
     shell = "${rtkShell}/bin/rtk-shell";
-    model = "qwen3.6-35b-a3b";
+    # The binary is Nix-managed; a self-update would try to replace a store path.
+    update = "disable";
+    model = "freetoken/qwen3.6-35b-a3b";
     compaction = {
       auto = true;
-      prune = true;
-      reserved = 10000;
+      keep.tokens = 10000;
+      # Preserve the v1 `reserved = 10000` (reserved compaction buffer).
+      buffer = 10000;
     };
-    mcp.serena = {
+    mcp.servers.serena = {
       type = "local";
       command = ["${pkgs.serena}/bin/serena" "start-mcp-server" "--context" "agent"];
-      enabled = true;
     };
-    provider.FreeToken = {
-      npm = "@ai-sdk/openai-compatible";
+    providers.freetoken = {
       name = "FreeToken (local)";
-      options.baseURL = "http://localhost:1919/v1";
+      package = "@opencode/ai/providers/openai-compatible";
+      settings.baseURL = "http://localhost:1919/v1";
       models."qwen3.6-35b-a3b" = {
         name = "Qwen3.6-35B-A3B (local)";
-        tool_call = true;
+        capabilities.tools = true;
         # Stay well under the server's window (opencode undercounts).
         limit = {
           context = 40 * 1024;
           output = 8 * 1024;
         };
-        options = {
+        settings = {
           temperature = 1.0;
           top_p = 0.95;
           top_k = 64;
@@ -43,7 +47,7 @@
   mkPackage = {
     name ? "opencode",
     config ? {},
-    package ? pkgs.opencode,
+    package,
     extraPackages ? [],
   }: let
     inherit (pkgs) lib;
@@ -60,7 +64,7 @@
       # `opencode --agent build` works for the TUI too.
       case "''${1:-}" in
         run|mini) ;;
-        upgrade|update|acp|debug|auth|mcp|plugin|session|service|pair|serve|api|models|stats|reload|uninstall) ;;
+        upgrade|update|uninstall|acp|api|debug|auth|mcp|plugin|models|stats|session|service|reload|pair|serve) ;;
         *)
           agent=""
           args=()
@@ -100,7 +104,7 @@
       standalone=0
       case "''${1:-}" in
         ""|run|mini|-*) standalone=1 ;;
-        upgrade|update|acp|debug|auth|mcp|plugin|session|service|pair|serve) ;;
+        upgrade|update|uninstall|acp|api|debug|auth|mcp|plugin|models|stats|session|service|reload|pair|serve) ;;
         *) standalone=1 ;;
       esac
       if [ "$standalone" = 1 ]; then

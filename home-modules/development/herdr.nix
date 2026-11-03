@@ -8,7 +8,7 @@
   colors = config.lib.stylix.colors;
   hex = name: "#${colors.${name}}";
 
-  herdr = inputs.nix-ai-tools.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
+  herdr = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
   herdrAuthProxy = inputs.herdr-auth-proxy.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   # Herdr's socket API has no authentication. Start the auth proxy alongside

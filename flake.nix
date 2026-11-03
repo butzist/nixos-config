@@ -48,8 +48,10 @@
       inputs.flake-parts.follows = "flake-parts";
     };
 
-    # Agent CLIs (rtk, herdr, crush, pi, ...) and their binary cache.
-    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    # Agent CLIs (rtk, herdr, opencode, ...) and their binary cache.
+    # `llm-agents.nix` is the renamed successor to nix-ai-tools; its prebuilt
+    # opencode avoids the nixpkgs source build.
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     # Lassie's Doghouse: the source-built ColliePWA package (including the
     # OpenCode session plugin), the home-manager service module, and the
