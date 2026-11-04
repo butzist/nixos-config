@@ -1,32 +1,35 @@
-# REA (rea-agents) is not in nixpkgs yet. This mirrors the pending package in
-# https://github.com/NixOS/nixpkgs/pull/574658, except that the also-unmerged
+# REA (rea-agents) is not in nixpkgs yet. This started from the pending package
+# in https://github.com/NixOS/nixpkgs/pull/574658, except that the also-unmerged
 # `installAgentSkills` hook (NixOS/nixpkgs#558216) is inlined as a plain copy.
+# Local addition: the prebuilt `tsrs` build tool has to be patchelf'd so it can
+# run in the sandbox.
 # Drop this file and use `pkgs.rea` once both PRs land.
 {
   lib,
   stdenv,
+  autoPatchelfHook,
   buildNpmPackage,
   fetchFromGitHub,
   installShellFiles,
   makeWrapper,
   nix-update-script,
-  nodejs_24,
+  nodejs_26,
   procps,
   versionCheckHook,
 }:
 buildNpmPackage (finalAttrs: {
   pname = "rea";
-  version = "6.5.0";
+  version = "6.8.0";
   __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "morluto";
     repo = "rea";
     tag = "rea-agents-${finalAttrs.version}";
-    hash = "sha256-fPe+tqkSRR5K+zSVWb6kjI6/HbQSJ8DHjLJwSWu8NzI=";
+    hash = "sha256-2ADn3U3lvUoB4tCEpzO0rMfYE4sis+5uBiEazcp0gpI=";
   };
 
-  npmDepsHash = "sha256-EQKhS1S7Hsfjbo5GikMeAFc2HFtALsDcw6XnJATUryw=";
+  npmDepsHash = "sha256-3WPXD+qm5WVfrTEvepKwX5RZBfbLBcPB0uDmKIx4MR8=";
 
   # frida (optional dependency) installs a platform binary via
   # prebuild-install, which cannot work in the sandbox. None of the other
@@ -36,12 +39,26 @@ buildNpmPackage (finalAttrs: {
   npmBuildScript = "compile";
   postBuild = "node scripts/generate-skill-metadata.mjs";
 
-  # engines: ^22.19.0 || ^24.11.0 || >=26.0.0
-  nodejs = nodejs_24;
+  # engines: ^22.23.4 || ^24.22.1 || >=26.12.1
+  nodejs = nodejs_26;
 
   nativeBuildInputs =
     [installShellFiles]
-    ++ lib.optional stdenv.hostPlatform.isLinux makeWrapper;
+    ++ lib.optionals stdenv.hostPlatform.isLinux [autoPatchelfHook makeWrapper];
+
+  # The build tool tsrs ships a prebuilt generic-glibc binary as an optional
+  # platform dependency; patch it (and any other native dep) before the build
+  # phase runs it.
+  preBuild = lib.optionalString stdenv.hostPlatform.isLinux ''
+    autoPatchelf node_modules
+  '';
+
+  # The lockfile also carries the musl builds of these platform binaries; they
+  # are never loaded on a glibc host, so do not try to resolve musl's libc.
+  autoPatchelfIgnoreMissingDeps =
+    lib.optional stdenv.hostPlatform.isLinux "libc.musl-${stdenv.hostPlatform.parsed.cpu.name}.so.1";
+
+  buildInputs = lib.optional stdenv.hostPlatform.isLinux stdenv.cc.cc.lib;
 
   postInstall =
     ''
