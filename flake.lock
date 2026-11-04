@@ -26,11 +26,11 @@
         "serena": "serena"
       },
       "locked": {
-        "lastModified": 1793777983,
-        "narHash": "sha256-TqrCyFocHUVcO4AI5YjDSgihKUB6ixDOSSY0SAICDwQ=",
+        "lastModified": 1793806645,
+        "narHash": "sha256-fnG6KrDZccuCwKUfXrH9E26qjK181XGalMw4j02Kn6s=",
         "owner": "butzist",
         "repo": "agent-toolbox",
-        "rev": "f7c1c67dc724d47df363f95a314f8c9cd629d571",
+        "rev": "ae35f07bd7a0c89110607c9b49999968d856c484",
         "type": "github"
       },
       "original": {
