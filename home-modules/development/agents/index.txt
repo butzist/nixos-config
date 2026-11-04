@@ -12,9 +12,9 @@ policy.nix    Local policy: secrets/gh token, CUDA, Nix daemon, jail
               plugin and shared Collie socket, and the free/jailed variants.
               Uses agent-toolbox for generic jail and env forwarding.
 opencode.nix opencode defaults + wrapper: v2 config (FreeToken provider,
-              rtk shell, serena MCP), bakes OPENCODE_CONFIG, maps TUI --agent
-              to OPENCODE_CONFIG_CONTENT, and keeps the server private to the
-              jail run.
+              rtk shell, serena MCP), a jailed-only config (REA MCP), bakes
+              OPENCODE_CONFIG, maps TUI --agent to OPENCODE_CONFIG_CONTENT,
+              and keeps the server private to the jail run.
 launcher.nix  Wrapper that runs the agent through the project's direnv/dev
               shell when a .envrc is present, then execs the prebuilt jailed
               package. No runtime Nix evaluation.

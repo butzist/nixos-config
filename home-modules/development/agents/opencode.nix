@@ -44,6 +44,15 @@
     };
   };
 
+  # MCP servers that belong only in the jailed variant. REA drives analysis of
+  # arbitrary binaries, so it stays out of the unconfined `opencode-free`.
+  jailedConfig = {
+    mcp.servers.rea = {
+      type = "local";
+      command = ["${pkgs.rea}/bin/rea" "mcp"];
+    };
+  };
+
   mkPackage = {
     name ? "opencode",
     config ? {},

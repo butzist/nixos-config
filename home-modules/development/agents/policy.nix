@@ -272,10 +272,14 @@
   opencodeConfig = opencode.config or {};
   opencodeAllowAllReads = opencode.allowAllReads or true;
 
+  # Jail-only servers are layered under the shared config so the user can
+  # still override or disable them from `agents.opencode.config`.
+  opencodeJailedConfig = lib.recursiveUpdate opencodeFile.jailedConfig opencodeConfig;
+
   jailedOpencodeConfig =
     if opencodeAllowAllReads
-    then allowAllReads opencodeConfig
-    else opencodeConfig;
+    then allowAllReads opencodeJailedConfig
+    else opencodeJailedConfig;
 
   opencodeExtraPackages = extraPackages ++ (opencode.extraPackages or []);
 

@@ -18,6 +18,7 @@
         inherit (prev.stdenv.hostPlatform) system;
         config.allowUnfree = true;
       };
+      rea = final.callPackage ./rea.nix {};
     })
     inputs.agenix.overlays.default
     inputs.agent-toolbox.overlays.default
