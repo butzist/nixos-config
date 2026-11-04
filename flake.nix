@@ -93,6 +93,7 @@
               alejandra
               deadnix
               jq
+              mcp-nixos
               nix-diff
               nix-output-monitor
               nix-tree

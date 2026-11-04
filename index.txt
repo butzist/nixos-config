@@ -6,6 +6,7 @@ AGENTS.md            Agent rules: index.txt navigation, never read secrets/, kee
 index.txt            This file.
 .gitmodules          secrets/ submodule declaration.
 .gitignore           Nix result symlinks, editor droppings, terraform state, .env files.
+opencode.json        Project OpenCode config: nixos MCP server, merged over the global config.
 
 nixos-configurations/  One dir per NixOS host (see index.txt).
 nixos-modules/         System-wide NixOS modules (see index.txt).

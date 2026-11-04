@@ -10,6 +10,7 @@ result-*
 *.swo
 *~
 .DS_Store
+.serena/
 
 # Local infrastructure state: never commit tfstate or generated credentials.
 *.tfstate
