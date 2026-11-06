@@ -28,7 +28,7 @@
   home.packages = with pkgs; [
     androidStudioPackages.beta
     android-tools
-    _security.brave
+    _security.chromium
     _security.firefox
     blender
     _stable.freecad
