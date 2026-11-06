@@ -6,14 +6,16 @@
   home.username = "games";
   home.homeDirectory = "/home/games";
 
-  imports = (with ezModules; [
-    base
-    kitty
-    waybar
-    gaming
-  ]) ++ [
-    ../themes/ubuntu-catppuccin.nix
-  ];
+  imports =
+    (with ezModules; [
+      base
+      kitty
+      waybar
+      gaming
+    ])
+    ++ [
+      ../themes/ubuntu-catppuccin.nix
+    ];
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [

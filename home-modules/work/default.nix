@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     remmina
 
@@ -9,7 +6,6 @@
     kubectl
     kubernetes-helm
     sops
-    (azure-cli.withExtensions [])
 
     # devops docs
     pre-commit
