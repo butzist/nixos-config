@@ -182,6 +182,7 @@ in {
       "video"
       "kvm"
       "i2c"
+      "dialout"
     ];
     uid = 1000;
     shell = pkgs.bash;

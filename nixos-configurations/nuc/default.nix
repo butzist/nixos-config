@@ -6,15 +6,17 @@
   ezModules,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ] ++ (with ezModules; [
-    base
-    gnome
-    gaming
-    containers
-  ]);
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ (with ezModules; [
+      base
+      gnome
+      gaming
+      containers
+    ]);
 
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
@@ -52,7 +54,15 @@
   users.users.work = {
     isNormalUser = true;
     description = "Work";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "video"
+      "kvm"
+      "dialout"
+      "plugdev"
+    ];
     uid = 1000;
     shell = pkgs.bash;
   };
@@ -60,7 +70,14 @@
   users.users.games = {
     isNormalUser = true;
     description = "Gaming";
-    extraGroups = ["networkmanager" "video" "gamemode"];
+    extraGroups = [
+      "networkmanager"
+      "video"
+      "gamemode"
+      "kvm"
+      "dialout"
+      "plugdev"
+    ];
     uid = 1001;
     shell = pkgs.bash;
   };
@@ -68,7 +85,16 @@
   users.users.adam = {
     isNormalUser = true;
     description = "Adam";
-    extraGroups = ["networkmanager" "wheel" "docker" "video" "kvm" "adbusers" "dialout" "plugdev"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "video"
+      "kvm"
+      "adbusers"
+      "dialout"
+      "plugdev"
+    ];
     uid = 1002;
     shell = pkgs.bash;
   };
