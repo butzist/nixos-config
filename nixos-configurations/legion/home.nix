@@ -55,7 +55,7 @@ in {
     };
   };
 
-  programs.chromium.commandLineArgs = [
+  programs.brave.commandLineArgs = [
     "--disable-features=VaapiVideoEncoder"
   ];
 }

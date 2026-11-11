@@ -19,7 +19,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    _security.chromium
+    _security.brave
     _security.firefox
     _stable.freecad
     orca-slicer

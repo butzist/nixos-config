@@ -30,6 +30,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     _stable.libreoffice
+    _security.chromium
     kicad
     easyeda2kicad
   ];
@@ -93,8 +94,9 @@
     # (onlyoffice.github.io) could never be delegated the permission. This
     # switch makes the LNA permissions policy default-enabled in ALL frames,
     # so no allow attribute is needed anywhere on the iframe chain.
-    chromium = {
+    brave = {
       enable = true;
+      package = pkgs._security.brave;
       commandLineArgs = [
         "--local-network-access-permissions-policy-default-enabled"
       ];
