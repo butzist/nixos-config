@@ -31,6 +31,11 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Secure Boot: signs each generation's unified kernel image with a local
+    # db key and, optionally, builds a systemd-pcrlock TPM2 policy.
+    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     nvf.url = "github:notashelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -100,6 +105,7 @@
               nix-update
               nixd
               statix
+              sbctl
             ]
             ++ [
               inputs.agenix.packages.${system}.default

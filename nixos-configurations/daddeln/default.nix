@@ -20,10 +20,8 @@
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Bootloader comes from nixos-modules/boot.nix: plain systemd-boot unless
+  # security.secureBoot.enable is set on this host.
 
   networking.hostName = "daddeln"; # Define your hostname.
 

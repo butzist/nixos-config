@@ -10,3 +10,7 @@ laptop.nix              TLP power/charge thresholds.
 containers.nix          Container tooling; imports the linux + darwin split.
 containers-linux.nix    Linux: podman containers, docker, trusts docker0.
 containers-darwin.nix   macOS: colima + docker, DOCKER_CONTEXT=colima.
+boot.nix                Imported by default. Boot UI (plymouth, quiet params),
+                        systemd-boot vs Lanzaboote switch, optional
+                        systemd-pcrlock TPM2 unlock for listed LUKS devices.
+                        Adds secure-boot-enroll.

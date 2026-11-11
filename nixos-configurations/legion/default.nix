@@ -64,11 +64,15 @@ in {
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.luks.devices."luks-badc0975-bd8f-4323-a781-203aa39328fa".device = "/dev/disk/by-uuid/badc0975-bd8f-4323-a781-203aa39328fa";
+  # Bootloader, plymouth and kernel package come from nixos-modules/boot.nix.
+  # Lanzaboote Secure Boot + TPM2 auto-unlock. Only the root volume is listed:
+  # swap is re-encrypted with a random key on every boot (see
+  # hardware-configuration.nix), so it has nothing to unlock or enroll. The
+  # passphrase keyslot is kept, so a refused TPM falls back to the prompt.
+  security.secureBoot = {
+    enable = true;
+    luksDevices = ["luks-e0024875-92ff-44be-adf2-7e2906bf4d0b"];
+  };
 
   networking.hostName = "legion"; # Define your hostname.
 

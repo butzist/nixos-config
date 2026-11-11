@@ -4,6 +4,7 @@
     inputs.agenix.nixosModules.default
     inputs.stylix.nixosModules.stylix
     inputs.freetoken.nixosModules.freetoken
+    ./boot.nix
     ../overlays
     ../shared-modules/ssh-keys.nix
     ../shared-modules/tailscale.nix

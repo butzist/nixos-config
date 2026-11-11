@@ -4,6 +4,7 @@ flake.nix            Inputs + ez-configs wiring. ezConfigs.nixos.hosts maps host
 flake.lock           Locked input revisions.
 AGENTS.md            Agent rules: index.txt navigation, never read secrets/, keep index.txt updated.
 index.txt            This file.
+BOOT.md              Secure Boot + LUKS/TPM2 runbook (Lanzaboote, sbctl, systemd-pcrlock)
 .gitmodules          secrets/ submodule declaration.
 .gitignore           Nix result symlinks, editor droppings, terraform state, .env files.
 opencode.json        Project OpenCode config: nixos MCP server, merged over the global config.
