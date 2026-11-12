@@ -21,8 +21,7 @@
   # Home-manager settings applied to every user on this machine.
   home-manager.sharedModules = [./home.nix];
 
-  # Bootloader comes from nixos-modules/boot.nix: plain systemd-boot unless
-  # security.secureBoot.enable is set on this host.
+  security.secureBoot.enable = true;
   boot.kernelParams = [
     "amd_iommu=off"
   ];
