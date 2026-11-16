@@ -8,76 +8,16 @@
   colors = config.lib.stylix.colors;
   hex = name: "#${colors.${name}}";
 
+  atb = inputs.agent-toolbox.lib pkgs;
+
   herdr = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
   herdrAuthProxy = inputs.herdr-auth-proxy.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-  # Herdr's socket API has no authentication. Start the auth proxy alongside
-  # the server and keep the real socket private; jailed agents are pointed at
-  # the proxy's JWT-gated auth socket by the agent policy. The proxy resolves
-  # its upstream socket before herdr runs, so mirror --session into the env it
-  # reads (HERDR_SESSION).
-  #
-  # `wrap` always exports a usable HERDR_AUTH_JWT itself: fresh from the proxy
-  # it starts, re-adopted from the running server (verified with auth.hello), or
-  # after replacing a stale proxy when no server is running. A running server
-  # without a usable token cannot be repaired from outside, so `wrap` fails
-  # closed and tells the user to restart it; do not restart the server behind
-  # their back here.
-  herdrWrapped = pkgs.writeShellScriptBin "herdr" ''
-    set -euo pipefail
-
-    realHerdr=${lib.getExe herdr}
-    proxy=${herdrAuthProxy}/bin/herdr-auth-proxy
-
-    session=""
-    prev=""
-    for arg in "$@"; do
-      if [ "$prev" = "--session" ]; then
-        session="$arg"
-      fi
-      case "$arg" in
-        --session=*) session="''${arg#--session=}" ;;
-      esac
-      prev="$arg"
-    done
-    # `herdr session attach <name>` is rewritten by herdr into a default launch.
-    if [ "''${1:-}" = "session" ] && [ "''${2:-}" = "attach" ] && [ -n "''${3:-}" ]; then
-      session="$3"
-    fi
-    # herdr omits HERDR_SESSION from the default session's environment.
-    if [ "$session" = "default" ]; then
-      session=""
-      unset HERDR_SESSION
-    fi
-    if [ -n "$session" ]; then
-      export HERDR_SESSION="$session"
-    fi
-
-    # CLI subcommands are the operator talking to herdr's real socket; only the
-    # TUI launcher (and the hidden client mode) need the proxy-wrapped env. In
-    # particular `herdr server stop` must pass through even when `wrap` would
-    # otherwise refuse to run because the running server has no usable token.
-    for arg in "$@"; do
-      case "$arg" in
-        --remote | --remote=* | --machine | --machine=* | --help | -h | --version | -V | --default-config | --skill)
-          exec "$realHerdr" "$@"
-          ;;
-      esac
-    done
-    case "''${1:-}" in
-      "" | client | --session | --session=* | --handoff) ;;
-      session)
-        if [ "''${2:-}" != "attach" ]; then
-          exec "$realHerdr" "$@"
-        fi
-        ;;
-      *)
-        exec "$realHerdr" "$@"
-        ;;
-    esac
-
-    exec "$proxy" wrap -- "$realHerdr" "$@"
-  '';
+  # Herdr's socket API has no authentication. agent-toolbox's wrapper starts the
+  # JWT-gating proxy alongside the server, keeps the real socket private and
+  # leaves CLI subcommands (including `herdr server stop`) on it. Jailed agents
+  # reach only the proxy's auth socket; see policy.nix.
+  herdrWrapped = atb.mkHerdrWrapped {inherit herdr herdrAuthProxy;};
 
   # Herdr's "terminal" base theme already follows the terminal palette; the
   # custom tokens pin the remaining UI surfaces to Stylix's base16 scheme.

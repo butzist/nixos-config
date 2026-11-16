@@ -1,6 +1,8 @@
 {
   pkgs,
   rtkShell,
+  herdrAuthProxy,
+  herdr ? true,
 }: {
   # OpenCode 2 defaults layered under per-user and explicit agent config. The
   # v2 schema differs from v1: providers/*permissions* use the new names, MCP
@@ -46,11 +48,25 @@
 
   # MCP servers that belong only in the jailed variant. REA drives analysis of
   # arbitrary binaries, so it stays out of the unconfined `opencode-free`.
+  #
+  # herdr's own socket API is unauthenticated; the jail only reaches the
+  # JWT-gated proxy socket (HERDR_AUTH_SOCKET + HERDR_AUTH_JWT are set by the
+  # jail run). `herdr-auth mcp` is the orchestration path there: spawn agents
+  # and exchange durable messages instead of touching raw panes.
   jailedConfig = {
-    mcp.servers.rea = {
-      type = "local";
-      command = ["${pkgs.rea}/bin/rea" "mcp"];
-    };
+    mcp.servers =
+      {
+        rea = {
+          type = "local";
+          command = ["${pkgs.rea}/bin/rea" "mcp"];
+        };
+      }
+      // pkgs.lib.optionalAttrs herdr {
+        herdr = {
+          type = "local";
+          command = ["${herdrAuthProxy}/bin/herdr-auth" "mcp"];
+        };
+      };
   };
 
   mkPackage = {

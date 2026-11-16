@@ -21,7 +21,10 @@
   # opencode lets its shell tool be overridden, so route it through rtk.
   rtkShell = atb.mkRtkShell {rtk = aiTools.rtk;};
 
-  opencodeFile = import ./opencode.nix {inherit pkgs rtkShell;};
+  opencodeFile = import ./opencode.nix {
+    inherit pkgs rtkShell herdrAuthProxy;
+    herdr = config.agents.herdr.enable;
+  };
 
   # The jail binds /nix read-only, so the plugin can be copied straight from
   # the Collie package the service runs. Copy (rather than symlink) because the
