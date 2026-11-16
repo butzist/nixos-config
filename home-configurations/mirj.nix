@@ -19,9 +19,9 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    _security.brave
+    _security.brave-origin
     _security.firefox
-    _stable.freecad
+    freecad
     orca-slicer
     _stable.inkscape
     gimp3-with-plugins

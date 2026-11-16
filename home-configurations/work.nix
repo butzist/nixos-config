@@ -94,9 +94,9 @@
     # (onlyoffice.github.io) could never be delegated the permission. This
     # switch makes the LNA permissions policy default-enabled in ALL frames,
     # so no allow attribute is needed anywhere on the iframe chain.
-    brave = {
+    brave-origin = {
       enable = true;
-      package = pkgs._security.brave;
+      package = pkgs._security.brave-origin;
       commandLineArgs = [
         "--local-network-access-permissions-policy-default-enabled"
       ];
