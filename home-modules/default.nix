@@ -8,7 +8,7 @@
 in {
   imports = [
     inputs.agenix.homeManagerModules.default
-    inputs.nvf.homeManagerModules.nvf
+    inputs.nvf.homeModules.nvf
     inputs.stylix.homeModules.stylix
     ../overlays
   ];
