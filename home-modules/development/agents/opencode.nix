@@ -14,6 +14,21 @@
     shell = "${rtkShell}/bin/rtk-shell";
     # The binary is Nix-managed; a self-update would try to replace a store path.
     update = "disable";
+    # Keep sessions local and the agent tree flat: no sharing, no child agents,
+    # no desktop-app browser control.
+    share = "disabled";
+    permissions = [
+      {
+        action = "subagent";
+        resource = "*";
+        effect = "deny";
+      }
+      {
+        action = "browser";
+        resource = "*";
+        effect = "deny";
+      }
+    ];
     model = "freetoken/qwen3.6-35b-a3b";
     compaction = {
       auto = true;
@@ -84,6 +99,13 @@
         export PATH=${lib.makeBinPath extraPackages}''${PATH:+:$PATH}
       ''}
       export OPENCODE_CONFIG=${configFile}
+      # CLI settings are separate from the server config, so the tab strip
+      # override cannot live in OPENCODE_CONFIG. Merge just that key over any
+      # inline CLI config the user already provided.
+      cli_config="''${OPENCODE_CLI_CONFIG_CONTENT:-}"
+      if [ -z "$cli_config" ]; then cli_config='{}'; fi
+      OPENCODE_CLI_CONFIG_CONTENT="$(${pkgs.jq}/bin/jq -cn --argjson base "$cli_config" '$base * {tabs: {mode: "off"}}')"
+      export OPENCODE_CLI_CONFIG_CONTENT
       # The default TUI command has no --agent flag (run/mini do). Translate it
       # into OPENCODE_CONFIG_CONTENT (merged over any existing content) so
       # `opencode --agent build` works for the TUI too.

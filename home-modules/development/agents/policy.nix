@@ -56,25 +56,14 @@
     .permissions
     c;
 
-  # Herdr's OpenCode plugin is agent-specific, so it is prepared here rather
-  # than in the toolbox (which only forwards the generic Herdr environment).
-  herdrOpencodePlugin =
-    pkgs.runCommand "herdr-opencode-plugins" {
-      nativeBuildInputs = [herdrPackage];
-    } ''
-      mkdir -p home/.config/opencode
-      HOME=$TMPDIR/home XDG_CONFIG_HOME=$TMPDIR/home/.config \
-        ${lib.getExe herdrPackage} integration install opencode >/dev/null
-      mkdir -p $out
-      cp -a home/.config/opencode/. $out/
-    '';
-
+  # Herdr owns the OpenCode integration and versions its plugin/config assets
+  # with the binary. Run Herdr's installer in the jail home so the files match
+  # this Herdr build instead of copying a store snapshot.
   opencodeHerdrPermissions = c:
     lib.optionals herdr [
       (c.wrap-entry (entry: ''
-        mkdir -p "$HOME/.config/opencode"
-        cp -r --no-preserve=mode,ownership ${herdrOpencodePlugin}/. "$HOME/.config/opencode/"
-        chmod -R u+w "$HOME/.config/opencode"
+        mkdir -p "''${JAIL_HOME:-$HOME}/.config/opencode"
+        ${herdrPackage}/bin/herdr integration install opencode >/dev/null
         ${entry}
       ''))
     ];
@@ -97,11 +86,11 @@
         (c.noescape "\"$HOME/.local/state/collie\"")
         (c.noescape "\"$JAIL_HOME/.local/state/collie\""))
       (c.set-env "COLLIE_STATE_DIR" (c.noescape "\"$JAIL_HOME/.local/state/collie\""))
-      # The store is already bound read-only; copying leaves a real file that
-      # Herdr's later `chmod -R u+w` can safely make writable in the jail home.
+      # The store is already bound read-only, so link the plugin from the
+      # Collie package instead of copying it into the jail home.
       (c.wrap-entry (entry: ''
-        mkdir -p "$HOME/.config/opencode/plugins"
-        cp -f ${colliePlugin} "$HOME/.config/opencode/plugins/collie-opencode-bridge.js"
+        mkdir -p "''${JAIL_HOME:-$HOME}/.config/opencode/plugins"
+        ${pkgs.coreutils}/bin/ln -sfn ${colliePlugin} "''${JAIL_HOME:-$HOME}/.config/opencode/plugins/collie-opencode-bridge.js"
         ${entry}
       ''))
     ];

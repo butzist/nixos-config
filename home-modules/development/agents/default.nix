@@ -26,11 +26,8 @@
     herdr = config.agents.herdr.enable;
   };
 
-  # The jail binds /nix read-only, so the plugin can be copied straight from
-  # the Collie package the service runs. Copy (rather than symlink) because the
-  # jail home is a tmpfs/persisted dir: Herdr's `chmod -R u+w` on
-  # ~/.config/opencode follows symlinks, and a link into the read-only store
-  # would make it fail.
+  # The jail binds /nix read-only, so the plugin can be linked straight from
+  # the Collie package the service runs instead of copied into the jail home.
   colliePlugin = "${config.services.collie.package or inputs.lassies-doghouse.packages.${system}.collie}/lib/collie/plugins/opencode/collie-opencode-bridge.js";
 
   agents = import ./policy.nix {

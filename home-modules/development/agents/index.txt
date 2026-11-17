@@ -5,18 +5,20 @@ default.nix   Home-manager options, llm-agents packages (rtk, herdr,
               list, the Collie plugin path and the rtk shell.
 policy.nix    Local policy: secrets/gh token, CUDA, Nix daemon, jail
               permissions, opencode allowAllReads (v2 permissions array),
-              Herdr plugin, agent-toolbox's herdrAuth extras (auth-socket-only
+              Herdr's OpenCode integration installed inside the jail,
+              agent-toolbox's herdrAuth extras (auth-socket-only
               Herdr access, with the jail's orchestrator token scoped to the
               current directory/workspace and capped at report_status,
-              read_own_pane and wait_own_output for opencode agents), the Collie
-              plugin and shared Collie socket, and the free/jailed variants.
-              Uses agent-toolbox for generic jail, env forwarding and Herdr
-              plumbing.
+              read_own_pane and wait_own_output for opencode agents), the linked
+              Collie plugin and shared Collie socket, and the free/jailed
+              variants. Uses agent-toolbox for generic jail, env forwarding and
+              Herdr plumbing.
 opencode.nix opencode defaults + wrapper: v2 config (FreeToken provider,
               rtk shell, serena MCP), a jailed-only config (REA MCP and the
               herdr-auth MCP orchestration/messaging server, the latter gated
-              on agents.herdr.enable), bakes OPENCODE_CONFIG, maps TUI --agent
-              to OPENCODE_CONFIG_CONTENT, and keeps the server private to the
+              on agents.herdr.enable), bakes OPENCODE_CONFIG, disables the tab
+              strip via OPENCODE_CLI_CONFIG_CONTENT, maps TUI --agent to
+              OPENCODE_CONFIG_CONTENT, and keeps the server private to the
               jail run.
 launcher.nix  Wrapper that runs the agent through the project's direnv/dev
               shell when a .envrc is present, then execs the prebuilt jailed

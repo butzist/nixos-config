@@ -75,6 +75,16 @@
     ui.toast.delivery = "system";
   };
 in {
+  # Herdr owns and versions its OpenCode integration with the binary. Install
+  # it on activation instead of vendoring its config or copying a store
+  # snapshot; the jail does the same at launch.
+  home.activation.herdr-opencode-integration = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ -x ${herdr}/bin/herdr ]; then
+      run mkdir -p "$HOME/.config/opencode"
+      run ${herdr}/bin/herdr integration install opencode
+    fi
+  '';
+
   # notify-send is what `delivery = "system"` executes on Linux. The proxy
   # package also provides the `herdr-auth` client used to drive gated agents.
   home.packages =
@@ -83,13 +93,4 @@ in {
 
   xdg.configFile."herdr/config.toml".source =
     (pkgs.formats.toml {}).generate "herdr-config.toml" herdrConfig;
-
-  # Herdr writes its bundled plugins itself; let the binary install the one
-  # matching its version instead of vendoring the JS in this repo.
-  home.activation.herdr-opencode-integration = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ -x ${herdr}/bin/herdr ]; then
-      run mkdir -p "$HOME/.config/opencode"
-      run ${herdr}/bin/herdr integration install opencode
-    fi
-  '';
 }
