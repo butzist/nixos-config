@@ -136,14 +136,14 @@ in {
   # Allow access to I2C bus for display configuration
   hardware.i2c.enable = true;
 
-  zramSwap = {
-    enable = true;
-    memoryPercent = 53;
-    memoryMax = 16 * 1024 * 1024 * 1024;
+  # No zram: the swap tier is the random-key LUKS partition in
+  # hardware-configuration.nix. A compressed-RAM swap in front of it only
+  # competed for RAM on a 32 GiB machine and hid real memory pressure.
+  zramSwap.enable = false;
 
-    # in compressed RAM first and only spill to disk under real pressure.
-    priority = 5;
-  };
+  # Disk-only swap here, so keep page cache around and only swap under real
+  # pressure; the kernel default of 60 trades cache away too eagerly.
+  boot.kernel.sysctl."vm.swappiness" = 10;
 
   services.freetoken = {
     enable = false;
