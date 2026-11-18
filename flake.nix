@@ -25,7 +25,7 @@
 
     determinate.url = "github:DeterminateSystems/determinate";
 
-    stylix.url = "github:nix-community/stylix";
+    stylix.url = "github:butzist/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
