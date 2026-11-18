@@ -21,32 +21,13 @@
     done
   '';
 in {
-  wayland.windowManager.hyprland.settings = {
-    # NOTE: Hyprland matches `desc:` against the monitor description as a
-    # PREFIX (not substring), so the full EDID-derived description must be
-    # used. These are stable across boots unlike the connector names (which
-    # have been observed to change, e.g. eDP-1 <-> eDP-2).
-    monitor = [
-      {
-        output = "desc:Samsung Display Corp. ATNA60HS03-0";
-        mode = "2560x1600";
-        position = "0x0";
-        scale = "1.333333";
-      }
-      {
-        output = "desc:HP Inc. HP E24i G4 6CM406371S";
-        mode = "1920x1200";
-        position = "1920x0";
-        scale = "1";
-      }
-      {
-        output = "desc:HP Inc. HP E24i G4 6CM40635HR";
-        mode = "1920x1200";
-        position = "3840x0";
-        scale = "1";
-      }
-    ];
+  # The monitor layout is not static: the legion is used at two offices with
+  # different HP E24i G4 pairs, and the internal panel sits on the left at
+  # office A and on the right at office B. `monitors.lua` picks the layout whose
+  # monitors are actually connected and re-applies it on hotplug.
+  wayland.windowManager.hyprland.extraLuaFiles."legion-monitors" = ./monitors.lua;
 
+  wayland.windowManager.hyprland.settings = {
     on = {
       _args = [
         "hyprland.start"
