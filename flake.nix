@@ -113,6 +113,10 @@
         };
 
         formatter = pkgs.alejandra;
+
+        # Committed stub of the private secrets/ submodule, mounted over it by
+        # the agent jail (see .envrc). Nothing in it is a usable credential.
+        packages.fake-secrets = import ./home-modules/development/agents/fake-secrets.nix {inherit pkgs;};
       };
 
       ezConfigs = {

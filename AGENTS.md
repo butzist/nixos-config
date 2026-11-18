@@ -33,6 +33,21 @@ not read the surrounding files to "check". Example of what to report:
 > gets no SSH key. Please add the file (or run your agenix re-encrypt flow) and
 > tell me when it's in place.
 
+The `opencode` agent jail does not see the real tree: the `.envrc` builds the
+`fake-secrets` flake package and adds `--ro-bind`s for `secrets/` and a
+`safe.directory` git config to the jail through agent-toolbox's
+`JAIL_EXTRA_ARGS`. The stub has no usable keys, only what the modules need to
+evaluate, so evaluating inside the jail gives a configuration with a fake git
+identity and placeholder age files. Nix copies submodule content only for
+`?submodules=1` and only when the path is a git repository, hence:
+
+    nix flake check 'git+file:///home/work/nix?submodules=1'
+
+(or `--flake .?submodules=1`). Untracked files are invisible to Nix as well, so
+`git add` new files before checking. Do not stage or commit `secrets/` from
+inside the jail: the stub is a different repository and its HEAD is not the
+submodule commit the real tree points at.
+
 ## Structure
 
 `flake.nix` is the single entry point. It declares flake inputs (nixpkgs
@@ -63,8 +78,10 @@ home-module wiring lives in `flake.nix` under `ezConfigs.nixos.hosts`.
   them as part of unrelated work.
 - Comments in this repo explain _why_ (e.g. the pipewire A2DP note in
   `nixos-modules/base.nix`). Keep that style when editing.
-- Validate with `nix flake check` or a `nixos-rebuild --flake .?submodules=1`
-  dry run when the toolchain is available; the repo has no test suite.
+- Validate with `nix flake check 'git+file:...?submodules=1'` or a
+  `nixos-rebuild --flake .?submodules=1` dry run when the toolchain is
+  available; the repo has no test suite. Nix ignores untracked files, so
+  `git add` new files (or `git add -N`) before checking.
 - `nix develop` provides `nixd`, `alejandra`, `statix`, `deadnix`, `agenix`,
   `nix-tree`, `nom`, `nix-diff`, and `nix-update`; `nix fmt` uses `alejandra`.
 - Helper scripts in the root (`rebuild-system.sh`, `rebuild-darwin.sh`,

@@ -21,7 +21,6 @@ result-*
 # Scratch
 *.log
 .env
-.envrc
 
 # Python bytecode from helper scripts
 __pycache__/
