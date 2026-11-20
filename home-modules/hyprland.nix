@@ -265,5 +265,23 @@
 
   services.dunst.enable = true;
 
+  # XDG autostart for blueman-applet is disabled system-wide (see
+  # nixos-modules/base.nix). Binding it to the Hyprland session target keeps the
+  # applet in Hyprland only, without a second Bluetooth tray in Noctalia.
+  systemd.user.services.blueman-applet = {
+    Unit = {
+      Description = "Blueman applet (Hyprland)";
+      After = ["graphical-session-pre.target"];
+      PartOf = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "dbus";
+      BusName = "org.blueman.Applet";
+      ExecStart = "${pkgs.blueman}/bin/blueman-applet";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = ["hyprland-session.target"];
+  };
+
   systemd.user.sessionVariables.NIXOS_OZONE_WL = "1";
 }

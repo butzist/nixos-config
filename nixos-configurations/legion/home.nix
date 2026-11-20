@@ -21,11 +21,9 @@
     done
   '';
 in {
-  # The monitor layout is not static: the legion is used at two offices with
-  # different HP E24i G4 pairs, and the internal panel sits on the left at
-  # office A and on the right at office B. `monitors.lua` picks the layout whose
-  # monitors are actually connected and re-applies it on hotplug.
-  wayland.windowManager.hyprland.extraLuaFiles."legion-monitors" = ./monitors.lua;
+  # One screen config for every session on this host (Umbriel, Hyprland,
+  # sway); kanshi.nix replaces the old per-compositor monitor configs.
+  imports = [./kanshi.nix];
 
   wayland.windowManager.hyprland.settings = {
     on = {
