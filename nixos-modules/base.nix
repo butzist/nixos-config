@@ -1,16 +1,16 @@
 {pkgs, ...}: {
-  # Login
-  services.displayManager.gdm.enable = true;
+  # Select the system variant of the shared Everforest theme. The greeter reads
+  # these Stylix values from config.stylix in ./noctalia.nix, like GDM did before.
+  imports = [(import ../themes/everforest-kingdoms.nix {inherit pkgs;}).system];
+
+  # Login: GDM is replaced by noctalia-greeter in ./noctalia.nix.
+  services.displayManager.gdm.enable = false;
 
   # Binary cache for the llm-agents packages (rtk, herdr, opencode, ...).
   nix.settings = {
     extra-substituters = ["https://cache.numtide.com"];
     extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];
   };
-
-  # Style
-  stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
 
   # Enable networking
   networking.networkmanager.enable = true;

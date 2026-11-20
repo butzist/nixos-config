@@ -1,7 +1,8 @@
 One dir per NixOS host; flake.nix only assigns users, the system config is in
 each default.nix.
 
-daddeln/    Users games + adam. base, gnome, gaming. Auto-login as games.
+daddeln/    Users games + adam. base, gnome, gaming. greetd auto-login as games
+            into Umbriel.
 hp-laptop/  Users adam + games + mirj. base, gnome, gaming, laptop. One panel.
 legion/     User work. base, gnome, laptop, containers. AMD/NVIDIA hybrid, LUKS,
             Lanzaboote Secure Boot + TPM2 unlock (see ../BOOT.md), local

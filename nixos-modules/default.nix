@@ -5,6 +5,7 @@
     inputs.stylix.nixosModules.stylix
     inputs.freetoken.nixosModules.freetoken
     ./boot.nix
+    ./noctalia.nix
     ../overlays
     ../shared-modules/ssh-keys.nix
     ../shared-modules/tailscale.nix

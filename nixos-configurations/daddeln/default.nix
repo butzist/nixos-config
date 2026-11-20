@@ -64,8 +64,12 @@
     shell = pkgs.bash;
   };
 
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "games";
+  # GDM's autoLogin settings do not apply to greetd; start Umbriel directly as
+  # the initial greetd session, matching the Noctalia greeter's default session.
+  services.greetd.settings.initial_session = {
+    user = "games";
+    command = "${pkgs.umbriel}/bin/start-umbriel";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

@@ -14,7 +14,7 @@
       zellij
     ])
     ++ [
-      ../themes/ubuntu-catppuccin.nix
+      (import ../themes/ubuntu-catppuccin.nix {inherit pkgs;}).user
     ];
 
   # Packages that should be installed to the user profile.

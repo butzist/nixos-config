@@ -1,13 +1,16 @@
 One file per home-manager user. Each is a standalone configuration; which hosts
 get it is set in ../flake.nix and nixos-configurations/<host>/home.nix. Git
-identity comes from config.sensitive (secrets/ - never read).
+identity comes from config.sensitive (secrets/ - never read). Each user selects
+the .user variant of its theme module explicitly in the imports list.
 
-adam.nix    base, kitty, nushell, zellij, neovim, hyprland, wlogout, walker,
-            waybar, development. Everforest theme. CAD/media/EDA packages.
+adam.nix    base, kitty, nushell, zellij, neovim, noctalia + hyprland/waybar,
+            wlogout, walker, development. Everforest theme. CAD/media/EDA
+            packages. Both desktop stacks are configured; Umbriel is the default
+            greeter session and Hyprland stays available via UWSM.
 mirj.nix    base, kitty, nushell, zellij. Catppuccin theme. Office/graphics.
 games.nix   base, kitty, waybar, gaming. Catppuccin theme. steam autostart.
-work.nix    base, kitty, nushell, zellij, neovim, development, work, hyprland,
-            wlogout, walker, waybar. Everforest theme. GPG-signed git, Brave LNA
+work.nix    base, kitty, nushell, zellij, neovim, development, work, noctalia +
+            hyprland/waybar, wlogout, walker. Everforest theme. GPG-signed git, Brave LNA
             flag for OnlyOffice. Declares the opencode-go/greenpt/gpg agenix
             secrets and wires them into the jailed opencode agent.
             Imports the lassies-doghouse flake and enables its bridge, the

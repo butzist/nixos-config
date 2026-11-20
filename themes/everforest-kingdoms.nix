@@ -1,46 +1,43 @@
-{pkgs, ...}: {
-  stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
-  stylix.image = ../wallpapers/everforest-2.png;
-  stylix.polarity = "dark";
+# Everforest theme. One settings attrset feeds both the NixOS system module
+# (used by the greeter) and the home-manager module (used by the shell).
+{pkgs, ...}: let
+  mkTheme = import ./mk-theme.nix;
+in
+  mkTheme {
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest.yaml";
+    image = ../wallpapers/everforest-2.png;
+    polarity = "dark";
 
-  stylix.cursor = {
-    package = pkgs.banana-cursor;
-    name = "Banana";
-    size = 28;
-  };
-
-  stylix.fonts = {
-    serif = {
-      package = pkgs.liberation_ttf;
-      name = "Liberation Serif";
+    cursor = {
+      package = pkgs.banana-cursor;
+      name = "Banana";
+      size = 28;
     };
 
-    sansSerif = {
-      package = pkgs.ubuntu-classic;
-      name = "Ubuntu";
+    fonts = {
+      serif = {
+        package = pkgs.liberation_ttf;
+        name = "Liberation Serif";
+      };
+
+      sansSerif = {
+        package = pkgs.ubuntu-classic;
+        name = "Ubuntu";
+      };
+
+      monospace = {
+        package = pkgs.nerd-fonts.fira-code;
+        name = "FiraCode Nerd Font";
+      };
     };
 
-    monospace = {
-      package = pkgs.nerd-fonts.fira-code;
-      name = "FiraCode Nerd Font";
+    opacity = {
+      terminal = 0.9;
+      applications = 0.9;
     };
-  };
 
-  stylix.opacity = {
-    terminal = 0.9;
-    applications = 0.9;
-  };
-
-  stylix.targets = {
-    qt.platform = "qtct";
-  };
-
-  gtk = {
-    enable = true;
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
     };
-  };
-}
+  }

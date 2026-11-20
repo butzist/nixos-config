@@ -1,6 +1,7 @@
 {pkgs, ...}: {
+  # GNOME is no longer the desktop session; Umbriel + Noctalia is the default.
   services.desktopManager.gnome = {
-    enable = true;
+    enable = false;
   };
 
   services.gnome = {

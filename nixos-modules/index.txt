@@ -2,11 +2,18 @@ NixOS modules; basename = the name used in `with ezModules; [...]`.
 
 default.nix            Implicit host module: imports home-manager, agenix, stylix,
                        freetoken, ../overlays, ../shared-modules/*.
-base.nix                Core baseline: GDM, X11, NetworkManager, bluetooth, pipewire,
-                       firewall, tailnet-only sshd, printers, system packages.
-gnome.nix               GNOME without core apps/dev tools/games.
+base.nix                Core baseline: imports the .system variant of the shared
+                       Everforest theme from themes/everforest-kingdoms.nix, X11, NetworkManager,
+                       bluetooth, pipewire, firewall, tailnet-only sshd, printers,
+                       system packages.
+gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
+                       dev tools and games stay off.
+noctalia.nix            Global display session: noctalia-greeter, Umbriel + portal,
+                       Noctalia binary, and greeter palette/font/dark mode/wallpaper
+                       taken from the shared Stylix config.
 gaming.nix              gamescope + gamemode.
-laptop.nix              TLP power/charge thresholds.
+laptop.nix              TLP power/charge thresholds + PPD-compatible DBus interface
+                        for Noctalia's power-profile widget.
 containers.nix          Container tooling; imports the linux + darwin split.
 containers-linux.nix    Linux: podman containers, docker, trusts docker0.
 containers-darwin.nix   macOS: colima + docker, DOCKER_CONTEXT=colima.

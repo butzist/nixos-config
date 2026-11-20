@@ -14,6 +14,7 @@
       nushell
       zellij
       neovim
+      noctalia
       hyprland
       wlogout
       walker
@@ -21,7 +22,7 @@
       development
     ])
     ++ [
-      ../themes/everforest-kingdoms.nix
+      (import ../themes/everforest-kingdoms.nix {inherit pkgs;}).user
     ];
 
   # Packages that should be installed to the user profile.

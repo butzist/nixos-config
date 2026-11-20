@@ -17,5 +17,8 @@ rofi.nix          Rofi. Unused; walker is the launcher in use.
 development/      Dev packages + opinionated git settings, jailed opencode
                   agent, Herdr setup, and rust-mold (see index.txt).
 waybar/           Status bar (see index.txt).
+noctalia.nix      Default shell for adam/work, alongside the unchanged Hyprland +
+                  Waybar modules: Stylix-driven Noctalia + Umbriel font, palette,
+                  dark mode and wallpaper, ported keybinds, autostart and keyring.
 neovim/           Neovim via nvf (see index.txt).
 work/             Work-only modules (see index.txt).

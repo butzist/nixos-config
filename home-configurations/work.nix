@@ -17,6 +17,7 @@
       neovim
       development
       work
+      noctalia
       hyprland
       wlogout
       walker
@@ -24,7 +25,7 @@
     ])
     ++ [
       inputs.lassies-doghouse.homeManagerModules.default
-      ../themes/everforest-kingdoms.nix
+      (import ../themes/everforest-kingdoms.nix {inherit pkgs;}).user
     ];
 
   # Packages that should be installed to the user profile.
