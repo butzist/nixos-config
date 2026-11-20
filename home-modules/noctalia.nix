@@ -425,6 +425,20 @@ in {
         };
       };
 
+      # Toast action buttons are app-supplied (e.g. a "Settings" shortcut), so
+      # drop them; the notification panel and history remain the way in.
+      notification.show_actions = false;
+
+      # Turn monitors off 30 s after the session locks and goes idle. A zero
+      # unlocked timeout keeps this lock-screen-only; Noctalia restores power
+      # on activity/unlock. Defining a behavior replaces the disabled defaults.
+      idle.behavior.screen-off = {
+        enabled = true;
+        timeout = 0;
+        locked_timeout = 30;
+        action = "screen_off";
+      };
+
       bar.default = {
         position = "top";
         thickness = 38;
@@ -439,8 +453,8 @@ in {
         # applet is Hyprland-only, so this is the sole Bluetooth UI here.
         # No wallpaper widget: Stylix owns the image, and the picker would write
         # a runtime override that competes with Nix as the source of truth.
-        start = ["clock" "launcher" "workspaces"];
-        center = ["active_window"];
+        start = ["workspaces"];
+        center = ["clock" "active_window" "notifications"];
         end = [
           "media"
           "tray"
@@ -451,7 +465,6 @@ in {
           "volume"
           "brightness"
           "battery"
-          "control-center"
           "session"
         ];
       };
