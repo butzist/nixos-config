@@ -22,6 +22,19 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
+  # blueman ships an XDG autostart entry that would start its applet in every
+  # session, including Umbriel where Noctalia owns Bluetooth. /etc/xdg comes
+  # before the system-packages path in XDG_CONFIG_DIRS, so this shadows the
+  # shipped file. The applet is started from hyprland-session.target instead
+  # (see home-modules/hyprland.nix); blueman-manager stays available for Waybar.
+  environment.etc."xdg/autostart/blueman.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Blueman Applet
+    Exec=blueman-applet
+    Hidden=true
+  '';
+
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
 

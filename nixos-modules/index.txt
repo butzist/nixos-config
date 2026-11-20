@@ -5,7 +5,8 @@ default.nix            Implicit host module: imports home-manager, agenix, styli
 base.nix                Core baseline: imports the .system variant of the shared
                        Everforest theme from themes/everforest-kingdoms.nix, X11, NetworkManager,
                        bluetooth, pipewire, firewall, tailnet-only sshd, printers,
-                       system packages.
+                       system packages; shadows blueman's XDG autostart entry so
+                       its applet only starts with Hyprland.
 gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
                        dev tools and games stay off.
 noctalia.nix            Global display session: noctalia-greeter, Umbriel + portal,

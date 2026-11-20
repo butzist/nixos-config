@@ -62,8 +62,11 @@
       drag_opacity = 0.85;
       opaque_fullscreen = true;
 
+      # The active window title lives in the bar's center lane, so the window
+      # frame keeps only its border. Floating windows still resize from their
+      # edges, and Mod+C / Mod+F remain the close and maximize controls.
       title_bar = {
-        mode = "negotiated";
+        mode = "off";
         height = 28;
         font = uiFont;
         title_align = "left";
@@ -423,7 +426,7 @@ in {
       };
 
       bar.default = {
-        position = "bottom";
+        position = "top";
         thickness = 38;
         background_opacity = 0.82;
         compositor_blur = true;
@@ -431,6 +434,32 @@ in {
         capsule_fill = "surface_container";
         capsule_radius = 12.0;
         capsule_opacity = 0.92;
+
+        # Time first on the left, focused window in the middle. The blueman
+        # applet is Hyprland-only, so this is the sole Bluetooth UI here.
+        # No wallpaper widget: Stylix owns the image, and the picker would write
+        # a runtime override that competes with Nix as the source of truth.
+        start = ["clock" "launcher" "workspaces"];
+        center = ["active_window"];
+        end = [
+          "media"
+          "tray"
+          "notifications"
+          "clipboard"
+          "network"
+          "bluetooth"
+          "volume"
+          "brightness"
+          "battery"
+          "control-center"
+          "session"
+        ];
+      };
+
+      widget.active_window = {
+        min_length = 160;
+        max_length = 420;
+        title_scroll = "on_hover";
       };
 
       wallpaper = {
