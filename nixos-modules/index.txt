@@ -10,8 +10,9 @@ base.nix                Core baseline: imports the .system variant of the shared
 gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
                        dev tools and games stay off.
 noctalia.nix            Global display session: noctalia-greeter, Umbriel + portal,
-                       Noctalia binary, and greeter palette/font/dark mode/wallpaper
-                       taken from the shared Stylix config.
+                       Noctalia binary + recommended services (UPower for the
+                       battery widget), and greeter palette/font/dark mode/
+                       wallpaper taken from the shared Stylix config.
 gaming.nix              gamescope + gamemode.
 laptop.nix              TLP power/charge thresholds + PPD-compatible DBus interface
                         for Noctalia's power-profile widget.

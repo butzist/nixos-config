@@ -21,6 +21,10 @@ in {
   programs.noctalia = {
     enable = true;
     systemd.enable = false;
+    # The battery widget reads UPower's DisplayDevice and hides itself when it
+    # is absent. NetworkManager and Bluetooth are already on in base.nix, and
+    # laptop.nix's explicit false keeps TLP's PPD-compatible interface in charge.
+    recommendedServices.enable = true;
   };
 
   programs.umbriel.enable = true;
