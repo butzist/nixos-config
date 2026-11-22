@@ -15,7 +15,11 @@ settings: let
       fonts
       opacity
       ;
-    targets.qt.platform = "qtct";
+    # The system Qt target already derives "kde"/"breeze" from Plasma, but
+    # `stylix.homeManagerIntegration.autoImport = false` stops that from being
+    # inherited by users. Set the platform here so the home-manager Qt target
+    # uses Breeze instead of its qtct default (Kvantum), which breaks Plasma.
+    targets.qt.platform = "kde";
   };
 
   system = {inherit stylix;};

@@ -8,7 +8,10 @@ base.nix                Core baseline: imports the .system variant of the shared
                        system packages; shadows blueman's XDG autostart entry so
                        its applet only starts with Hyprland.
 gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
-                       dev tools and games stay off.
+                       dev tools and games stay off. Kept for reference; no
+                       host imports it now.
+kde.nix                 Plasma 6 desktop session. GDM and SDDM stay off so the
+                       greetd/noctalia greeter remains the login manager.
 noctalia.nix            Global display session: noctalia-greeter, Umbriel + portal,
                        Noctalia binary + recommended services (UPower for the
                        battery widget), and greeter palette/font/dark mode/

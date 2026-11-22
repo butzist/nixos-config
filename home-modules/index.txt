@@ -8,6 +8,8 @@ nushell.nix       nushell, carapace, starship, zoxide.
 zellij.nix        Custom keymap, starts in `locked` mode with Alt+Super passthrough.
 kitty.nix         Terminal: blur, padding, alt-based keys.
 wezterm.nix       Terminal. Unused; kitty is the one in use.
+kde.nix           Plasma session config: Stylix KDE target (colours, fonts,
+                  decorations, wallpaper) plus KDE Connect with tray indicator.
 hyprland.nix      Desktop: lua config, scrolling layout, blur, keybinds, hyprlock,
                   hyprpaper, hypridle, gnome-keyring, dunst; starts blueman-applet
                   with the Hyprland session only.

@@ -53,7 +53,7 @@ in {
     ]
     ++ (with ezModules; [
       base
-      gnome
+      kde
       laptop
       containers
     ])

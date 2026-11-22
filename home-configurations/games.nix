@@ -9,6 +9,7 @@
   imports =
     (with ezModules; [
       base
+      kde
       kitty
       waybar
       gaming

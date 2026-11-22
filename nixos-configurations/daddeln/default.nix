@@ -13,7 +13,7 @@
     ]
     ++ (with ezModules; [
       base
-      gnome
+      kde
       gaming
     ]);
 

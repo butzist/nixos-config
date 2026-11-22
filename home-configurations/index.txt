@@ -7,8 +7,8 @@ adam.nix    base, kitty, nushell, zellij, neovim, noctalia + hyprland/waybar,
             wlogout, walker, development, office. Everforest theme. CAD/media/EDA
             packages. Both desktop stacks are configured; Umbriel is the default
             greeter session and Hyprland stays available via UWSM.
-mirj.nix    base, kitty, nushell, zellij, office. Catppuccin theme. CAD/graphics.
-games.nix   base, kitty, waybar, gaming. Catppuccin theme. steam autostart.
+mirj.nix    base, kde, kitty, nushell, zellij, office. Catppuccin theme. CAD/graphics.
+games.nix   base, kde, kitty, waybar, gaming. Catppuccin theme. steam autostart.
 work.nix    base, kitty, nushell, zellij, neovim, development, work, noctalia +
             hyprland/waybar, wlogout, walker, office. Everforest theme. GPG-signed git,
             Brave LNA flag for OnlyOffice. Declares the opencode-go/greenpt/gpg agenix
