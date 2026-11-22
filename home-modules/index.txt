@@ -14,6 +14,8 @@ hyprland.nix      Desktop: lua config, scrolling layout, blur, keybinds, hyprloc
 walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
 wlogout.nix       wlogout with inline stylix stylesheet.
 gaming.nix        steam.
+office.nix        LibreOffice, hunspell + de/en/fr/pl dictionaries, inkscape,
+                  pdfcraft and photocraft (replaces gimp).
 rofi.nix          Rofi. Unused; walker is the launcher in use.
 development/      Dev packages + opinionated git settings, jailed opencode
                   agent, Herdr setup, and rust-mold (see index.txt).

@@ -12,6 +12,7 @@
       kitty
       nushell
       zellij
+      office
     ])
     ++ [
       (import ../themes/ubuntu-catppuccin.nix {inherit pkgs;}).user
@@ -23,13 +24,6 @@
     _security.firefox
     freecad
     orca-slicer
-    _stable.inkscape
-    gimp3-with-plugins
-    _stable.libreoffice
-    hunspell
-    hunspellDicts.de_CH
-    hunspellDicts.de_DE
-    hunspellDicts.en_US
   ];
 
   programs = {

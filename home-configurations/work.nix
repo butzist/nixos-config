@@ -22,6 +22,7 @@
       wlogout
       walker
       waybar
+      office
     ])
     ++ [
       inputs.lassies-doghouse.homeManagerModules.default
@@ -30,7 +31,6 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    _stable.libreoffice
     _security.chromium
     kicad
     easyeda2kicad

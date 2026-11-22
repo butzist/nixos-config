@@ -20,6 +20,7 @@
       walker
       waybar
       development
+      office
     ])
     ++ [
       (import ../themes/everforest-kingdoms.nix {inherit pkgs;}).user
@@ -36,9 +37,7 @@
     freecad
     kicad
     easyeda2kicad
-    _stable.inkscape
     orca-slicer
-    gimp3-with-plugins
     pulseview
     sigrok-cli
     sigrok-firmware-fx2lafw
