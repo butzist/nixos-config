@@ -96,8 +96,10 @@
           packages = with pkgs;
             [
               alejandra
+              curl
               deadnix
               jq
+              just
               mcp-nixos
               nix-diff
               nix-output-monitor

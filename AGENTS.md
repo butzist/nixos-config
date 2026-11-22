@@ -83,7 +83,13 @@ home-module wiring lives in `flake.nix` under `ezConfigs.nixos.hosts`.
   available; the repo has no test suite. Nix ignores untracked files, so
   `git add` new files (or `git add -N`) before checking.
 - `nix develop` provides `nixd`, `alejandra`, `statix`, `deadnix`, `agenix`,
-  `nix-tree`, `nom`, `nix-diff`, and `nix-update`; `nix fmt` uses `alejandra`.
-- Helper scripts in the root (`rebuild-system.sh`, `rebuild-darwin.sh`,
-  `rebuild-user.sh`, `collect-garbage.sh`) all pass `?submodules=1`, so the
-  `secrets/` submodule is expected to be populated locally.
+  `nix-tree`, `nom`, `nix-diff`, `nix-update`, and `just`; `nix fmt` uses
+  `alejandra`.
+- Root `justfile`: `just switch` rebuilds and switches the current platform
+  (NixOS on Linux, nix-darwin on macOS); bare `just` is the same. `just boot`
+  installs/signs boot entries without switching; `just enroll keys` enrolls
+  Secure Boot keys and `just enroll disk` enrolls TPM2 LUKS unlock;
+  `just install nix|hm` bootstraps tools. `just build`, `just update`,
+  `just update-apply`, `just check`, `just fmt` and `just gc` build or maintain
+  the repo. Flake-based targets pass `?submodules=1`, so the `secrets/`
+  submodule is expected to be populated locally.

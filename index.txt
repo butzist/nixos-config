@@ -24,7 +24,7 @@ Related flake: lassies-doghouse (github:butzist/lassies-doghouse) owns the
 source-built ColliePWA package (with the OpenCode session plugin) and the
 services.collie / services.collie-serve modules.
 
-rebuild-system.sh     nixos-rebuild switch --flake '.?submodules=1'
-rebuild-darwin.sh     darwin-rebuild --flake '.?submodules=1' switch
-rebuild-user.sh       home-manager switch --flake '.?submodules=1'
-collect-garbage.sh    home-manager expire-generations + nix-collect-garbage -d
+justfile              Task runner: `just switch` rebuilds/switches the host OS
+                      (bare `just` is the same); targets also include build,
+                      boot, enroll keys|disk, install nix|hm, home, update,
+                      update-apply, check, fmt and gc.
