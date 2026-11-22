@@ -449,16 +449,11 @@ in {
         capsule_radius = 12.0;
         capsule_opacity = 0.92;
 
-        # Time first on the left, focused window in the middle. The blueman
-        # applet is Hyprland-only, so this is the sole Bluetooth UI here.
-        # No wallpaper widget: Stylix owns the image, and the picker would write
-        # a runtime override that competes with Nix as the source of truth.
         start = ["workspaces"];
         center = ["clock" "active_window" "notifications"];
         end = [
           "media"
           "tray"
-          "notifications"
           "clipboard"
           "network"
           "bluetooth"
@@ -487,6 +482,16 @@ in {
         dnd = true;
       };
     };
+  };
+
+  # Noctalia's GUI-managed settings.toml in the state dir wins over the
+  # Nix-generated config.toml. Keep the rest of the state dir (clipboard,
+  # notification history, plugin data), but pin settings.toml to a read-only
+  # empty store file so runtime writes fail and Nix stays the source of truth.
+  xdg.stateFile."noctalia/settings.toml" = {
+    source = pkgs.emptyFile;
+    # Replace any stale runtime override file left by a previous session.
+    force = true;
   };
 
   xdg.configFile."umbriel/config.toml".source =
