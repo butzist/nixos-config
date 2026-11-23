@@ -3,7 +3,8 @@ Development home modules. default.nix is the `development` module.
 default.nix   Dev packages + opinionated git settings. Imports agents/,
               herdr.nix and rust-mold.nix.
 agents/       Jailed/free opencode agent, policy, defaults, Herdr
-              integration, launcher (see index.txt).
+              integration, launcher and the Stylix-generated OpenCode theme
+              (see index.txt).
 herdr.nix     Herdr install wrapped by agent-toolbox's mkHerdrWrapped, which
               starts herdr-auth-proxy and exports HERDR_AUTH_JWT (or fails
               closed when a running server has no usable token), plus

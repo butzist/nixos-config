@@ -17,12 +17,9 @@
   direnv ? true,
   persistHome ? true,
   opencode ? {},
+  opencodeThemeFile,
 }: let
   inherit (pkgs) lib;
-
-  opencodeFile = import ./opencode.nix {
-    inherit pkgs rtkShell herdrAuthProxy herdr;
-  };
 
   resolvePermissions = value: c:
     if lib.isFunction value
@@ -67,6 +64,18 @@
         ${entry}
       ''))
     ];
+
+  # Jailed homes have no copy of the host's ~/.config/opencode. Link the store
+  # theme straight into the jail instead: /nix is already bound read-only, so
+  # this needs no extra bwrap mount. ln -sfn keeps it idempotent for persisted
+  # homes, and the link always points at the current generated theme.
+  opencodeThemePermissions = c: [
+    (c.wrap-entry (entry: ''
+      mkdir -p "''${JAIL_HOME:-$HOME}/.config/opencode/themes"
+      ${pkgs.coreutils}/bin/ln -sfn ${opencodeThemeFile} "''${JAIL_HOME:-$HOME}/.config/opencode/themes/stylix.json"
+      ${entry}
+    ''))
+  ];
 
   # Collie keeps its persistent state in ~/.local/state/collie (pairing tokens,
   # push subscriptions, audit log). The plugin looks for its Unix socket in
@@ -170,7 +179,7 @@
 
   # Jail-only servers are layered under the shared config so the user can
   # still override or disable them from `agents.opencode.config`.
-  opencodeJailedConfig = lib.recursiveUpdate opencodeFile.jailedConfig opencodeConfig;
+  opencodeJailedConfig = lib.recursiveUpdate opencode.jailedConfig opencodeConfig;
 
   jailedOpencodeConfig =
     if opencodeAllowAllReads
@@ -180,8 +189,8 @@
   opencodeExtraPackages = extraPackages ++ (opencode.extraPackages or []);
 
   mkOpencodePackage = config:
-    opencodeFile.mkPackage {
-      inherit config;
+    opencode.mkPackage {
+      opencodeConfig = config;
       package = opencode.package;
       extraPackages = opencodeExtraPackages;
     };
@@ -197,6 +206,7 @@
     defaultInteractivePermissions c
     ++ defaultSharedPermissions c
     ++ opencodeHerdrPermissions c
+    ++ opencodeThemePermissions c
     ++ opencodeColliePermissions c
     ++ resolvePermissions (opencode.permissions or []) c;
 

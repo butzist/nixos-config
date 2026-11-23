@@ -19,8 +19,8 @@ gaming.nix        steam.
 office.nix        LibreOffice, hunspell + de/en/fr/pl dictionaries, inkscape,
                   pdfcraft and photocraft (replaces gimp).
 rofi.nix          Rofi. Unused; walker is the launcher in use.
-development/      Dev packages + opinionated git settings, jailed opencode
-                  agent, Herdr setup, and rust-mold (see index.txt).
+development/      Dev packages + opinionated git settings, Stylix-themed jailed
+                  opencode agent, Herdr setup, and rust-mold (see index.txt).
 waybar/           Status bar (see index.txt).
 noctalia.nix      Default shell for adam/work, alongside the unchanged Hyprland +
                   Waybar modules: Stylix-driven Noctalia + Umbriel font, palette,

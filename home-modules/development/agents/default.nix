@@ -21,10 +21,10 @@
   # opencode lets its shell tool be overridden, so route it through rtk.
   rtkShell = atb.mkRtkShell {rtk = aiTools.rtk;};
 
-  opencodeFile = import ./opencode.nix {
-    inherit pkgs rtkShell herdrAuthProxy;
-    herdr = config.agents.herdr.enable;
-  };
+  # The opencode module generates the Stylix theme and the config/wrapper
+  # helpers itself, reading the palette from its own `config` argument. Pass
+  # those to the jail setup so the host TUI and jailed agents stay in sync.
+  opencodeLib = config.agents.opencode.internal;
 
   # The jail binds /nix read-only, so the plugin can be linked straight from
   # the Collie package the service runs instead of copied into the jail home.
@@ -32,6 +32,7 @@
 
   agents = import ./policy.nix {
     inherit pkgs rtkShell atb;
+    opencodeThemeFile = opencodeLib.themeFile;
     herdrPackage = aiTools.herdr;
     inherit herdrAuthProxy;
 
@@ -50,7 +51,9 @@
 
     opencode = {
       package = config.agents.opencode.package;
-      config = lib.recursiveUpdate opencodeFile.defaultConfig config.agents.opencode.config;
+      config = lib.recursiveUpdate opencodeLib.defaultConfig config.agents.opencode.config;
+      jailedConfig = opencodeLib.jailedConfig;
+      mkPackage = opencodeLib.mkPackage;
       envFromFile = config.agents.opencode.envFromFile;
       extraPackages = config.agents.opencode.extraPackages;
       permissions = config.agents.opencode.permissions;
@@ -207,6 +210,8 @@ in {
       };
     };
   };
+
+  imports = [./opencode.nix];
 
   config = {
     home.packages = packages;
