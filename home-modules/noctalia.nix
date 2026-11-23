@@ -41,6 +41,8 @@
     general = {
       autostart = ["noctalia"];
       mod_key = "Super";
+      # The startup keybind cheatsheet is noise; the binds are configured here.
+      show_cheatsheet = false;
       xwayland = true;
       xwayland_xsettings = true;
       nvidia_sync_workaround = true;
