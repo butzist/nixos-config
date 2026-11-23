@@ -351,6 +351,14 @@
           type = "local";
           command = ["${pkgs.rea}/bin/rea" "mcp"];
         };
+        # Nelson's MCP endpoint listens on the host's loopback. The jail's
+        # default `c.network` shares the host net namespace, so localhost is
+        # reachable without extra bwrap args. No OAuth on this local server.
+        libreoffice = {
+          type = "remote";
+          url = "http://localhost:8766/mcp";
+          oauth = false;
+        };
       }
       // lib.optionalAttrs herdr {
         herdr = {

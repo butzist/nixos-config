@@ -23,9 +23,10 @@ opencode.nix     Home-manager module that generates the OpenCode V2 theme from
                  stylix.opacity.terminal), installs it as
                  ~/.config/opencode/themes/stylix.json and shares it with jailed
                  homes; also opencode defaults + wrapper: v2 config (FreeToken
-                 provider, rtk shell, serena MCP), a jailed-only config (REA MCP
-                 and the herdr-auth MCP orchestration/messaging server, the
-                 latter gated on agents.herdr.enable), bakes OPENCODE_CONFIG,
+                 provider, rtk shell, serena MCP), a jailed-only config (REA MCP,
+                 the host-loopback LibreOffice/WriterAgent remote MCP, and the
+                 herdr-auth MCP orchestration/messaging server, the latter gated
+                 on agents.herdr.enable), bakes OPENCODE_CONFIG,
                  disables the tab strip and selects the Stylix theme via
                  OPENCODE_CLI_CONFIG_CONTENT, maps TUI --agent to
                  OPENCODE_CONFIG_CONTENT, and keeps the server private to the
