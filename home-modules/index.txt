@@ -4,15 +4,18 @@ default.nix is the implicit module of every user.
 default.nix      Imports agenix, nvf, stylix, ../overlays. Adds config.sensitive
                  from ../secrets/users/<user>/sensitive.nix.
 base.nix          User baseline: packages, bash aliases, yazi/lazygit, fzf/bat.
+                  Secret service for every user/session: gnome-keyring plus
+                  kwalletrc (KSecretD off) routing KWallet clients to it.
 nushell.nix       nushell, carapace, starship, zoxide.
 zellij.nix        Custom keymap, starts in `locked` mode with Alt+Super passthrough.
 kitty.nix         Terminal: blur, padding, alt-based keys.
 wezterm.nix       Terminal. Unused; kitty is the one in use.
 kde.nix           Plasma session config: Stylix KDE target (colours, fonts,
                   decorations, wallpaper) plus KDE Connect with tray indicator.
+                  Secret service is gnome-keyring from base.nix, not ksecretd.
 hyprland.nix      Desktop: lua config, scrolling layout, blur, keybinds, hyprlock,
-                  hyprpaper, hypridle, gnome-keyring, dunst; starts blueman-applet
-                  with the Hyprland session only.
+                  hyprpaper, hypridle, dunst; starts blueman-applet with the
+                  Hyprland session only. Keyring lives in base.nix.
 walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
 wlogout.nix       wlogout with inline stylix stylesheet.
 gaming.nix        steam.
@@ -24,7 +27,7 @@ development/      Dev packages + opinionated git settings, Stylix-themed jailed
 waybar/           Status bar (see index.txt).
 noctalia.nix      Default shell for adam/work, alongside the unchanged Hyprland +
                   Waybar modules: Stylix-driven Noctalia + Umbriel font, palette,
-                  dark mode and wallpaper, ported keybinds, autostart and keyring.
+                  dark mode and wallpaper, ported keybinds and autostart.
                   Top bar: clock left, active window centered, Bluetooth widget;
                   Umbriel server-side title bars off.
 neovim/           Neovim via nvf (see index.txt).

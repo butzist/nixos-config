@@ -6,7 +6,10 @@ base.nix                Core baseline: imports the .system variant of the shared
                        Bosque theme from themes/bosque-kingdoms.nix, X11, NetworkManager,
                        bluetooth, pipewire, firewall, tailnet-only sshd, printers,
                        system packages; shadows blueman's XDG autostart entry so
-                       its applet only starts with Hyprland.
+                       its applet only starts with Hyprland. Enables the gnome-keyring
+                       system module (org.freedesktop.secrets D-Bus activation +
+                       PAM unlock at login) for all users/sessions, and pins the
+                       portal Secret interface to gnome-keyring.
 gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
                        dev tools and games stay off. Kept for reference; no
                        host imports it now.

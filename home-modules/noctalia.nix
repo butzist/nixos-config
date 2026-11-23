@@ -506,7 +506,7 @@ in {
     else umbrielConfig;
 
   # Carry over the useful session bits from the Hyprland module. Noctalia replaces
-  # hyprpaper/hyprlock/hypridle/dunst and wlogout's job.
-  services.gnome-keyring.enable = true;
+  # hyprpaper/hyprlock/hypridle/dunst and wlogout's job. The secret service
+  # (gnome-keyring) is enabled for every user in ./base.nix.
   systemd.user.sessionVariables.NIXOS_OZONE_WL = "1";
 }

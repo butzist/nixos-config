@@ -148,6 +148,20 @@
   services.gvfs.enable = true;
   services.tumbler.enable = true;
 
+  # gnome-keyring is the secret service for every user and session (the daemon
+  # itself is started per-user by home-modules/base.nix). This system module
+  # adds the org.freedesktop.secrets D-Bus activation, the cap_ipc_lock wrapper
+  # and PAM unlock at login: greetd's PAM stack includes `login`, so the
+  # enableGnomeKeyring hook this sets on `login` unlocks the keyring on greetd
+  # logins too.
+  services.gnome.gnome-keyring.enable = true;
+
+  # Route the portal Secret interface (flatpak/sandboxed apps) to gnome-keyring
+  # in every session. The shipped preferences are UseIn=gnome (gnome-keyring)
+  # vs UseIn=kde (kwallet), and kwallet's ksecretd portal no longer starts now
+  # that the ksecretd backend is disabled, so pin it explicitly.
+  xdg.portal.config.common."org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+
   services.udev = {
     enable = true;
     packages = with pkgs; [

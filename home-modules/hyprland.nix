@@ -259,9 +259,9 @@
     };
   };
 
-  # Enable the gnome-keyring secrets vault.
-  # Will be exposed through DBus to programs willing to store secrets.
-  services.gnome-keyring.enable = true;
+  # The gnome-keyring secrets vault (org.freedesktop.secrets on DBus) is
+  # enabled for every user in ./base.nix, alongside the kwalletrc that routes
+  # KWallet clients such as ksshaskpass to it.
 
   services.dunst.enable = true;
 

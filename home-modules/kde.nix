@@ -13,4 +13,8 @@
     enable = true;
     indicator = true;
   };
+
+  # The secret service in Plasma is gnome-keyring, not KWallet's ksecretd: it
+  # is enabled for every user in ./base.nix, and kwalletrc there disables the
+  # ksecretd backend so KWallet clients (ksshaskpass) use gnome-keyring too.
 }
