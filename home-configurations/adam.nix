@@ -23,7 +23,7 @@
       office
     ])
     ++ [
-      (import ../themes/everforest-kingdoms.nix {inherit pkgs;}).user
+      (import ../themes/bosque-kingdoms.nix {inherit pkgs;}).user
     ];
 
   # Packages that should be installed to the user profile.

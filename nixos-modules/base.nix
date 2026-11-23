@@ -1,7 +1,7 @@
 {pkgs, ...}: {
-  # Select the system variant of the shared Everforest theme. The greeter reads
+  # Select the system variant of the shared Bosque theme. The greeter reads
   # these Stylix values from config.stylix in ./noctalia.nix, like GDM did before.
-  imports = [(import ../themes/everforest-kingdoms.nix {inherit pkgs;}).system];
+  imports = [(import ../themes/bosque-kingdoms.nix {inherit pkgs;}).system];
 
   # Login: GDM is replaced by noctalia-greeter in ./noctalia.nix.
   services.displayManager.gdm.enable = false;

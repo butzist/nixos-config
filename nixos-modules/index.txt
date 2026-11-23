@@ -3,7 +3,7 @@ NixOS modules; basename = the name used in `with ezModules; [...]`.
 default.nix            Implicit host module: imports home-manager, agenix, stylix,
                        freetoken, ../overlays, ../shared-modules/*.
 base.nix                Core baseline: imports the .system variant of the shared
-                       Everforest theme from themes/everforest-kingdoms.nix, X11, NetworkManager,
+                       Bosque theme from themes/bosque-kingdoms.nix, X11, NetworkManager,
                        bluetooth, pipewire, firewall, tailnet-only sshd, printers,
                        system packages; shadows blueman's XDG autostart entry so
                        its applet only starts with Hyprland.
