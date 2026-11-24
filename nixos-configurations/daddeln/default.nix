@@ -25,6 +25,9 @@
   # Bootloader comes from nixos-modules/boot.nix: plain systemd-boot unless
   # security.secureBoot.enable is set on this host.
 
+  # Early KMS for Plymouth.
+  boot.initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_drm"];
+
   networking.hostName = "daddeln"; # Define your hostname.
 
   programs.hyprland = {

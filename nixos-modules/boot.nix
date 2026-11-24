@@ -140,13 +140,17 @@ in {
       kernelParams = [
         "quiet"
         "splash"
+        # Splash starts immediately on the EFI framebuffer.
+        "plymouth.use-simpledrm"
         "intremap=on"
         "boot.shell_on_fail"
         "udev.log_priority=3"
         "rd.systemd.show_status=auto"
       ];
 
-      # plymouth, showing after LUKS unlock
+      # Hide the loader menu; press a key to reveal it.
+      loader.timeout = 0;
+
       plymouth = {
         enable = true;
         font = "${pkgs.hack-font}/share/fonts/truetype/Hack-Regular.ttf";

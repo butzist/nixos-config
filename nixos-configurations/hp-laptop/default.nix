@@ -28,6 +28,9 @@
     "amd_iommu=off"
   ];
 
+  # Early KMS for Plymouth on the AMD iGPU.
+  boot.initrd.kernelModules = ["amdgpu"];
+
   networking.hostName = "hp-laptop"; # Define your hostname.
 
   programs.hyprland = {

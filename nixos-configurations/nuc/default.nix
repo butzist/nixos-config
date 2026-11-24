@@ -25,6 +25,9 @@
 
   security.secureBoot.enable = true;
 
+  # Early KMS for Plymouth on the Intel iGPU.
+  boot.initrd.kernelModules = ["i915"];
+
   networking.hostName = "nuc"; # Define your hostname.
 
   programs.hyprland = {

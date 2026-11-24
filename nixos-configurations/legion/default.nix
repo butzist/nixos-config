@@ -76,6 +76,9 @@ in {
     luksDevices = ["luks-e0024875-92ff-44be-adf2-7e2906bf4d0b"];
   };
 
+  # Early KMS for Plymouth on the AMD iGPU; Nvidia stays offload-only.
+  boot.initrd.kernelModules = ["amdgpu"];
+
   networking.hostName = "legion"; # Define your hostname.
 
   # Publish the jailed ColliePWA front door on the tailnet. The user service
