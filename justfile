@@ -65,7 +65,7 @@ install target:
 
 # Update flake inputs.
 update:
-    nix flake update '.?submodules=1'
+    nix flake update
 
 # Pull, update inputs, rebuild this host, and commit flake.lock.
 update-apply:
