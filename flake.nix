@@ -28,6 +28,20 @@
     stylix.url = "github:butzist/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Firefox-based Zen, plus rycee's Firefox add-ons for its declarative profile.
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 

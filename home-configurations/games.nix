@@ -9,6 +9,7 @@
   imports =
     (with ezModules; [
       base
+      zen
       kde
       kitty
       waybar

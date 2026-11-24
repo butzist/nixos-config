@@ -11,6 +11,7 @@
   imports =
     (with ezModules; [
       base
+      zen
       kitty
       nushell
       zellij

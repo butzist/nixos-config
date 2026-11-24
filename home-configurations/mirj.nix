@@ -9,6 +9,7 @@
   imports =
     (with ezModules; [
       base
+      zen
       kde
       kitty
       nushell
@@ -22,7 +23,6 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     _security.brave-origin
-    _security.firefox
     freecad
     orca-slicer
   ];

@@ -278,6 +278,28 @@
         "type": "github"
       }
     },
+    "firefox-addons": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "pkgs/firefox-addons",
+        "lastModified": 1795492993,
+        "narHash": "sha256-ahWady3zaDLyXbXZMMzzyw6eKdXlCJ1DBrShCCHjMB8=",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "rev": "d30aafe71a6b68888bec56a1ec030494b69da61e",
+        "type": "gitlab"
+      },
+      "original": {
+        "dir": "pkgs/firefox-addons",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "type": "gitlab"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -1025,6 +1047,7 @@
         "agent-toolbox": "agent-toolbox",
         "determinate": "determinate",
         "ez-configs": "ez-configs",
+        "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts_2",
         "freetoken": "freetoken",
         "herdr-auth-proxy": "herdr-auth-proxy",
@@ -1038,7 +1061,8 @@
         "nixpkgs-security": "nixpkgs-security",
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "zen-browser": "zen-browser"
       }
     },
     "rust-overlay": {
@@ -1331,6 +1355,29 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795509874,
+        "narHash": "sha256-rGtp5IIchBAs1SL6UCWRpSJOGNnSwQwV0beeQcd8emc=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "21385ea8b9e0c32b0962029b0836af2b621b7800",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

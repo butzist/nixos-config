@@ -3,6 +3,7 @@ default.nix is the implicit module of every user.
 
 default.nix   Core imports (agenix, nvf, stylix, overlays) and user secrets.
 base.nix      User baseline: shell packages, aliases and the session secret service (gnome-keyring).
+zen.nix       Zen Browser profile, extensions, default-browser setting and Stylix theming.
 nushell.nix   Shell environment and prompt/completion tooling.
 zellij.nix    Terminal multiplexer keymap and startup mode.
 kitty.nix     Terminal appearance and keybindings.

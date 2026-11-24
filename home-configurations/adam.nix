@@ -10,6 +10,7 @@
   imports =
     (with ezModules; [
       base
+      zen
       kitty
       nushell
       zellij
@@ -31,7 +32,6 @@
     androidStudioPackages.beta
     android-tools
     _security.brave-origin
-    _security.firefox
     _security.chromium
     blender
     freecad
