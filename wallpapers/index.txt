@@ -1,5 +1,6 @@
-Wallpaper PNGs for stylix.image in ../themes/. Do not edit.
+Wallpapers for stylix.image in ../themes/. PNGs are committed; do not edit.
 
+kispi-staircase.nix       Fetched WebP wallpaper derivation for user work.
 ubuntu-catppuccin.png     Default catppuccin wallpaper.
 ubuntu-catppuccin-2.png  Alternate.
 everforest-1.png          Alternate.

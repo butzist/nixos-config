@@ -50,6 +50,8 @@ in {
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # System Stylix theme: Kispi staircase wallpaper with rose-pine-moon.
+      (import ../../themes/kispi-rose-pine-moon.nix {inherit pkgs;}).system
     ]
     ++ (with ezModules; [
       base

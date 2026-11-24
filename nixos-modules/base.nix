@@ -1,7 +1,6 @@
 {pkgs, ...}: {
-  # Select the system variant of the shared Bosque theme. The greeter reads
-  # these Stylix values from config.stylix in ./noctalia.nix, like GDM did before.
-  imports = [(import ../themes/bosque-kingdoms.nix {inherit pkgs;}).system];
+  # The Stylix system theme is selected per host in nixos-configurations/*/default.nix;
+  # the greeter reads those values from config.stylix in ./noctalia.nix.
 
   # Login: GDM is replaced by noctalia-greeter in ./noctalia.nix.
   services.displayManager.gdm.enable = false;

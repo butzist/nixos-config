@@ -26,7 +26,7 @@
     ])
     ++ [
       inputs.lassies-doghouse.homeManagerModules.default
-      (import ../themes/bosque-kingdoms.nix {inherit pkgs;}).user
+      (import ../themes/kispi-rose-pine-moon.nix {inherit pkgs;}).user
     ];
 
   # Packages that should be installed to the user profile.

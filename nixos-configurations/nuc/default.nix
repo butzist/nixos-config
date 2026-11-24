@@ -10,6 +10,8 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # System Stylix theme.
+      (import ../../themes/bosque-kingdoms.nix {inherit pkgs;}).system
     ]
     ++ (with ezModules; [
       base

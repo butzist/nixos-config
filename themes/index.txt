@@ -2,5 +2,7 @@ Stylix themes built from one settings attrset per theme. mk-theme.nix emits
 .system and .user variants; callers select them explicitly at the import site.
 
 mk-theme.nix          Theme builder: shared Stylix settings, GTK only for .user.
-bosque-kingdoms.nix   Bosque dark theme; system-wide and for adam/work.
+bosque-kingdoms.nix   Bosque dark theme; system theme except on legion, and for adam.
 ubuntu-catppuccin.nix Catppuccin dark theme; for games/mirj.
+kispi-rose-pine-moon.nix      Kispi wallpaper + rose-pine-moon; legion system and work user.
+kispi-wallpaper-gallery.html  Static palette preview for work's Kispi wallpaper.
