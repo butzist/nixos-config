@@ -203,27 +203,26 @@
           repeat = false;
         };
 
-        # Focus, tabs and monitors.
+        # Focus, tabs and monitors. H/L cross outputs, J/K step between windows
+        # on the current workspace; arrows keep the layout-level window controls.
         "Mod+Left" = "window-focus-left";
         "Mod+Right" = "window-focus-right";
         "Mod+Up" = "window-focus-up";
         "Mod+Down" = "window-focus-down";
-        "Mod+H" = "window-focus-left";
-        "Mod+L" = "window-focus-right";
-        "Mod+K" = "window-focus-up";
-        "Mod+J" = "window-focus-down";
+        "Mod+H" = "output-focus-left";
+        "Mod+L" = "output-focus-right";
+        "Mod+J" = "window-focus-left";
+        "Mod+K" = "window-focus-right";
         "Mod+I" = "column-focus-tab-next";
         "Mod+U" = "column-focus-tab-previous";
         "Mod+Shift+Left" = "column-move-left";
         "Mod+Shift+Right" = "column-move-right";
         "Mod+Shift+Up" = "window-move-up";
         "Mod+Shift+Down" = "window-move-down";
-        "Mod+Shift+H" = "column-move-left";
-        "Mod+Shift+L" = "column-move-right";
-        "Mod+Shift+K" = "window-move-up";
-        "Mod+Shift+J" = "window-move-down";
-        "Mod+Shift+Comma" = "output-focus-left";
-        "Mod+Shift+Period" = "output-focus-right";
+        "Mod+Shift+H" = "window-move-to-output-left";
+        "Mod+Shift+L" = "window-move-to-output-right";
+        "Mod+Shift+J" = "window-move-left";
+        "Mod+Shift+K" = "window-move-right";
         "Mod+WheelUp" = "workspace-previous";
         "Mod+WheelDown" = "workspace-next";
         "Mod+MouseBack" = "workspace-previous";
