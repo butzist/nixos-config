@@ -54,6 +54,10 @@
         theme = config.stylix.cursor.name;
         size = config.stylix.cursor.size;
       };
+      # Sloppy focus: pointer motion focuses the window under the cursor, while
+      # keyboard-driven focus stays put until the pointer actually moves onto
+      # another window. `always` would also refocus under a stationary pointer.
+      focus.follows_mouse = "sloppy";
     };
 
     appearance = {
