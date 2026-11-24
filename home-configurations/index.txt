@@ -1,18 +1,12 @@
-One file per home-manager user. Each is a standalone configuration; which hosts
-get it is set in ../flake.nix and nixos-configurations/<host>/home.nix. Git
-identity comes from config.sensitive (secrets/ - never read). Each user selects
-the .user variant of its theme module explicitly in the imports list.
+One file per home-manager user. Host assignment is in flake.nix; each user
+selects the .user variant of a theme. Git identity comes from config.sensitive
+(secrets/ - never read).
 
-adam.nix    base, kitty, nushell, zellij, neovim, noctalia + hyprland/waybar,
-            wlogout, walker, development, office. Bosque theme. CAD/media/EDA
-            packages. Both desktop stacks are configured; Umbriel is the default
-            greeter session and Hyprland stays available via UWSM.
-mirj.nix    base, kde, kitty, nushell, zellij, office. Catppuccin theme. CAD/graphics.
-games.nix   base, kde, kitty, waybar, gaming. Catppuccin theme. steam autostart.
-work.nix    base, kitty, nushell, zellij, neovim, development, work, noctalia +
-            hyprland/waybar, wlogout, walker, office. Bosque theme. GPG-signed git,
-            Brave LNA flag for OnlyOffice. Declares the opencode-go/greenpt/gpg agenix
-            secrets and wires them into the jailed opencode agent.
-            Imports the lassies-doghouse flake and enables its bridge, the
-            allowlisted Web Push egress proxy and the OpenCode plugin that feeds
-            live sessions back through the shared Unix socket.
+adam.nix   Home-manager settings, theme and installed programs for user adam,
+           including both desktop stacks and development tooling.
+mirj.nix   Home-manager settings, theme and installed programs for user mirj,
+           including the Plasma desktop and graphics tooling.
+games.nix  Home-manager settings, theme and installed programs for user games,
+           including the Plasma desktop and gaming.
+work.nix   Home-manager settings, theme and installed programs for user work,
+           including development tooling and work-specific services.

@@ -1,31 +1,13 @@
 NixOS modules; basename = the name used in `with ezModules; [...]`.
 
-default.nix            Implicit host module: imports home-manager, agenix, stylix,
-                       freetoken, ../overlays, ../shared-modules/*.
-base.nix                Core baseline: imports the .system variant of the shared
-                       Bosque theme from themes/bosque-kingdoms.nix, X11, NetworkManager,
-                       bluetooth, pipewire, firewall, tailnet-only sshd, printers,
-                       system packages; shadows blueman's XDG autostart entry so
-                       its applet only starts with Hyprland. Enables the gnome-keyring
-                       system module (org.freedesktop.secrets D-Bus activation +
-                       PAM unlock at login) for all users/sessions, and pins the
-                       portal Secret interface to gnome-keyring.
-gnome.nix               GNOME apps disabled (no GNOME shell session); core apps,
-                       dev tools and games stay off. Kept for reference; no
-                       host imports it now.
-kde.nix                 Plasma 6 desktop session. GDM and SDDM stay off so the
-                       greetd/noctalia greeter remains the login manager.
-noctalia.nix            Global display session: noctalia-greeter, Umbriel + portal,
-                       Noctalia binary + recommended services (UPower for the
-                       battery widget), and greeter palette/font/dark mode/
-                       wallpaper taken from the shared Stylix config.
-gaming.nix              gamescope + gamemode.
-laptop.nix              TLP power/charge thresholds + PPD-compatible DBus interface
-                        for Noctalia's power-profile widget.
-containers.nix          Container tooling; imports the linux + darwin split.
-containers-linux.nix    Linux: podman containers, docker, trusts docker0.
-containers-darwin.nix   macOS: colima + docker, DOCKER_CONTEXT=colima.
-boot.nix                Imported by default. Boot UI (plymouth, quiet params),
-                        systemd-boot vs Lanzaboote switch, optional
-                        systemd-pcrlock TPM2 unlock for listed LUKS devices.
-                        Adds secure-boot-enroll.
+default.nix           Implicit host module: core imports (home-manager, agenix, stylix, overlays, shared modules).
+base.nix              System baseline: theme, networking, audio, printing, session secrets and packages.
+gnome.nix             GNOME apps. Kept for reference; no host imports it now.
+kde.nix               Plasma desktop session; the greeter stays the login manager.
+noctalia.nix          Global display session, greeter and Stylix-themed login screen.
+gaming.nix            Gaming.
+laptop.nix            Power management and the power-profile interface for Noctalia.
+containers.nix        Container tooling; imports the platform split.
+containers-linux.nix  Linux container runtime and networking.
+containers-darwin.nix macOS container runtime and context.
+boot.nix              Boot UI, bootloader/Secure Boot choice and optional TPM2 unlock.

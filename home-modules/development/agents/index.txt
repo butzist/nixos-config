@@ -1,36 +1,7 @@
 Jailed/free opencode agent setup.
 
-default.nix      Home-manager options, llm-agents packages (rtk, herdr,
-                 opencode), herdr-auth-proxy/herdr-auth, the shared agent
-                 package list, the Collie plugin path and the rtk shell.
-policy.nix       Local policy: secrets/gh token, CUDA, Nix daemon, jail
-                 permissions, opencode allowAllReads (v2 permissions array),
-                 Herdr's OpenCode integration installed inside the jail,
-                 agent-toolbox's herdrAuth extras (auth-socket-only
-                 Herdr access, with the jail's orchestrator token scoped to the
-                 current directory/workspace and capped at report_status,
-                 read_own_pane and wait_own_output for opencode agents), the
-                 linked Collie plugin and shared Collie socket, the store-linked
-                 Stylix theme JSON in the jail config dir, and the
-                 free/jailed variants. Uses agent-toolbox for generic jail, env
-                 forwarding and Herdr plumbing.
-fake-secrets.nix The `fake-secrets` flake package: a committed stub of
-                 secrets/ (fake git identities, placeholder age files) plus
-                 the safe.directory config the jail needs to read a root-owned
-                 store repo. .envrc binds it over the real submodule.
-opencode.nix     Home-manager module that generates the OpenCode V2 theme from
-                 config.lib.stylix.colors (transparent chat background follows
-                 stylix.opacity.terminal), installs it as
-                 ~/.config/opencode/themes/stylix.json and shares it with jailed
-                 homes; also opencode defaults + wrapper: v2 config (FreeToken
-                 provider, rtk shell, serena MCP), a jailed-only config (REA MCP,
-                 the host-loopback LibreOffice/WriterAgent remote MCP, and the
-                 herdr-auth MCP orchestration/messaging server, the latter gated
-                 on agents.herdr.enable), bakes OPENCODE_CONFIG,
-                 disables the tab strip and selects the Stylix theme via
-                 OPENCODE_CLI_CONFIG_CONTENT, maps TUI --agent to
-                 OPENCODE_CONFIG_CONTENT, and keeps the server private to the
-                 jail run.
-launcher.nix     Wrapper that runs the agent through the project's direnv/dev
-                 shell when a .envrc is present, then execs the prebuilt jailed
-                 package. No runtime Nix evaluation.
+default.nix      Agent packages, shared package list and shell setup.
+policy.nix       Jail permissions, secrets, hardware/Nix access and MCP/plugin wiring.
+fake-secrets.nix Stub secrets/ flake package bound over the submodule via .envrc.
+opencode.nix     OpenCode config, Stylix theme generation and wrapper.
+launcher.nix     Dev-shell wrapper that execs the prebuilt jailed package.

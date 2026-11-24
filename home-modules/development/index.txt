@@ -1,16 +1,6 @@
 Development home modules. default.nix is the `development` module.
 
-default.nix   Dev packages + opinionated git settings. Imports agents/,
-              herdr.nix and rust-mold.nix.
-agents/       Jailed/free opencode agent, policy, defaults, Herdr
-              integration, launcher and the Stylix-generated OpenCode theme
-              (see index.txt).
-herdr.nix     Herdr install wrapped by agent-toolbox's mkHerdrWrapped, which
-              starts herdr-auth-proxy and exports HERDR_AUTH_JWT (or fails
-              closed when a running server has no usable token), plus
-              Stylix/base16 config.toml (onboarding skipped, background
-              notifications via the system notifier, zellij-style Super+Alt
-              keymap with Super+Alt+g as prefix and Super+Alt+q to detach), and
-              a home-manager activation that runs `herdr integration install
-              opencode` so the host TUI gets Herdr's own integration files.
-rust-mold.nix mold linker + ~/.cargo/config.toml. Linux only.
+default.nix   Dev packages and git settings, plus the other development imports.
+agents/       Jailed/free opencode agent setup (see index.txt).
+herdr.nix     Herdr install, auth wrapper and theming/keybinding config.
+rust-mold.nix mold linker config. Linux only.

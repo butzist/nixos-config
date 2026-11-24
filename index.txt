@@ -1,30 +1,25 @@
 Personal NixOS / nix-darwin / home-manager flake. Read AGENTS.md first.
 
-flake.nix            Inputs + ez-configs wiring. ezConfigs.nixos.hosts maps host -> home-manager users.
+flake.nix            Inputs + ez-configs wiring; ezConfigs.nixos.hosts maps hosts to users.
 flake.lock           Locked input revisions.
 AGENTS.md            Agent rules: index.txt navigation, never read secrets/, keep index.txt updated.
 index.txt            This file.
-BOOT.md              Secure Boot + LUKS/TPM2 runbook (Lanzaboote, sbctl, systemd-pcrlock)
+BOOT.md              Secure Boot + LUKS/TPM2 runbook.
 .gitmodules          secrets/ submodule declaration.
-.gitignore           Nix result symlinks, editor droppings, terraform state, .env files.
-opencode.json        Project OpenCode config: nixos MCP server, merged over the global config.
+.gitignore           Ignored build artifacts and local files.
+opencode.json        Project OpenCode config, merged over the global config.
 
 nixos-configurations/  One dir per NixOS host (see index.txt).
 nixos-modules/         System-wide NixOS modules (see index.txt).
 darwin-modules/        nix-darwin modules (see index.txt).
 home-configurations/   One file per home-manager user (see index.txt).
 home-modules/          Shared home-manager modules (see index.txt).
-shared-modules/        Imported by both NixOS and darwin.
-overlays/              nixpkgs.overlays for NixOS + home-manager.
-themes/                stylix themes.
-wallpapers/            PNGs used by stylix.image in themes/.
+shared-modules/        Modules imported by both NixOS and darwin.
+overlays/              nixpkgs overlays for NixOS + home-manager.
+themes/                Stylix themes.
+wallpapers/            Wallpaper PNGs used by themes/.
 secrets/               Submodule. DO NOT READ - see AGENTS.md.
+justfile               Task runner: `just` / `just switch` rebuilds and switches; see file for other targets.
 
-Related flake: lassies-doghouse (github:butzist/lassies-doghouse) owns the
-source-built ColliePWA package (with the OpenCode session plugin) and the
-services.collie / services.collie-serve modules.
-
-justfile              Task runner: `just switch` rebuilds/switches the host OS
-                      (bare `just` is the same); targets also include build,
-                      boot, enroll keys|disk, install nix|hm, home, update,
-                      update-apply, check, fmt and gc.
+Related flake: lassies-doghouse owns the source-built ColliePWA package and the
+services.collie modules.

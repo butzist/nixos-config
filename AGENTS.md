@@ -16,6 +16,13 @@ repurpose a file, update the `index.txt` of that folder (and of the parent
 folder if the entry there is affected) in the same change. An `index.txt` that
 lies is worse than none.
 
+**Keep `index.txt` entries short and category-level.** One line per file: say
+what kind of configuration it holds, not everything it installs or sets. For
+example, `adam.nix — home-manager settings, theme and installed programs for
+user adam`. Do not enumerate packages, modules, keybindings or individual
+settings; name categories instead. Keep only the notes needed to navigate
+(unused files, generated files, `DO NOT READ`).
+
 ## `secrets/` is off limits — never read it
 
 `secrets/` is a git submodule holding age-encrypted material and per-user

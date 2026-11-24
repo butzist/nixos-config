@@ -1,6 +1,5 @@
 nix-darwin modules; basename = the name used in `with ezModules; [...]`.
 
-default.nix    Implicit host module: imports home-manager, agenix, determinate,
-               ../overlays, ../shared-modules/ssh-keys.nix.
-base.nix        macOS baseline: homebrew, TouchID sudo, caps->escape, system packages.
-aerospace.nix   AeroSpace tiling WM: keymaps, gaps, layouts, borders, macOS defaults.
+default.nix   Implicit host module: core imports (home-manager, agenix, determinate, overlays, shared modules).
+base.nix      macOS baseline: system packages and general settings.
+aerospace.nix AeroSpace tiling WM: keybindings, layout and appearance.

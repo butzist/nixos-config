@@ -1,5 +1,4 @@
 Work-only home modules.
 
-default.nix   remmina, k8s tooling, sops, HTTP testing, fnm, poetry.
-vscode.nix    VS Code with pinned extensions + user settings. Not imported by
-              ../default.nix; add it to ../../home-configurations/work.nix to use.
+default.nix  Work-specific packages (remote desktop, k8s, secrets and dev tooling).
+vscode.nix   VS Code config. Not imported by default; add it to the work user to use.

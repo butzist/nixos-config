@@ -1,34 +1,21 @@
 Home-manager modules; basename = the name used in `with ezModules; [...]`.
 default.nix is the implicit module of every user.
 
-default.nix      Imports agenix, nvf, stylix, ../overlays. Adds config.sensitive
-                 from ../secrets/users/<user>/sensitive.nix.
-base.nix          User baseline: packages, bash aliases, yazi/lazygit, fzf/bat.
-                  Secret service for every user/session: gnome-keyring plus
-                  kwalletrc (KSecretD off) routing KWallet clients to it.
-nushell.nix       nushell, carapace, starship, zoxide.
-zellij.nix        Custom keymap, starts in `locked` mode with Alt+Super passthrough.
-kitty.nix         Terminal: blur, padding, alt-based keys.
-wezterm.nix       Terminal. Unused; kitty is the one in use.
-kde.nix           Plasma session config: Stylix KDE target (colours, fonts,
-                  decorations, wallpaper) plus KDE Connect with tray indicator.
-                  Secret service is gnome-keyring from base.nix, not ksecretd.
-hyprland.nix      Desktop: lua config, scrolling layout, blur, keybinds, hyprlock,
-                  hyprpaper, hypridle, dunst; starts blueman-applet with the
-                  Hyprland session only. Keyring lives in base.nix.
-walker.nix        Walker + Elephant launcher, inline stylix GTK theme.
-wlogout.nix       wlogout with inline stylix stylesheet.
-gaming.nix        steam.
-office.nix        LibreOffice, hunspell + de/en/fr/pl dictionaries, inkscape,
-                  pdfcraft and photocraft (replaces gimp).
-rofi.nix          Rofi. Unused; walker is the launcher in use.
-development/      Dev packages + opinionated git settings, Stylix-themed jailed
-                  opencode agent, Herdr setup, and rust-mold (see index.txt).
-waybar/           Status bar (see index.txt).
-noctalia.nix      Default shell for adam/work, alongside the unchanged Hyprland +
-                  Waybar modules: Stylix-driven Noctalia + Umbriel font, palette,
-                  dark mode and wallpaper, ported keybinds and autostart.
-                  Top bar: clock left, active window centered, Bluetooth widget;
-                  Umbriel server-side title bars off.
-neovim/           Neovim via nvf (see index.txt).
-work/             Work-only modules (see index.txt).
+default.nix   Core imports (agenix, nvf, stylix, overlays) and user secrets.
+base.nix      User baseline: shell packages, aliases and the session secret service (gnome-keyring).
+nushell.nix   Shell environment and prompt/completion tooling.
+zellij.nix    Terminal multiplexer keymap and startup mode.
+kitty.nix     Terminal appearance and keybindings.
+wezterm.nix   Terminal. Unused; kitty is the one in use.
+kde.nix       Plasma desktop theming and KDE Connect.
+hyprland.nix  Hyprland desktop: theming, keybinds, lock/idle/wallpaper and autostart.
+walker.nix    Application launcher with inline Stylix theming.
+wlogout.nix   Logout menu with inline Stylix theming.
+gaming.nix    Gaming.
+office.nix    Office, graphics and dictionary packages.
+rofi.nix      Rofi. Unused; walker is the launcher in use.
+development/  Development packages, git settings and jailed agents (see index.txt).
+waybar/       Status bar (see index.txt).
+noctalia.nix  Noctalia/Umbriel desktop shell: theming, keybinds and autostart.
+neovim/       Neovim via nvf (see index.txt).
+work/         Work-only modules (see index.txt).

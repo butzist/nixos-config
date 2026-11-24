@@ -1,8 +1,6 @@
 Stylix themes built from one settings attrset per theme. mk-theme.nix emits
 .system and .user variants; callers select them explicitly at the import site.
 
-mk-theme.nix             Theme builder: stylix settings shared, gtk only for .user.
-bosque-kingdoms.nix      Bosque dark, everforest-2.png, Banana cursor, FiraCode Nerd Font.
-                         Imported by nixos-modules/base.nix as .system and by adam/work as .user.
-ubuntu-catppuccin.nix    Catppuccin Frappe dark, ubuntu-catppuccin.png, same cursor/fonts.
-                         Imported by games/mirj as .user.
+mk-theme.nix          Theme builder: shared Stylix settings, GTK only for .user.
+bosque-kingdoms.nix   Bosque dark theme; system-wide and for adam/work.
+ubuntu-catppuccin.nix Catppuccin dark theme; for games/mirj.

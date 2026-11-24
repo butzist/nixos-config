@@ -1,9 +1,5 @@
 Overlays shared by NixOS + home-manager.
 
-default.nix      _bleeding/_security/_stable package-set aliases, agenix +
-                 agent-toolbox overlays (mcpls/serena), `rea` (from rea.nix),
-                 nixpkgs.config.allowUnfree.
+default.nix      Package-set aliases, third-party overlays and unfree config.
 build-fixes.nix  nixpkgs build workarounds.
-rea.nix          rea-agents (REA reverse-engineering CLI + MCP server) from the
-                 unmerged nixpkgs PR #574658, with the pending
-                 installAgentSkills hook inlined.
+rea.nix          REA agents from an unmerged nixpkgs PR, with its pending hook inlined.
