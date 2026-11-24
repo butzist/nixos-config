@@ -40,9 +40,9 @@ in {
     # so the complete office layouts must precede the laptop-only fallback.
     settings = [
       (profile "office-a" [
-        (laptop // {position = "0,0";})
-        (hp "6CM406371S" // {position = "${toString laptopWidth},0";})
-        (hp "6CM40635HR" // {position = "${toString (laptopWidth + hpWidth)},0";})
+        (hp "6CM406371S" // {position = "0,0";})
+        (hp "6CM40635HR" // {position = "${toString hpWidth},0";})
+        (laptop // {position = "${toString (2 * hpWidth)},0";})
       ])
       (profile "office-b" [
         (hp "6CM40635X7" // {position = "0,0";})
