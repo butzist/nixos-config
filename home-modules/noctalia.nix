@@ -460,7 +460,7 @@ in {
         panel.transparency_mode = "glass";
 
         screenshot = {
-          save_to_file = true;
+          save_to_file = false;
           copy_to_clipboard = true;
           format = "png";
           freeze_screen = true;
