@@ -35,6 +35,7 @@ in
     opacity = {
       terminal = 0.9;
       applications = 0.9;
+      desktop = 0.7;
     };
 
     iconTheme = {

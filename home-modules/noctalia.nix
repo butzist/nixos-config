@@ -11,6 +11,16 @@
   translucent = color: alpha: "${color}${alpha}";
   uiFont = "${config.stylix.fonts.sansSerif.name} ${toString config.stylix.fonts.sizes.desktop}";
 
+  # Stylix uses 1.0 to mean opaque. Keep that value untouched; when a theme
+  # opts into translucency, scale it by the requested factor instead of
+  # hardcoding alpha in the shell config.
+  softOpacity = factor: opacity:
+    if opacity >= 1
+    then opacity
+    else opacity * factor;
+  desktopOpacity = config.stylix.opacity.desktop;
+  applicationOpacity = config.stylix.opacity.applications;
+
   noctalia = "${lib.getExe pkgs.noctalia} msg";
 
   workspaceBinds = builtins.listToAttrs (
@@ -65,7 +75,7 @@
       border_width = 2;
       outer_border_width = 0;
       corner_radius = 10;
-      drag_opacity = 0.85;
+      drag_opacity = softOpacity 0.9 applicationOpacity;
       opaque_fullscreen = true;
 
       # The active window title lives in the bar's center lane, so the window
@@ -101,11 +111,13 @@
         saturation = 1.0;
       };
 
+      # Shadow is opt-in per window below; only the focused window gets one.
+      # The softness and offsets still apply to that window's shadow.
       shadow = {
-        enabled = true;
+        enabled = false;
         softness = 12;
         offset_x = 0;
-        offset_y = 4;
+        offset_y = 0;
       };
     };
 
@@ -119,7 +131,8 @@
       error = solid colors.base08;
       insert_hint = translucent colors.base0D "80";
       backdrop = "#000000FF";
-      shadow = "#0000007F";
+      # Match the focused window border color, softened for the shadow.
+      shadow = translucent colors.base0D "E6";
 
       border = {
         focused = solid colors.base0D;
@@ -164,6 +177,9 @@
     layout = {
       mode = "scrolling";
       extent_presets = [0.5 0.75 0.95];
+      # The bar reserves 12px below itself for its shadow; cancel that out so
+      # tiled windows keep their original top gap.
+      struts.top = -12;
       scrolling.default_extent_fraction = 0.95;
     };
 
@@ -320,6 +336,11 @@
         blur_optimized = true;
       }
       {
+        # Only the focused window opts back into Umbriel's shadow.
+        match.is_focused = true;
+        shadow = true;
+      }
+      {
         match.app_id = "^dev[.]noctalia[.]Noctalia$";
         default_floating = true;
         default_floating_size_px = {
@@ -402,6 +423,16 @@ in {
     # Umbriel's [general].autostart starts the shell once per session.
     systemd.enable = false;
 
+    # Noctalia has no bar-background color option. Raise the shell's surface
+    # role to base01 so the bar reads as surface_container; chips can then use
+    # the derived surface_container_high. This also lifts panels/notifications.
+    customPalettes.stylix.dark.mSurface = lib.mkForce colors.base01;
+
+    # Noctalia's drop shadow color comes from the palette's shadow role, and
+    # there is no per-surface color option. Use the active-window color for a
+    # subtle accent glow; panels and popups share this role too.
+    customPalettes.stylix.dark.mShadow = lib.mkForce colors.base0D;
+
     # theme.mode, shell.font_family and wallpaper.default.path come from the
     # stylix.targets.noctalia target above.
     settings = {
@@ -413,6 +444,13 @@ in {
         card_borders = false;
         show_close_buttons = true;
         popup_shadows = true;
+
+        # Blur is fixed at 12px in Noctalia; full alpha makes the accent
+        # shadow under the top bar actually readable.
+        shadow = {
+          direction = "down";
+          alpha = 1.0;
+        };
 
         animation = {
           enabled = true;
@@ -447,12 +485,19 @@ in {
       bar.default = {
         position = "top";
         thickness = 38;
-        background_opacity = 0.82;
+        background_opacity = softOpacity 0.9 desktopOpacity;
         compositor_blur = true;
+        shadow = true;
+        # Leave room below the bar for the 12px shadow to land on wallpaper
+        # instead of immediately on the top edge of tiled windows.
+        margin_opposite_edge = 12;
+
         capsule = true;
-        capsule_fill = "surface_container";
-        capsule_radius = 12.0;
-        capsule_opacity = 0.92;
+        # Derived one step above surface_container, so chips stay visible on
+        # the raised bar surface without needing an outline.
+        capsule_fill = "surface_container_high";
+        capsule_radius = 10.0;
+        capsule_opacity = softOpacity 1.0 desktopOpacity;
 
         start = ["workspaces"];
         center = ["clock" "active_window" "notifications"];
