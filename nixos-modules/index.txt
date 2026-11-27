@@ -1,6 +1,6 @@
 NixOS modules; basename = the name used in `with ezModules; [...]`.
 
-default.nix           Implicit host module: core imports (home-manager, agenix, stylix, overlays, shared modules).
+default.nix           Implicit host module: core imports (home-manager, agenix, stylix, shared modules and TODO warnings).
 base.nix              System baseline: networking, audio, printing, session secrets and packages.
 gnome.nix             GNOME apps. Kept for reference; no host imports it now.
 kde.nix               Plasma desktop session; the greeter stays the login manager.

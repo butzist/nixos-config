@@ -1,114 +1,49 @@
 {
   description = "NixOS configuration";
 
+  # Caches are declared here once: Nix reads nixConfig only from the top-level
+  # flake
   nixConfig = {
-    extra-substituters = ["https://cache.numtide.com"];
-    extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];
+    extra-substituters = [
+      "https://cache.numtide.com"
+      "https://cache.manic.systems"
+      "https://cache.nixos-cuda.org"
+    ];
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "cache.manic.systems-1:s6OZanN8Us8vRi0jVivP3qlMn0cYHBjBALKrNe5nH8s="
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+    ];
   };
 
-  inputs = {
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
+  # No native flake inputs: .tack resolves every source. The raw resolver
+  # result is passed to modules as `tack`; shared-modules/sources.nix derives
+  # the ergonomic `sources` namespace from it.
+  outputs = args: let
+    tack = (import ./.tack) {
+      overrides = args.tackOverrides or {};
     };
-
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
-    nixpkgs-security.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    determinate.url = "github:DeterminateSystems/determinate";
-
-    stylix.url = "github:butzist/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Firefox-based Zen, plus rycee's Firefox add-ons for its declarative profile.
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-      };
-    };
-
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Secure Boot: signs each generation's unified kernel image with a local
-    # db key and, optionally, builds a systemd-pcrlock TPM2 policy.
-    lanzaboote.url = "github:nix-community/lanzaboote";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-
-    nvf.url = "github:notashelf/nvf";
-    nvf.inputs.nixpkgs.follows = "nixpkgs";
-
-    freetoken.url = "github:butzist/nix-freetoken/fix/noexec-jit-cache";
-
-    # Generic jail/env/Herdr plumbing for preconfigured agents (no agent
-    # wrappers or defaults): https://github.com/butzist/agent-toolbox
-    agent-toolbox.url = "github:butzist/agent-toolbox";
-
-    # JWT-gating proxy in front of herdr's unauthenticated socket API.
-    # `herdr` is wrapped so the proxy starts with the server.
-    herdr-auth-proxy = {
-      url = "github:butzist/herdr-auth-proxy";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-    };
-
-    # Agent CLIs (rtk, herdr, opencode, ...) and their binary cache.
-    # `llm-agents.nix` is the renamed successor to nix-ai-tools; its prebuilt
-    # opencode avoids the nixpkgs source build.
-    llm-agents.url = "github:numtide/llm-agents.nix";
-
-    # Lassie's Doghouse: the source-built ColliePWA package (including the
-    # OpenCode session plugin), the home-manager service module, and the
-    # tailscale-serve NixOS module.
-    lassies-doghouse = {
-      url = "github:butzist/lassies-doghouse";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ez-configs = {
-      url = "github:ehllie/ez-configs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-  };
-
-  outputs = inputs @ {
-    flake-parts,
-    ez-configs,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
+    # flake-parts needs the real output args (self, tackOverrides, ...) as
+    # well as tack's pins, so pass the union rather than only self.inputs.
+    inputs = args // tack;
+  in
+    tack.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
       imports = [
-        ez-configs.flakeModule
+        tack.ez-configs.flakeModule
       ];
 
-      perSystem = {
-        pkgs,
-        system,
-        ...
-      }: {
+      # The root flake has no native inputs, so flake-parts cannot derive
+      # `pkgs` from self.inputs; provide it from tack's nixpkgs pin instead.
+      perSystem = {system, ...}: let
+        pkgs = tack.nixpkgs.legacyPackages.${system};
+      in {
+        _module.args.pkgs = pkgs;
+
         devShells.default = pkgs.mkShell {
-          packages = with pkgs;
-            [
+          packages =
+            (with pkgs; [
               alejandra
               curl
               deadnix
@@ -122,9 +57,10 @@
               nixd
               statix
               sbctl
-            ]
+            ])
             ++ [
-              inputs.agenix.packages.${system}.default
+              tack.agenix.packages.${system}.default
+              tack.tack.packages.${system}.default
             ];
         };
 
@@ -137,7 +73,11 @@
 
       ezConfigs = {
         root = ./.;
-        globalArgs = {inherit inputs;};
+        # Modules get the raw resolver as `tack`; shared-modules/sources.nix
+        # derives `sources` with allowUnfree package-set aliases, external
+        # overlays and ./packages as `sources.customPkgs`.
+        globalArgs = {inherit tack;};
+        earlyModuleArgs = {inherit tack;};
 
         nixos.hosts = {
           daddeln.userHomeModules = ["games" "adam"];

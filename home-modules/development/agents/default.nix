@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  sources,
   lib,
   pkgs,
   ...
@@ -12,11 +12,11 @@
 
   # agent-toolbox takes the consumer's package set so its jail scaffolding is
   # built from the same nixpkgs as the agent package.
-  atb = inputs.agent-toolbox.lib pkgs;
+  atb = sources.agent-toolbox.lib pkgs;
 
   system = pkgs.stdenv.hostPlatform.system;
-  aiTools = inputs.llm-agents.packages.${system};
-  herdrAuthProxy = inputs.herdr-auth-proxy.packages.${system}.default;
+  aiTools = sources.llm-agents.packages.${system};
+  herdrAuthProxy = sources.herdr-auth-proxy.packages.${system}.default;
 
   # opencode lets its shell tool be overridden, so route it through rtk.
   rtkShell = atb.mkRtkShell {rtk = aiTools.rtk;};
@@ -28,7 +28,7 @@
 
   # The jail binds /nix read-only, so the plugin can be linked straight from
   # the Collie package the service runs instead of copied into the jail home.
-  colliePlugin = "${config.services.collie.package or inputs.lassies-doghouse.packages.${system}.collie}/lib/collie/plugins/opencode/collie-opencode-bridge.js";
+  colliePlugin = "${config.services.collie.package or sources.lassies-doghouse.packages.${system}.collie}/lib/collie/plugins/opencode/collie-opencode-bridge.js";
 
   agents = import ./policy.nix {
     inherit pkgs rtkShell atb;

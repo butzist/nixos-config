@@ -1,0 +1,1 @@
+Vendored tack patches, one directory per pin; add with `tack patch add <pin> <url>`.

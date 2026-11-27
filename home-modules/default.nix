@@ -1,16 +1,16 @@
 {
   config,
-  inputs,
+  tack,
   lib,
   ...
 }: let
   sensitiveFile = ../secrets/users/${config.home.username}/sensitive.nix;
 in {
   imports = [
-    inputs.agenix.homeManagerModules.default
-    inputs.nvf.homeModules.nvf
-    inputs.stylix.homeModules.stylix
-    ../overlays
+    ../shared-modules/sources.nix
+    tack.agenix.homeManagerModules.default
+    tack.nvf.homeModules.nvf
+    tack.stylix.homeModules.stylix
   ];
 
   options.sensitive = lib.mkOption {

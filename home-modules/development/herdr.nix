@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  sources,
   lib,
   pkgs,
   ...
@@ -8,10 +8,10 @@
   colors = config.lib.stylix.colors;
   hex = name: "#${colors.${name}}";
 
-  atb = inputs.agent-toolbox.lib pkgs;
+  atb = sources.agent-toolbox.lib pkgs;
 
-  herdr = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
-  herdrAuthProxy = inputs.herdr-auth-proxy.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  herdr = sources.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
+  herdrAuthProxy = sources.herdr-auth-proxy.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   # Herdr's socket API has no authentication. agent-toolbox's wrapper starts the
   # JWT-gating proxy alongside the server, keeps the real socket private and

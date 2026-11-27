@@ -1,7 +1,7 @@
 Personal NixOS / nix-darwin / home-manager flake. Read AGENTS.md first.
 
-flake.nix            Inputs + ez-configs wiring; ezConfigs.nixos.hosts maps hosts to users.
-flake.lock           Locked input revisions.
+flake.nix            Tack sources + ez-configs wiring; ezConfigs.nixos.hosts maps hosts to users.
+flake.lock           No-input flake stub; .tack/pins.lock.json is the real lock.
 AGENTS.md            Agent rules: index.txt navigation, never read secrets/, keep index.txt updated.
 index.txt            This file.
 BOOT.md              Secure Boot + LUKS/TPM2 runbook.
@@ -14,8 +14,10 @@ nixos-modules/         System-wide NixOS modules (see index.txt).
 darwin-modules/        nix-darwin modules (see index.txt).
 home-configurations/   One file per home-manager user (see index.txt).
 home-modules/          Shared home-manager modules (see index.txt).
-shared-modules/        Modules imported by both NixOS and darwin.
-overlays/              nixpkgs overlays for NixOS + home-manager.
+shared-modules/        Modules imported by NixOS, darwin and home-manager.
+.tack/                 tack pins, resolved lock and patches (see index.txt).
+packages/              Local derivations exposed as sources.customPkgs (see index.txt).
+todos/                 Nix warnings for deferred upgrades (see index.txt).
 themes/                Stylix themes.
 wallpapers/            Wallpaper PNGs used by themes/.
 secrets/               Submodule. DO NOT READ - see AGENTS.md.

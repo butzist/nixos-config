@@ -1,4 +1,5 @@
 Imported by both NixOS and darwin. Read from secrets/ - never read secrets/.
 
+sources.nix    Turns tack pins into `sources`, package-set aliases and overlays.
 ssh-keys.nix   Deploys user SSH keys and authorized keys from secrets/.
 tailscale.nix  Self-enrolling Tailscale when its secret is present.

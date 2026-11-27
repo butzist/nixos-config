@@ -1,0 +1,8 @@
+tack-managed sources: declarative pins and resolved lock.
+
+default.nix       Tack resolver; treat as generated and let tack update it.
+pins.toml         Declared pins, follows and patches.
+pins.lock.json    Resolved revisions; this is the lock file to commit.
+patches/          Vendored pin patches; add with `tack patch add`.
+
+Tack also writes .tack/diffs/ when a pin has patches; do not hand-edit it.

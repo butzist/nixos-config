@@ -1,0 +1,89 @@
+# tack pins. `tack update` is the update path; flake.lock is a stub.
+# Follows are global: upstream nixpkgs/home-manager/flake-parts inputs dedupe
+# onto the pins below, including transitive inputs inside other flakes.
+# To patch a pinned source: `tack patch add <pin> <pr-or-commit-url>`; tack
+# vendors it under patches/<pin>/ and drops it automatically once it lands.
+[tack]
+recomposable = true
+
+[all_follow]
+nixpkgs = ["nixpkgs", "nixpkgs-bleeding", "nixpkgs-security", "nixpkgs-stable"]
+home-manager = ["home-manager"]
+flake-parts = ["flake-parts"]
+
+[inputs.flake-parts]
+url = "github:hercules-ci/flake-parts"
+follows = { nixpkgs-lib = "nixpkgs" }
+
+[inputs.nixpkgs]
+url = "github:nixos/nixpkgs/nixpkgs-unstable"
+
+[inputs.nixpkgs-bleeding]
+url = "github:nixos/nixpkgs/master"
+
+[inputs.nixpkgs-security]
+url = "github:nixos/nixpkgs/nixos-unstable"
+
+[inputs.nixpkgs-stable]
+url = "github:nixos/nixpkgs/nixos-25.11"
+
+[inputs.nix-darwin]
+url = "github:LnL7/nix-darwin/master"
+
+[inputs.home-manager]
+url = "github:nix-community/home-manager"
+
+[inputs.determinate]
+url = "github:DeterminateSystems/determinate"
+
+[inputs.stylix]
+url = "github:butzist/stylix"
+
+[inputs.zen-browser]
+url = "github:0xc000022070/zen-browser-flake"
+
+[inputs.firefox-addons]
+url = "gitlab:rycee/nur-expressions"
+dir = "pkgs/firefox-addons"
+
+[inputs.agenix]
+url = "github:ryantm/agenix"
+
+[inputs.lanzaboote]
+url = "github:nix-community/lanzaboote"
+
+[inputs.nvf]
+url = "github:notashelf/nvf"
+
+[inputs.freetoken]
+url = "github:butzist/nix-freetoken/fix/noexec-jit-cache"
+
+# Generic jail/env/Herdr plumbing for preconfigured agents (no agent
+# wrappers or defaults): https://github.com/butzist/agent-toolbox
+[inputs.agent-toolbox]
+url = "github:butzist/agent-toolbox"
+
+# JWT-gating proxy in front of herdr's unauthenticated socket API.
+# `herdr` is wrapped so the proxy starts with the server.
+[inputs.herdr-auth-proxy]
+url = "github:butzist/herdr-auth-proxy"
+
+# Agent CLIs (rtk, herdr, opencode, ...) and their binary cache.
+# `llm-agents.nix` is the renamed successor to nix-ai-tools; its prebuilt
+# opencode avoids the nixpkgs source build.
+[inputs.llm-agents]
+url = "github:numtide/llm-agents.nix"
+
+# Lassie's Doghouse: the source-built ColliePWA package (including the
+# OpenCode session plugin), the home-manager service module, and the
+# tailscale-serve NixOS module.
+[inputs.lassies-doghouse]
+url = "github:butzist/lassies-doghouse"
+
+[inputs.ez-configs]
+url = "github:ehllie/ez-configs"
+
+# Pinned until nixpkgs' tack CLI supports `patches`; todos/checks.nix warns
+# when it can be replaced with the nixpkgs package.
+[inputs.tack]
+url = "github:manic-systems/tack"

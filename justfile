@@ -63,23 +63,35 @@ install target:
         ;;
     esac
 
-# Update flake inputs.
-update:
-    nix flake update
+# Add a tack patch: `just patch-add nixpkgs https://github.com/owner/repo/pull/123`.
+patch-add name source:
+    nix --extra-experimental-features 'nix-command flakes' develop '.?submodules=1' --command tack patch add "{{ name }}" "{{ source }}"
 
-# Pull, update inputs, rebuild this host, and commit flake.lock.
+# Update tack pins (flake.lock is only a no-input stub).
+update:
+    nix --extra-experimental-features 'nix-command flakes' develop '.?submodules=1' --command tack update
+
+# Pull, tack-update pins, rebuild this host, and commit the tack changes.
 update-apply:
     #!/usr/bin/env bash
     set -euo pipefail
     git pull --rebase
     just update
     just
-    git add flake.lock
+    git add .tack
     git commit -m "chore: update"
 
 # Check the flake.
 check:
     nix flake check '.?submodules=1'
+
+# Report deferred-upgrade warnings without rebuilding.
+todos:
+    nix --extra-experimental-features 'nix-command flakes' eval --impure '.?submodules=1#nixosConfigurations' --apply 'import ./todos/show.nix null' --raw
+
+# Report one watcher: `just todo nixpkgs-tack`.
+todo name:
+    nix --extra-experimental-features 'nix-command flakes' eval --impure '.?submodules=1#nixosConfigurations' --apply 'import ./todos/show.nix "{{ name }}"' --raw
 
 # Format Nix files and the justfile.
 fmt:

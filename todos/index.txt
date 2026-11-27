@@ -1,0 +1,5 @@
+Nix deferred-upgrade checks; due messages become NixOS config.warnings and print during nixos-rebuild.
+
+checks.nix     Pure conditions and warning messages.
+default.nix    NixOS module exposing todos.messages and feeding config.warnings.
+show.nix       Helper for `just todos` / `just todo <name>`.

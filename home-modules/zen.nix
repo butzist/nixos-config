@@ -1,9 +1,10 @@
 {
-  inputs,
+  sources,
+  tack,
   pkgs,
   ...
 }: let
-  addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  addons = sources.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
 
   # Add-on IDs from rycee's firefox-addons, reused for the policies below.
   ids = {
@@ -12,7 +13,7 @@
     protonPass = "78272b6fa58f4a1abaac99321d503a20@proton.me";
   };
 in {
-  imports = [inputs.zen-browser.homeModules.twilight];
+  imports = [tack.zen-browser.homeModules.twilight];
 
   programs.zen-browser = {
     enable = true;

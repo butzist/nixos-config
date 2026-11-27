@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  inputs,
+  tack,
   ...
 }: let
   cfg = config.security.secureBoot;
@@ -43,7 +43,7 @@ in {
   # Imported unconditionally: the module is inert unless security.secureBoot.enable
   # is set, and keeping the option tree stable means a host can flip the switch
   # without the option disappearing mid-evaluation.
-  imports = [inputs.lanzaboote.nixosModules.default];
+  imports = [tack.lanzaboote.nixosModules.default];
 
   options.security.secureBoot = {
     enable = lib.mkEnableOption ''

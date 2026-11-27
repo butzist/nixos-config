@@ -1,6 +1,6 @@
 {
   config,
-  inputs,
+  tack,
   pkgs,
   ezModules,
   ...
@@ -26,7 +26,7 @@
       office
     ])
     ++ [
-      inputs.lassies-doghouse.homeManagerModules.default
+      tack.lassies-doghouse.homeManagerModules.default
       (import ../themes/kispi-rose-pine-moon.nix {inherit pkgs;}).user
     ];
 

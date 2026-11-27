@@ -5,12 +5,6 @@
   # Login: GDM is replaced by noctalia-greeter in ./noctalia.nix.
   services.displayManager.gdm.enable = false;
 
-  # Binary cache for the llm-agents packages (rtk, herdr, opencode, ...).
-  nix.settings = {
-    extra-substituters = ["https://cache.numtide.com"];
-    extra-trusted-public-keys = ["niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="];
-  };
-
   # Enable networking
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -264,10 +258,8 @@
 
   #  system.autoUpgrade = {
   #    enable = true;
-  #    flake = inputs.self.ourPath;
+  #    flake = ".?submodules=1";
   #    flags = [
-  #      "--update-input"
-  #      "nixpkgs"
   #      "-L"
   #    ];
   #    dates = "09:00";

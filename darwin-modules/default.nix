@@ -1,12 +1,9 @@
-{
-  inputs,
-  ...
-}: {
+{tack, ...}: {
   imports = [
-    inputs.home-manager.darwinModules.home-manager
-    inputs.agenix.darwinModules.default
-    inputs.determinate.darwinModules.default
-    ../overlays
+    ../shared-modules/sources.nix
+    tack.home-manager.darwinModules.home-manager
+    tack.agenix.darwinModules.default
+    tack.determinate.darwinModules.default
     ../shared-modules/ssh-keys.nix
   ];
 

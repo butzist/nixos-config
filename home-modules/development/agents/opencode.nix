@@ -1,15 +1,15 @@
 {
   config,
-  inputs,
+  sources,
   lib,
   pkgs,
   ...
 }: let
   system = pkgs.stdenv.hostPlatform.system;
-  atb = inputs.agent-toolbox.lib pkgs;
-  aiTools = inputs.llm-agents.packages.${system};
+  atb = sources.agent-toolbox.lib pkgs;
+  aiTools = sources.llm-agents.packages.${system};
   rtkShell = atb.mkRtkShell {rtk = aiTools.rtk;};
-  herdrAuthProxy = inputs.herdr-auth-proxy.packages.${system}.default;
+  herdrAuthProxy = sources.herdr-auth-proxy.packages.${system}.default;
   herdr = config.agents.herdr.enable;
 
   # Kitty already gets its blurred, translucent window from Stylix. When
