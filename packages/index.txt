@@ -1,1 +1,3 @@
 Local derivations aggregated by default.nix and exposed as sources.customPkgs.
+
+mcpls.nix            NixOS-compatible build of the mcpls MCP/LSP bridge.

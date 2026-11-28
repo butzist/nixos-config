@@ -290,6 +290,8 @@
     shell = "${rtkShell}/bin/rtk-shell";
     # The binary is Nix-managed; a self-update would try to replace a store path.
     update = "disable";
+    # Shared by every user: no undo snapshots written into agent projects.
+    snapshots = false;
     # Keep sessions local and the agent tree flat: no sharing, no child agents,
     # no desktop-app browser control.
     share = "disabled";
@@ -309,12 +311,21 @@
     compaction = {
       auto = true;
       keep.tokens = 10000;
-      # Preserve the v1 `reserved = 10000` (reserved compaction buffer).
-      buffer = 10000;
+      # V2 holds background summaries in memory until they are swapped in;
+      # writing them only when compaction is due avoids a second live copy.
+      background = false;
+      # A percentage scales with each model's window. The old 10k tokens was
+      # fine for the 40k local model but far too small for large windows.
+      buffer = "20%";
     };
-    mcp.servers.serena = {
+    # V2 retires idle project locations after this long (default: 60 minutes).
+    # Running sessions stay loaded; only idle service state is released.
+    experimental.location_idle_timeout = "15 minutes";
+    # MCP-to-LSP bridge. The agent-toolbox prebuilt binary has a /lib64
+    # interpreter, so use the patched local build that can actually run.
+    mcp.servers.mcpls = {
       type = "local";
-      command = ["${pkgs.serena}/bin/serena" "start-mcp-server" "--context" "agent"];
+      command = ["${sources.customPkgs.mcpls}/bin/mcpls"];
     };
     providers.freetoken = {
       name = "FreeToken (local)";
@@ -339,6 +350,10 @@
 
   # MCP servers that belong only in the jailed variant. REA drives analysis of
   # arbitrary binaries, so it stays out of the unconfined `opencode-free`.
+  # The heavier servers start disabled: V2 can connect either one for the
+  # current session with `/mcps` or
+  # `opencode api post /api/experimental/mcp/<name>/connect`, which overrides
+  # `disabled` until restart. Agents can do the same from their shell tool.
   #
   # herdr's own socket API is unauthenticated; the jail only reaches the
   # JWT-gated proxy socket (HERDR_AUTH_SOCKET + HERDR_AUTH_JWT are set by the
@@ -350,6 +365,7 @@
         rea = {
           type = "local";
           command = ["${pkgs.rea}/bin/rea" "mcp"];
+          disabled = true;
         };
         # Nelson's MCP endpoint listens on the host's loopback. The jail's
         # default `c.network` shares the host net namespace, so localhost is
@@ -358,6 +374,7 @@
           type = "remote";
           url = "http://localhost:8766/mcp";
           oauth = false;
+          disabled = true;
         };
       }
       // lib.optionalAttrs herdr {

@@ -87,10 +87,9 @@ in {
           jq
           python3
           ripgrep
-          mcpls
-          serena
         ]
         ++ [
+          sources.customPkgs.mcpls
           aiTools.rtk
           aiTools.herdr
           herdrAuthProxy

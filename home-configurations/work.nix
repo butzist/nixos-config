@@ -83,7 +83,6 @@
 
       # OpenCode 2 renamed `provider.<id>.options` to `providers.<id>.settings`.
       config = {
-        snapshots = false;
         providers = {
           greenpt.settings.apiKey = "{env:GREENPT_API_KEY}";
           "opencode-go".settings.apiKey = "{env:OPENCODE_GO_API_KEY}";
