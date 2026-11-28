@@ -15,7 +15,6 @@
 
   overlays = [
     (final: _prev: {
-      _bleeding = pkgsFor "nixpkgs-bleeding";
       _security = pkgsFor "nixpkgs-security";
       _stable = pkgsFor "nixpkgs-stable";
       _unstable = final;
@@ -31,7 +30,6 @@ in {
     tack
     // {
       pkgs = pkgs;
-      _bleeding = pkgs._bleeding;
       _security = pkgs._security;
       _stable = pkgs._stable;
       _unstable = pkgs;

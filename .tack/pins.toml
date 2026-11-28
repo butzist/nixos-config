@@ -7,7 +7,7 @@
 recomposable = true
 
 [all_follow]
-nixpkgs = ["nixpkgs", "nixpkgs-bleeding", "nixpkgs-security", "nixpkgs-stable"]
+nixpkgs = ["nixpkgs", "nixpkgs-security", "nixpkgs-stable"]
 home-manager = ["home-manager"]
 flake-parts = ["flake-parts"]
 
@@ -17,9 +17,6 @@ follows = { nixpkgs-lib = "nixpkgs" }
 
 [inputs.nixpkgs]
 url = "github:nixos/nixpkgs/nixpkgs-unstable"
-
-[inputs.nixpkgs-bleeding]
-url = "github:nixos/nixpkgs/master"
 
 [inputs.nixpkgs-security]
 url = "github:nixos/nixpkgs/nixos-unstable"
